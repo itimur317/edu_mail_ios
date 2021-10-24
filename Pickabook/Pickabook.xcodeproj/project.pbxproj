@@ -13,6 +13,7 @@
 		39492D2A272595B8005BC8FE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39492D28272595B8005BC8FE /* Main.storyboard */; };
 		39492D2C272595B9005BC8FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39492D2B272595B9005BC8FE /* Assets.xcassets */; };
 		39492D2F272595B9005BC8FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39492D2D272595B9005BC8FE /* LaunchScreen.storyboard */; };
+		39492D3827259F7E005BC8FE /* PinLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 39492D3727259F7E005BC8FE /* PinLayout */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39492D3827259F7E005BC8FE /* PinLayout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +85,9 @@
 			dependencies = (
 			);
 			name = Pickabook;
+			packageProductDependencies = (
+				39492D3727259F7E005BC8FE /* PinLayout */,
+			);
 			productName = Pickabook;
 			productReference = 39492D1F272595B8005BC8FE /* Pickabook.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +116,9 @@
 				Base,
 			);
 			mainGroup = 39492D16272595B8005BC8FE;
+			packageReferences = (
+				39492D3627259F7E005BC8FE /* XCRemoteSwiftPackageReference "PinLayout" */,
+			);
 			productRefGroup = 39492D20272595B8005BC8FE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -358,6 +366,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		39492D3627259F7E005BC8FE /* XCRemoteSwiftPackageReference "PinLayout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/layoutBox/PinLayout";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		39492D3727259F7E005BC8FE /* PinLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39492D3627259F7E005BC8FE /* XCRemoteSwiftPackageReference "PinLayout" */;
+			productName = PinLayout;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 39492D17272595B8005BC8FE /* Project object */;
 }
