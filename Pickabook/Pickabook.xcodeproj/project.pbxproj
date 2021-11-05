@@ -14,6 +14,10 @@
 		39492D2C272595B9005BC8FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39492D2B272595B9005BC8FE /* Assets.xcassets */; };
 		39492D2F272595B9005BC8FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39492D2D272595B9005BC8FE /* LaunchScreen.storyboard */; };
 		39492D3827259F7E005BC8FE /* PinLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 39492D3727259F7E005BC8FE /* PinLayout */; };
+		3951A4A027349DBE0004DEC6 /* AddBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3951A49F27349DBE0004DEC6 /* AddBookViewController.swift */; };
+		3951A4A227349DE70004DEC6 /* AddBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3951A4A127349DE70004DEC6 /* AddBookPresenter.swift */; };
+		3951A4A427349F4D0004DEC6 /* AddBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3951A4A327349F4D0004DEC6 /* AddBook.swift */; };
+		3951A4A62734A0060004DEC6 /* AddBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3951A4A52734A0060004DEC6 /* AddBookViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +29,10 @@
 		39492D2B272595B9005BC8FE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		39492D2E272595B9005BC8FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		39492D30272595B9005BC8FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3951A49F27349DBE0004DEC6 /* AddBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookViewController.swift; sourceTree = "<group>"; };
+		3951A4A127349DE70004DEC6 /* AddBookPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookPresenter.swift; sourceTree = "<group>"; };
+		3951A4A327349F4D0004DEC6 /* AddBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBook.swift; sourceTree = "<group>"; };
+		3951A4A52734A0060004DEC6 /* AddBookViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddBookViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +66,7 @@
 		39492D21272595B8005BC8FE /* Pickabook */ = {
 			isa = PBXGroup;
 			children = (
+				3951A49B27349D0E0004DEC6 /* ModuleAddBook */,
 				39492D22272595B8005BC8FE /* AppDelegate.swift */,
 				39492D24272595B8005BC8FE /* SceneDelegate.swift */,
 				39492D26272595B8005BC8FE /* ViewController.swift */,
@@ -67,6 +76,41 @@
 				39492D30272595B9005BC8FE /* Info.plist */,
 			);
 			path = Pickabook;
+			sourceTree = "<group>";
+		};
+		3951A49B27349D0E0004DEC6 /* ModuleAddBook */ = {
+			isa = PBXGroup;
+			children = (
+				3951A49E27349D400004DEC6 /* Model */,
+				3951A49C27349D290004DEC6 /* View */,
+				3951A49D27349D360004DEC6 /* Presenter */,
+			);
+			path = ModuleAddBook;
+			sourceTree = "<group>";
+		};
+		3951A49C27349D290004DEC6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3951A49F27349DBE0004DEC6 /* AddBookViewController.swift */,
+				3951A4A52734A0060004DEC6 /* AddBookViewController.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3951A49D27349D360004DEC6 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				3951A4A127349DE70004DEC6 /* AddBookPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		3951A49E27349D400004DEC6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3951A4A327349F4D0004DEC6 /* AddBook.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39492D2F272595B9005BC8FE /* LaunchScreen.storyboard in Resources */,
+				3951A4A62734A0060004DEC6 /* AddBookViewController.xib in Resources */,
 				39492D2C272595B9005BC8FE /* Assets.xcassets in Resources */,
 				39492D2A272595B8005BC8FE /* Main.storyboard in Resources */,
 			);
@@ -146,7 +191,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3951A4A227349DE70004DEC6 /* AddBookPresenter.swift in Sources */,
 				39492D27272595B8005BC8FE /* ViewController.swift in Sources */,
+				3951A4A427349F4D0004DEC6 /* AddBook.swift in Sources */,
+				3951A4A027349DBE0004DEC6 /* AddBookViewController.swift in Sources */,
 				39492D23272595B8005BC8FE /* AppDelegate.swift in Sources */,
 				39492D25272595B8005BC8FE /* SceneDelegate.swift in Sources */,
 			);
