@@ -62,6 +62,7 @@
 		39492D21272595B8005BC8FE /* Pickabook */ = {
 			isa = PBXGroup;
 			children = (
+				39492D30272595B9005BC8FE /* Info.plist */,
 				394C583B273599860064D28E /* AddNewBook */,
 				39E4DC592736CE7C007B5872 /* SomeFiles */,
 			);
@@ -85,7 +86,6 @@
 				39492D24272595B8005BC8FE /* SceneDelegate.swift */,
 				39492D28272595B8005BC8FE /* Main.storyboard */,
 				39492D2B272595B9005BC8FE /* Assets.xcassets */,
-				39492D30272595B9005BC8FE /* Info.plist */,
 				39492D2D272595B9005BC8FE /* LaunchScreen.storyboard */,
 			);
 			path = SomeFiles;

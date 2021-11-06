@@ -22,6 +22,7 @@ protocol AddNewBookPresenterProtocol: AnyObject {
  
  
 final class AddNewBookPresenter: AddNewBookPresenterProtocol {
+    
     weak var view: AddNewBookViewControllerProtocol?
     var newBook: Book?
  

@@ -22,31 +22,52 @@ class AddNewBookViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
  
+    let screenLabel = UILabel()
+    let addPhotoButton = UIButton()
     let bookNameLabel = UILabel()
-    let myButton = UIButton()
+    let bookNameTextField = UITextField()
  
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .white
+        
+        screenLabel.text = "Добавление книги"
+        screenLabel.textAlignment = .center
+        screenLabel.font = UIFont.systemFont(ofSize: 25, weight: UIFont.Weight.semibold)
+        view.addSubview(screenLabel)
+        
+        addPhotoButton.setTitle("Photos", for: .normal)
+        addPhotoButton.backgroundColor = .red
+        addPhotoButton.layer.cornerRadius = 8
+        view.addSubview(addPhotoButton)
  
         bookNameLabel.text = "Название"
         bookNameLabel.textAlignment = .center
         view.addSubview(bookNameLabel)
-        myButton.setTitle("Ishodnoe", for: .normal)
-        myButton.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
-        view.addSubview(myButton)
+        
+       
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        bookNameLabel.pin
-            .top(100)
+        screenLabel.pin
+            .top(40)
             .horizontally(10)
             .height(70)
-        myButton.pin
-            .center()
-            .height(50)
-            .width(50)
+        
+        bookNameLabel.pin
+            .top(400)
+            .horizontally(10)
+            .height(70)
+        //view.frame.width - ...
+        addPhotoButton.pin
+            .top(100)
+            .left(12)
+            .height((view.frame.width - 12 * 3) / 3)
+            .width((view.frame.width - 12 * 3) / 3)
+            .below(of: screenLabel).margin(10)
+      
     }
  
     @objc
