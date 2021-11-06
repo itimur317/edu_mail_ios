@@ -5,9 +5,9 @@
         "package": "PinLayout",
         "repositoryURL": "https://github.com/layoutBox/PinLayout",
         "state": {
-          "branch": null,
-          "revision": "93feb9f10c669033b52e6fd9589152036fcbd809",
-          "version": "1.10.0"
+          "branch": "master",
+          "revision": "b4c8f7c4d3cfb73626cbf2c80303dae32373a993",
+          "version": null
         }
       }
     ]

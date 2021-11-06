@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  Pickabook
+//  adad
 //
-//  Created by Timur on 24.10.2021.
+//  Created by Timur on 05.11.2021.
 //
 
 import UIKit
@@ -12,8 +12,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        view.backgroundColor = .white
     }
+
 
 }
 
