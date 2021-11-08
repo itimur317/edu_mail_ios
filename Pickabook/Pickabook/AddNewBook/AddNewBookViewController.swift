@@ -26,10 +26,14 @@ class AddNewBookViewController: UIViewController {
 
     let screenLabel = UILabel()
     
-    let addPhotoLabel = UILabel()
+    let addPhotoDescriptionLabel = UILabel()
     let photoLabel = UILabel()
     let addPhotoButton = UIButton()
     let addPhotoImage = UIImage(named: "addPhotoImage")
+    //dodelat' photo
+    let firstAddedPhotoImage = UIImage()
+    let secondAddedPhotoImage = UIImage()
+    let thirdAddedPhotoImage = UIImage()
     
     let correctPhotoButton = UIButton()
     
@@ -38,6 +42,11 @@ class AddNewBookViewController: UIViewController {
     
     let authorNameLabel = UILabel()
     let authorNameTextView = UITextView()
+    
+    let genresNameLabel = UILabel()
+    let addGenresDescriptionLabel = UILabel()
+    let selectedGenreLabel = UILabel()
+    let selectedGenreFromDictLabel = UILabel()
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,17 +60,15 @@ class AddNewBookViewController: UIViewController {
         screenLabel.font = UIFont.systemFont(ofSize: 28, weight: .semibold)
         view.addSubview(screenLabel)
         
-        scrollView.backgroundColor = .green
         scrollView.contentSize = CGSize(width: view.frame.width, height: 2200)
         view.addSubview(scrollView)
 
-        
-        
-        addPhotoLabel.text = "Добавьте фото книги (максимум 3). \nДля комфортного обмена рекомендуем сделать фото обложки и титульного листа."
-        addPhotoLabel.textAlignment = .left
-        addPhotoLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
-        addPhotoLabel.numberOfLines = 0
-        scrollView.addSubview(addPhotoLabel)
+
+        addPhotoDescriptionLabel.text = "Добавьте фото книги (максимум 3). \nДля комфортного обмена рекомендуем сделать фото обложки и титульного листа."
+        addPhotoDescriptionLabel.textAlignment = .left
+        addPhotoDescriptionLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        addPhotoDescriptionLabel.numberOfLines = 0
+        scrollView.addSubview(addPhotoDescriptionLabel)
         
         photoLabel.text = "Фото"
         photoLabel.textAlignment = .left
@@ -78,7 +85,7 @@ class AddNewBookViewController: UIViewController {
         correctPhotoButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         correctPhotoButton.setTitleColor(.gray, for: .normal)
         // hide it
-        correctPhotoButton.isHidden = true
+      //  correctPhotoButton.isHidden = true
         scrollView.addSubview(correctPhotoButton)
         
  
@@ -95,7 +102,6 @@ class AddNewBookViewController: UIViewController {
         bookNameTextView.textColor = .gray
         bookNameTextView.backgroundColor = .systemGray3
         scrollView.addSubview(bookNameTextView)
-
         
         
         authorNameLabel.text = "Автор"
@@ -112,8 +118,27 @@ class AddNewBookViewController: UIViewController {
         authorNameTextView.backgroundColor = .systemGray3
         scrollView.addSubview(authorNameTextView)
         
+        genresNameLabel.text = "Жанр"
+        genresNameLabel.textAlignment = .left
+        genresNameLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        scrollView.addSubview(genresNameLabel)
+        
+        addGenresDescriptionLabel.text = "Выберите из перечисленных жанр, который лучше всего описывают книгу - другим читателям будет проще найти ее."
+        addGenresDescriptionLabel.textAlignment = .left
+        addGenresDescriptionLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        addGenresDescriptionLabel.numberOfLines = 0
+        scrollView.addSubview(addGenresDescriptionLabel)
+        
+        selectedGenreLabel.text = "Выбран:"
+        selectedGenreLabel.textAlignment = .left
+        selectedGenreLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        scrollView.addSubview(selectedGenreLabel)
+        
+        // add size and color from button
+        selectedGenreFromDictLabel.textAlignment = .center
+        scrollView.addSubview(selectedGenreFromDictLabel)
+        
     }
-    
     
    
     override func viewDidLayoutSubviews() {
@@ -133,13 +158,13 @@ class AddNewBookViewController: UIViewController {
         
         
         
-        addPhotoLabel.pin
+        addPhotoDescriptionLabel.pin
             .below(of: screenLabel).marginTop(10)
             .horizontally(12)
             .height(88)
         
         photoLabel.pin
-            .below(of: addPhotoLabel).marginTop(10)
+            .below(of: addPhotoDescriptionLabel).marginTop(10)
             .horizontally(12)
             .height(23)
         
@@ -177,7 +202,28 @@ class AddNewBookViewController: UIViewController {
             .below(of: authorNameLabel).marginTop(12)
             .horizontally(12)
             .height(74)
-      
+        
+        
+        genresNameLabel.pin
+            .below(of: authorNameTextView).marginTop(12)
+            .horizontally(12)
+            .height(23)
+        
+        addGenresDescriptionLabel.pin
+            .below(of: genresNameLabel).marginTop(10)
+            .horizontally(12)
+            .height(66)
+        
+        selectedGenreLabel.pin
+            .below(of: addGenresDescriptionLabel).marginTop(10)
+            .left(12)
+            .width(80)
+            .height(25)
+        
+        selectedGenreFromDictLabel.pin
+            .below(of: selectedGenreLabel).marginLeft(10)
+            .below(of: addGenresDescriptionLabel).marginTop(10)
+            //dodelat posle knopok
     }
     
 
@@ -200,7 +246,7 @@ extension AddNewBookViewController:UITextViewDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView, _ placeholder: String) {
-        if textView.text == "" || textView.textColor == .black {
+        if textView.text.isEmpty {
             textView.text = placeholder
             textView.textColor = .gray
         }
