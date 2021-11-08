@@ -45,8 +45,26 @@ class AddNewBookViewController: UIViewController {
     
     let genresNameLabel = UILabel()
     let addGenresDescriptionLabel = UILabel()
-    let selectedGenreLabel = UILabel()
-    let selectedGenreFromDictLabel = UILabel()
+    let genresToChoosePickerView = UIPickerView()
+    
+    let conditionLabel = UILabel()
+    let conditionFirstButton = UIButton()
+    let conditionSecondButton = UIButton()
+    let conditionThirdButton = UIButton()
+    let conditionFourthButton = UIButton()
+    let conditionFifthButton = UIButton()
+    var conditionButtons: [UIButton] = [UIButton]()
+    let conditionStarImage = UIImage(named: "star")
+    let conditionPaintedStarImage = UIImage(named: "paintedStar")
+    let conditionDescriptionLabel = UILabel()
+    
+    let descriptionLabel = UILabel()
+    let descriptionTextView = UITextView()
+    
+    let languageLabel = UILabel()
+    let languageTextView = UITextView()
+    
+    let addBookButton = UIButton()
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +78,7 @@ class AddNewBookViewController: UIViewController {
         screenLabel.font = UIFont.systemFont(ofSize: 28, weight: .semibold)
         view.addSubview(screenLabel)
         
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 2200)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 1800)
         view.addSubview(scrollView)
 
 
@@ -123,21 +141,72 @@ class AddNewBookViewController: UIViewController {
         genresNameLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
         scrollView.addSubview(genresNameLabel)
         
-        addGenresDescriptionLabel.text = "Выберите из перечисленных жанр, который лучше всего описывают книгу - другим читателям будет проще найти ее."
+        addGenresDescriptionLabel.text = "Выберите из списка ниже жанр, который лучше всего описывают книгу - другим читателям будет проще найти ее."
         addGenresDescriptionLabel.textAlignment = .left
         addGenresDescriptionLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         addGenresDescriptionLabel.numberOfLines = 0
         scrollView.addSubview(addGenresDescriptionLabel)
+
+        genresToChoosePickerView.delegate = self
+        genresToChoosePickerView.dataSource = self
+        scrollView.addSubview(genresToChoosePickerView)
         
-        selectedGenreLabel.text = "Выбран:"
-        selectedGenreLabel.textAlignment = .left
-        selectedGenreLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        scrollView.addSubview(selectedGenreLabel)
         
-        // add size and color from button
-        selectedGenreFromDictLabel.textAlignment = .center
-        scrollView.addSubview(selectedGenreFromDictLabel)
+        conditionLabel.text = "Состояние"
+        conditionLabel.textAlignment = .left
+        conditionLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        scrollView.addSubview(conditionLabel)
         
+        self.conditionButtons = [self.conditionFirstButton, self.conditionSecondButton, self.conditionThirdButton, self.conditionFourthButton, self.conditionFifthButton]
+        
+        for i in 0...4{
+            conditionButtons[i].backgroundColor = .white
+            conditionButtons[i].setImage(conditionStarImage, for: .normal)
+            scrollView.addSubview(conditionButtons[i])
+        }
+        
+        conditionDescriptionLabel.text = "5 звезд \nКнига находится в идеальном состоянии\n\n4 звезды \nКнига была прочитана пару раз, использовалась аккуратно - нет заметных повреждений\n\n3 звезды\nКнига была прочитана несколько раз, допустимы небольшие повреждения(царапины на обложке, погнутые страницы и тп)\n\n2 звезды\nКнига была прочитана много раз, имеются повреждения(порванные или разрисованные страницы)\n\n1 звезда\nКнига находится в плохом состоянии, повреждения могут препятствовать чтению"
+        conditionDescriptionLabel.textAlignment = .left
+        conditionDescriptionLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        conditionDescriptionLabel.numberOfLines = 0
+        scrollView.addSubview(conditionDescriptionLabel)
+        
+        
+        descriptionLabel.text = "Описание"
+        descriptionLabel.textAlignment = .left
+        descriptionLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        scrollView.addSubview(descriptionLabel)
+        
+        textViewDidBeginEditing(descriptionTextView)
+        textViewDidEndEditing(descriptionTextView, "Добавьте описание, например, наличие автографа автора или редкость издания...")
+        descriptionTextView.delegate = self
+        descriptionTextView.layer.cornerRadius = 2
+        descriptionTextView.font = UIFont.systemFont(ofSize: 16)
+        descriptionTextView.textColor = .gray
+        descriptionTextView.backgroundColor = .systemGray3
+        scrollView.addSubview(descriptionTextView)
+        
+        languageLabel.text = "Язык"
+        languageLabel.textAlignment = .left
+        languageLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        scrollView.addSubview(languageLabel)
+        
+        languageTextView.text = "Русский"
+        languageTextView.textAlignment = .left
+        languageTextView.delegate = self
+        languageTextView.layer.cornerRadius = 2
+        languageTextView.font = UIFont.systemFont(ofSize: 16)
+        languageTextView.textColor = .black
+        languageTextView.backgroundColor = .systemGray3
+        scrollView.addSubview(languageTextView)
+        
+        addBookButton.setTitle("Добавить", for: .normal)
+        addBookButton.titleLabel?.textAlignment = .center
+        addBookButton.setTitleColor(.white, for: .highlighted)
+        addBookButton.backgroundColor = UIColor(red: 0.99, green: 0.53, blue: 0.16, alpha: 1.00)
+        addBookButton.layer.cornerRadius = 10
+        scrollView.addSubview(addBookButton)
+
     }
     
    
@@ -152,7 +221,6 @@ class AddNewBookViewController: UIViewController {
         
         scrollView.pin
             .below(of: screenLabel).marginTop(0)
-            .top(390)
             .height(view.frame.height)
             .width(view.frame.width)
         
@@ -214,16 +282,59 @@ class AddNewBookViewController: UIViewController {
             .horizontally(12)
             .height(66)
         
-        selectedGenreLabel.pin
-            .below(of: addGenresDescriptionLabel).marginTop(10)
-            .left(12)
-            .width(80)
-            .height(25)
+        genresToChoosePickerView.pin
+            .below(of: addGenresDescriptionLabel).marginTop(12)
+            .horizontally(12)
+            .height(120)
         
-        selectedGenreFromDictLabel.pin
-            .below(of: selectedGenreLabel).marginLeft(10)
-            .below(of: addGenresDescriptionLabel).marginTop(10)
-            //dodelat posle knopok
+        conditionLabel.pin
+            .below(of: genresToChoosePickerView).marginTop(12)
+            .left(12)
+            .width(120)
+            .height(23)
+        
+        for i in 0...4 {
+            conditionButtons[i].pin
+                .width(32)
+                .after(of: conditionLabel).marginLeft(30 + CGFloat(i) *  conditionButtons[0].frame.width)
+                .below(of: genresToChoosePickerView).marginTop(8)
+                .height(32)
+        }
+        
+        conditionDescriptionLabel.pin
+            .below(of: conditionButtons[0]).marginTop(12)
+            .horizontally(12)
+            .height(500)
+        
+        
+        descriptionLabel.pin
+            .below(of: conditionDescriptionLabel).marginTop(12)
+            .horizontally(12)
+            .height(23)
+        
+        descriptionTextView.pin
+            .below(of: descriptionLabel).marginTop(12)
+            .horizontally(12)
+            .height(115)
+        
+        
+        languageLabel.pin
+            .below(of: descriptionTextView).marginTop(12)
+            .horizontally(12)
+            .height(23)
+        
+        languageTextView.pin
+            .below(of: languageLabel).marginTop(12)
+            .horizontally(12)
+            .height(32)
+        
+        
+        addBookButton.pin
+            .below(of: languageTextView).marginTop(20)
+            .center()
+            .width(130)
+            .height(40)
+
     }
     
 
@@ -265,6 +376,22 @@ extension AddNewBookViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+}
+
+// for genre picker
+extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return arrayOfGenres.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return arrayOfGenres[row].genre
+    }
+    
 }
 
 
