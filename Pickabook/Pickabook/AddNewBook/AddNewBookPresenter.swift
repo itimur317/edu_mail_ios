@@ -6,17 +6,15 @@
 //
  
 import Foundation
+
 //output
 protocol AddNewBookViewControllerProtocol: AnyObject {
-    var newBook: Book? { get }
-    /*  func setBookAuthor(author: String)
-    func setBookGenres(genres: [Int])
-    func setBookCondition(condition: Int)
-    func setBookDescription(description: String?)
-    func setBookLanguage(language: String)*/
+    var newBook: Book? { get set }
+    func saveTextViewContents()
 }
  
 protocol AddNewBookPresenterProtocol: AnyObject {
+    var newBook: Book? { get set }
     func didTapAddButton()
 }
  
