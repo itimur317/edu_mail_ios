@@ -19,8 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
             
             let window = UIWindow(windowScene: windowScene)
-            let presenter = AddNewBookPresenter()
-            let viewController = AddNewBookViewController(output: presenter)
+            let presenter = MyProfilePresenter()
+            let viewController = MyProfileViewController(output: presenter)
         
             window.rootViewController = UINavigationController(rootViewController: viewController)
         

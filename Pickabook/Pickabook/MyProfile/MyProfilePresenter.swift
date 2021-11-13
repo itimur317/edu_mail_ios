@@ -8,7 +8,9 @@
 import Foundation
 //output
 protocol MyProfileViewControllerProtocol: AnyObject {
-    //var newBook: Book? { get }
+    func presentProfile(profiles: [Profile])
+    func presentAlert(title: String, message: String)
+    //var bookList: [Book]? { get }
     /*  func setBookAuthor(author: String)
     func setBookGenres(genres: [Int])
     func setBookCondition(condition: Int)
@@ -24,11 +26,15 @@ protocol MyProfilePresenterProtocol: AnyObject {
 final class MyProfilePresenter: MyProfilePresenterProtocol {
     
     weak var view: MyProfileViewControllerProtocol?
-    var BookList: [Book]?
- 
-    func didTapAddButton() {
-        
+    
+    //var bookList: [Book]?
+    public func getProfiles() {
+        //
     }
  
+    func didTapAddButton() {
+        //
+    }
  
+
 }
