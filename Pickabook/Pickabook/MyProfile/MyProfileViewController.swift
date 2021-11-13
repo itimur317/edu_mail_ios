@@ -58,6 +58,7 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
         
         changeProfileDataButton.setTitle("edit", for: .normal)
         changeProfileDataButton.backgroundColor = UIColor(red: 0.39, green: 0.42, blue: 0.71, alpha: 1.00)
+        //UIImage("")
         changeProfileDataButton.titleLabel?.font = changeProfileDataButton.titleLabel?.font.withSize(10)
         changeProfileDataButton.setTitleColor(UIColor.black, for: .normal)
         view.addSubview(changeProfileDataButton)
@@ -92,6 +93,8 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
         profileBookListTitle.text = "Книги на обмен"
         view.addSubview(profileBookListTitle)
         
+        profileBookListTableView.backgroundColor = UIColor(red: 0.71, green: 0.75, blue: 0.93, alpha: 1.00)
+        //UIColor(red: 0.39, green: 0.42, blue: 0.71, alpha: 1.00)
         view.addSubview(profileBookListTableView)
         
     }
@@ -146,11 +149,16 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
         profileBookListTableView.pin
             .below(of: profileBookListTitle)
             .horizontally(12)
-            .height(100)
+            .bottom(12)
+            //.height(100)
         
     }
 
 }
+
+//extension MyProfileViewController: UITableViewDataSource {
+//
+//}
 
 //extension MyProfileViewController: UITableViewController {
 //    private var books: [Book] = []
