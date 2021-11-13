@@ -20,11 +20,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             let window = UIWindow(windowScene: windowScene)
             let presenter = MyProfilePresenter()
-            let viewController = MyProfileViewController(output: presenter)
+            let viewController = MyProfileViewController(output: presenter) // контроллер ссылается на презентер
         
             window.rootViewController = UINavigationController(rootViewController: viewController)
         
-            presenter.view = viewController
+            presenter.view = viewController // презентер ссылается на контроллер
             self.window = window
             window.makeKeyAndVisible()
     }

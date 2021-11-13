@@ -4,20 +4,19 @@
 //
 //  Created by Timur on 05.11.2021.
 //
-
 import Foundation
 import UIKit
 
 
 
 struct Book {
-   // array of photos
-   let bookName: String?
-  /* let bookAuthor: String?
-   let bookGenres: [Int]?
-   let bookCondition: Int?
-   let bookDescription: String?
-   let bookLanguage: String?*/
+    var bookImages: [UIImage] = []
+    var bookName: String
+    var bookAuthor: String
+    var bookGenreId: Int
+    var bookCondition: Int
+    var bookDescription: String?
+    var bookLanguage: String
 }
 
 
