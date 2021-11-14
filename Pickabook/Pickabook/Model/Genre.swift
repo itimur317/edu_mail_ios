@@ -12,3 +12,5 @@ struct Genre {
     var name: String
     var color: UIColor
 }
+
+

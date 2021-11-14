@@ -25,6 +25,7 @@ class MainViewController: UITabBarController {
         favoritesVC.tabBarItem.image = UIImage(named: "FavViewIcon")
         favoritesVC.title = ""
         
+        
         let addVC = TestAddVC()
         addVC.tabBarItem.image = UIImage(named: "AddViewIcon")
         addVC.title = ""
@@ -34,8 +35,6 @@ class MainViewController: UITabBarController {
         self.modalPresentationStyle = .fullScreen
         self.tabBar.backgroundColor = .white
         self.tabBar.tintColor = .black
-        
-        self.tabBarItem.imageInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
     }
     
     class TestProfileVC : UIViewController{
