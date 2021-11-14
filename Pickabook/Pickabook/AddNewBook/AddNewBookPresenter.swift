@@ -7,15 +7,11 @@
  
 import Foundation
 
-//output
-protocol AddNewBookViewControllerProtocol: AnyObject {
-    var newBook: Book? { get set }
-    func saveTextViewContents()
-}
  
 protocol AddNewBookPresenterProtocol: AnyObject {
     var newBook: Book? { get set }
     func didTapAddButton()
+    func showMenuAlert()
 }
  
  
@@ -23,7 +19,14 @@ final class AddNewBookPresenter: AddNewBookPresenterProtocol {
     
     weak var view: AddNewBookViewControllerProtocol?
     var newBook: Book?
- 
+    
+    func showMenuAlert() {
+        view?.showMenuAlert()
+    }
+
+    
+    
+    
     func didTapAddButton() {
         
     }

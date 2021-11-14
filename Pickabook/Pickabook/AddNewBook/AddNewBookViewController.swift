@@ -9,6 +9,13 @@ import UIKit
 import Foundation
 import PinLayout
 
+protocol AddNewBookViewControllerProtocol: AnyObject {
+    var newBook: Book? { get set }
+ //   var menuButtons: [UIButton]
+    func saveTextViewContents()
+    func showMenuAlert()
+}
+
  
 public class SimpleLine: UIView  {
     var line = UIBezierPath()
@@ -28,6 +35,7 @@ public class SimpleLine: UIView  {
 
 class AddNewBookViewController: UIViewController {
     var newBook: Book?
+   // var menuButtons
     var output: AddNewBookPresenterProtocol
     
     init(output: AddNewBookPresenterProtocol){
@@ -157,12 +165,12 @@ class AddNewBookViewController: UIViewController {
         
         secondAddedPhotoImageView.layer.cornerRadius = 8
        // firstAddedPhotoImage.image = фото из библ
-        firstAddedPhotoImageView.isHidden = true
+        secondAddedPhotoImageView.isHidden = true
         scrollView.addSubview(secondAddedPhotoImageView)
         
         thirdAddedPhotoImageView.layer.cornerRadius = 8
        // firstAddedPhotoImage.image = фото из библ
-        firstAddedPhotoImageView.isHidden = true
+        thirdAddedPhotoImageView.isHidden = true
         scrollView.addSubview(thirdAddedPhotoImageView)
         
         correctPhotoButton.setTitle("Удалить фото", for: .normal)
@@ -272,7 +280,6 @@ class AddNewBookViewController: UIViewController {
         addBookButton.backgroundColor = UIColor(red: 0.99, green: 0.53, blue: 0.16, alpha: 1.00)
         addBookButton.layer.cornerRadius = 10
         scrollView.addSubview(addBookButton)
-
     }
     
    
@@ -515,6 +522,7 @@ extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource 
 extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     
     func saveTextViewContents(){
+        
         newBook?.bookName = bookNameTextView.text!
         newBook?.bookAuthor = authorNameTextView.text!
 
@@ -532,10 +540,27 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
         }
         
         newBook?.bookLanguage = languageTextView.text
+        
     }
     
+    
+    func showMenuAlert() {
+        
+        let alert = UIAlertController(title: "Выйти?", message: "Книга не добавлена \nизменения не будут сохранены", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true)
+        
+    }
+    
+    func didTapMenuButtons(){
+        
+    }
 }
- 
+
+
 
 
  
