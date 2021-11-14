@@ -10,6 +10,7 @@ import PinLayout
 
 //UITableViewDelegate, UITableViewDataSource
 class MyProfileViewController : UIViewController, MyProfileViewControllerProtocol {
+    
     func presentProfile(profiles: [Profile]) {}
     func presentAlert(title: String, message: String) {}
     
@@ -22,34 +23,25 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    //    let id: Int
-    //    let name: String
-    //    let photo: URL?
-    //    let about: String?
-    //    let phoneNumber: String? //should be changed
-    //    let mailAdress: String?
-    //    let telegramLink: URL?
-    //    let instagramLink: URL?
-    //    let bookList: [Book]?
     
+    //let conditionPaintedStarImage = UIImage(named: "paintedStar") //example
     let myProfileTitle = UILabel()
-    let changeProfileDataButton = UIButton()
-    //let changeProfileDataButton = UIBarButtonItem()
-    //let profileImage = UIImage() //need repair
-    let profileImage = UILabel()
-    //let conditionPaintedStarImage = UIImage(named: "paintedStar")
+    let changeProfileDataButton = UIButton() //let changeProfileDataButton = UIBarButtonItem() //can be upgraded
+    let profileImage = UILabel() //let profileImage = UIImage() //need repair
     let profileName = UILabel()
-//    let profileAboutInfo = UITextView()
+    //let profileAboutInfo = UITextView()
     let profilePhoneNumber = UILabel()
     let profileMailAdress = UILabel()
     let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
     let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
     let profileBookListTitle = UILabel()
     let profileBookListTableView = UITableView()
-    
+    let profileBookList: [Book] = [Book(bookImages: [], bookName: "Преступление и наказание", bookAuthor: "Ф.М. Достоевский", bookGenreId: 1, bookCondition: 4, bookDescription: "слдтвлс", bookLanguage: "ьдылвсы"), Book(bookImages: [], bookName: "Кулинарная книга", bookAuthor: "Народов Кавказа", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj"),Book(bookImages: [], bookName: "Моя биография", bookAuthor: "Неизветный автор", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj"),Book(bookImages: [], bookName: "Календарь за 1956 год", bookAuthor: "ГКСП имени В.И. Ленина", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj"),Book(bookImages: [], bookName: "Ну зачем долистал сюда", bookAuthor: "Конец  списка", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj")]
+     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //tableView.delegate = self
+        //tableView.dataSource = self
         view.backgroundColor = .white
         //title = "Мой профиль"
 
@@ -58,7 +50,6 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
         
         changeProfileDataButton.setTitle("edit", for: .normal)
         changeProfileDataButton.backgroundColor = UIColor(red: 0.39, green: 0.42, blue: 0.71, alpha: 1.00)
-        //UIImage("")
         changeProfileDataButton.titleLabel?.font = changeProfileDataButton.titleLabel?.font.withSize(10)
         changeProfileDataButton.setTitleColor(UIColor.black, for: .normal)
         view.addSubview(changeProfileDataButton)
@@ -80,7 +71,6 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
 //        view.addSubview(profileAboutInfo)
         
         profileMailAdress.text = "peekabook@peeka.book"
-        //profileMailAdress.size
         profileMailAdress.font = profileMailAdress.font.withSize(14)
         profileMailAdress.textAlignment = .center
         view.addSubview(profileMailAdress)
@@ -93,8 +83,10 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
         profileBookListTitle.text = "Книги на обмен"
         view.addSubview(profileBookListTitle)
         
-        profileBookListTableView.backgroundColor = UIColor(red: 0.71, green: 0.75, blue: 0.93, alpha: 1.00)
-        //UIColor(red: 0.39, green: 0.42, blue: 0.71, alpha: 1.00)
+        //profileBookListTableView.backgroundColor = UIColor(red: 0.71, green: 0.75, blue: 0.93, alpha: 1.00)
+        profileBookListTableView.dataSource = self
+        profileBookListTableView.delegate = self
+        profileBookListTableView.register(BookListTableViewCell.self, forCellReuseIdentifier: "BookListTableViewCell")
         view.addSubview(profileBookListTableView)
         
     }
@@ -102,14 +94,12 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        //it can be added to UInavigationbar (title)
-        myProfileTitle.pin
+        myProfileTitle.pin  //it can be added to UInavigationbar (title)
             .top(50)
             .horizontally(12)
             .height(28)
         
-        //it can be added to UInavigationbar
-        changeProfileDataButton.pin
+        changeProfileDataButton.pin //it can be added to UInavigationbar
             .top(50)
             .right(12)
             .size(28)
@@ -117,8 +107,7 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
         profileImage.pin
             .below(of: myProfileTitle).marginTop(10)
             .topCenter()
-            .size(120)
-        //  look at      profileImage.layer.cornerRadius = 60 (120/2)
+            .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
 
         profileName.pin
             .below(of: profileImage).marginTop(10)
@@ -128,8 +117,8 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
 //        profileAboutInfo.pin
 //            .below(of: profileName).marginTop(0)
 //            .horizontally(12)
-//            .sizeToFit(.height)
-////            .height(50)
+////            .sizeToFit(.height)
+//            .height(50)
         
         profileMailAdress.pin
             .below(of: profileName).marginTop(-4)
@@ -147,37 +136,43 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
             .height(28)
         
         profileBookListTableView.pin
-            .below(of: profileBookListTitle)
+            .below(of: profileBookListTitle).marginTop(3)
             .horizontally(12)
             .bottom(12)
-            //.height(100)
         
     }
 
 }
 
-//extension MyProfileViewController: UITableViewDataSource {
-//
-//}
+extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
+    //количество столбцов
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return profileBookList.count
+    }
+    //высота столбца
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookListTableViewCell", for: indexPath) as? BookListTableViewCell else {
+            return .init()
+        }
+        
+        let book = profileBookList[indexPath.row]
+        cell.configure(with: book)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //
+    }
+    
+}
 
-//extension MyProfileViewController: UITableViewController {
-//    private var books: [Book] = []
-//
-//        override func viewDidLoad() {
-//            super.viewDidLoad()
-//            //products = ProductManager.shared.loadProducts()
-//            tableView.separatorStyle = .none
-//        }
-//
-//        // MARK: - Table view data source
-//        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//            return books.count
-//        }
-//
-//        override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//            return 120
-//        }
-//
+
+
 //        override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProductTableViewCell", for: indexPath) as? ProductTableViewCell else {
 //                return UITableViewCell()
@@ -188,6 +183,17 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
 //
 //            return cell
 //        }
+
+//extension MyProfileViewController: UITableViewController {
+//    private var books: [Book] = []
+//
+//        override func viewDidLoad() {
+//            super.viewDidLoad()
+//            //products = ProductManager.shared.loadProducts()
+//            tableView.separatorStyle = .none
+//        }
+//
+
 //
 //        override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //            let product = products[indexPath.row]
@@ -211,36 +217,3 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
 //        present(alertVC, animated: true, completion: nil)
 //    }
 //}
-//
-    
-//    private let tableView: UITableView = {
-//        let table = UITableView()
-//        table.register(UITableView.self, forCellReuseIdentifier: "cell")
-//    }()
-//
-//    //Table
-//    view.addSubview(tableView)
-//    tableView.delegate = self
-//    tableView.dataSource = self
-//
-//    //Presenter
-//
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        tableView.frame = view.bounds
-//    }
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 0
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-//        return cell
-//    }
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//        //ask presenter to handle a tap
-//    }
-
