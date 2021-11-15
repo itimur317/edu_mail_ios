@@ -10,32 +10,13 @@ import Foundation
 import PinLayout
 
 protocol AddNewBookViewControllerProtocol: AnyObject {
-    var newBook: Book? { get set }
- //   var menuButtons: [UIButton]
-    func saveTextViewContents()
     func showMenuAlert()
+    func changeCondition(_ addedCondition: Int)
 }
 
- 
-public class SimpleLine: UIView  {
-    var line = UIBezierPath()
-    
-    func graph() {
-        line.move(to: .init(x: 0, y: bounds.height / 2))
-        line.addLine(to: .init(x: bounds.width, y: bounds.height))
-        UIColor(red: 0.49, green: 0.49, blue: 0.49, alpha: 1.00).setStroke()
-        line.lineWidth = 1
-        line.stroke()
-    }
-    
-    override public func draw(_ rect: CGRect) {
-        graph()
-    }
-}
 
 class AddNewBookViewController: UIViewController {
-    var newBook: Book?
-   // var menuButtons
+    
     var output: AddNewBookPresenterProtocol
     
     init(output: AddNewBookPresenterProtocol){
@@ -47,30 +28,24 @@ class AddNewBookViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let screenLabel = UILabel()
+    
+    let screenLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 28))
     
     let scrollView = UIScrollView()
-    
-    let line = SimpleLine(frame: CGRect(x: 0, y: 0, width: 200, height: 2))
-    
-    let menuBackgroundLabel = UILabel()
-    let menuRecommendButton = UIButton()
-    let menuRecommendImage = UIImage(named: "Recommend")
-    let menuFavouriteButton = UIButton()
-    let menuFavouriteImage = UIImage(named: "Favourite")
-    let menuAddBookButton = UIButton()
-    let menuAddBookImage = UIImage(named: "AddBookActive")
-    let menuProfileButton = UIButton()
-    let menuProfileImage = UIImage(named: "Profile")
-    
+
     let addPhotoDescriptionLabel = UILabel()
     let photoLabel = UILabel()
     let addPhotoButton = UIButton()
     let addPhotoImage = UIImage(named: "addPhotoImage")
     //dodelat' photo
-    let firstAddedPhotoImageView = UIImageView()
-    let secondAddedPhotoImageView = UIImageView()
-    let thirdAddedPhotoImageView = UIImageView()
+    let leftPhotoImageView = UIImageView()
+    let centerPhotoImageView = UIImageView()
+    let rightPhotoImageView = UIImageView()
+    
+    let leftNumberPhotoLabel = UILabel()
+    let centerNumberPhotoLabel = UILabel()
+    let rightNumberPhotoLabel = UILabel()
+
     
     let correctPhotoButton = UIButton()
     
@@ -91,8 +66,8 @@ class AddNewBookViewController: UIViewController {
     let conditionFourthButton = UIButton()
     let conditionFifthButton = UIButton()
     var conditionButtons: [UIButton] = [UIButton]()
-    let conditionStarImage = UIImage(named: "star")
-    let conditionPaintedStarImage = UIImage(named: "paintedStar")
+    let conditionStarImage = UIImage(named: "conditionStarImage")
+    let conditionPaintedStarImage = UIImage(named: "conditionPaintedStarImage")
     let conditionDescriptionLabel = UILabel()
     
     let descriptionLabel = UILabel()
@@ -106,6 +81,7 @@ class AddNewBookViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
 
         self.hideKeyboardWhenTappedAround()
         
@@ -117,29 +93,6 @@ class AddNewBookViewController: UIViewController {
         
         scrollView.contentSize = CGSize(width: view.frame.width, height: 1660)
         view.addSubview(scrollView)
-        
-        menuBackgroundLabel.backgroundColor = UIColor(red: 0.97, green: 0.98, blue: 0.98, alpha: 1.00)
-        view.addSubview(menuBackgroundLabel)
-        
-        menuRecommendButton.backgroundColor = UIColor(red: 0.97, green: 0.98, blue: 0.98, alpha: 1.00)
-        menuRecommendButton.setImage(menuRecommendImage, for: .normal)
-        view.addSubview(menuRecommendButton)
-        
-        menuFavouriteButton.backgroundColor = UIColor(red: 0.97, green: 0.98, blue: 0.98, alpha: 1.00)
-        menuFavouriteButton.setImage(menuFavouriteImage, for: .normal)
-        view.addSubview(menuFavouriteButton)
-        
-        menuAddBookButton.backgroundColor = UIColor(red: 0.97, green: 0.98, blue: 0.98, alpha: 1.00)
-        menuAddBookButton.setImage(menuAddBookImage, for: .normal)
-        view.addSubview(menuAddBookButton)
-        
-        menuProfileButton.backgroundColor = UIColor(red: 0.97, green: 0.98, blue: 0.98, alpha: 1.00)
-        menuProfileButton.setImage(menuProfileImage, for: .normal)
-        view.addSubview(menuProfileButton)
-        
-        
-        line.backgroundColor = .white
-        view.addSubview(line)
         
         
         addPhotoDescriptionLabel.text = "Добавьте фото книги (максимум 3). \nДля комфортного обмена рекомендуем сделать фото обложки и титульного листа."
@@ -157,21 +110,25 @@ class AddNewBookViewController: UIViewController {
         addPhotoButton.layer.cornerRadius = 8
         addPhotoButton.setImage(addPhotoImage, for: .normal)
         scrollView.addSubview(addPhotoButton)
+
         
-        firstAddedPhotoImageView.layer.cornerRadius = 8
-       // firstAddedPhotoImage.image = фото из библ
-        firstAddedPhotoImageView.isHidden = true
-        scrollView.addSubview(firstAddedPhotoImageView)
+        [leftPhotoImageView, centerPhotoImageView, rightPhotoImageView].forEach{
+            ($0).layer.cornerRadius = 8
+            ($0).isHidden = true
+            scrollView.addSubview(($0))
+        }
         
-        secondAddedPhotoImageView.layer.cornerRadius = 8
-       // firstAddedPhotoImage.image = фото из библ
-        secondAddedPhotoImageView.isHidden = true
-        scrollView.addSubview(secondAddedPhotoImageView)
-        
-        thirdAddedPhotoImageView.layer.cornerRadius = 8
-       // firstAddedPhotoImage.image = фото из библ
-        thirdAddedPhotoImageView.isHidden = true
-        scrollView.addSubview(thirdAddedPhotoImageView)
+        [leftNumberPhotoLabel, centerNumberPhotoLabel, rightNumberPhotoLabel].forEach {
+            ($0).text = "0"
+            ($0).backgroundColor = .black
+            ($0).font = UIFont.systemFont(ofSize: 10, weight: .bold)
+            ($0).textColor = .white
+            ($0).clipsToBounds = true
+            ($0).textAlignment = .center
+            ($0).layer.cornerRadius = 5
+            ($0).isHidden = true
+            scrollView.addSubview(($0))
+        }
         
         correctPhotoButton.setTitle("Удалить фото", for: .normal)
         correctPhotoButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -194,7 +151,8 @@ class AddNewBookViewController: UIViewController {
         bookNameTextView.textColor = .gray
         bookNameTextView.backgroundColor = .systemGray3
         scrollView.addSubview(bookNameTextView)
-        
+        // если серый, то ничего сохранять не надо
+    
         
         authorNameLabel.text = "Автор*"
         authorNameLabel.textAlignment = .left
@@ -232,12 +190,15 @@ class AddNewBookViewController: UIViewController {
         scrollView.addSubview(conditionLabel)
         
         self.conditionButtons = [self.conditionFirstButton, self.conditionSecondButton, self.conditionThirdButton, self.conditionFourthButton, self.conditionFifthButton]
-        
+
         for i in 0...4{
             conditionButtons[i].backgroundColor = .white
+            conditionButtons[i].addTarget(self, action: #selector(didTapConditionButton(_:)), for: .touchUpInside)
             conditionButtons[i].setImage(conditionStarImage, for: .normal)
             scrollView.addSubview(conditionButtons[i])
         }
+
+ 
         
         conditionDescriptionLabel.text = "5 звезд \nКнига находится в идеальном состоянии\n\n4 звезды \nКнига была прочитана пару раз, использовалась аккуратно - нет заметных повреждений\n\n3 звезды\nКнига была прочитана несколько раз, допустимы небольшие повреждения(царапины на обложке, погнутые страницы и тп)\n\n2 звезды\nКнига была прочитана много раз, имеются повреждения(порванные или разрисованные страницы)\n\n1 звезда\nКнига находится в плохом состоянии, повреждения могут препятствовать чтению"
         conditionDescriptionLabel.textAlignment = .left
@@ -274,15 +235,43 @@ class AddNewBookViewController: UIViewController {
         languageTextView.backgroundColor = .systemGray3
         scrollView.addSubview(languageTextView)
         
+        
         addBookButton.setTitle("Добавить", for: .normal)
         addBookButton.titleLabel?.textAlignment = .center
         addBookButton.setTitleColor(.white, for: .highlighted)
         addBookButton.backgroundColor = UIColor(red: 0.99, green: 0.53, blue: 0.16, alpha: 1.00)
         addBookButton.layer.cornerRadius = 10
+        addBookButton.addTarget(self, action: #selector(didTapAddButton(_:)), for: .touchUpInside)
         scrollView.addSubview(addBookButton)
     }
     
-   
+    
+    @objc func didTapAddButton(_ sender: UIButton) {
+        print("dadadad")
+        self.output.didTapAddButton()
+    }
+    
+
+    @objc
+    func didTapConditionButton(_ sender: UIButton) {
+        var addedCondition: Int = 0
+        
+        for i in 0...4 {
+            conditionButtons[i].setImage(conditionStarImage, for: .normal)
+        }
+        
+        for i in 0...4 {
+            if sender == conditionButtons[i] {
+                addedCondition = i + 1
+                break
+            }
+        }
+        
+        self.output.didTapConditionButton(addedCondition)
+    }
+    
+    
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -291,44 +280,11 @@ class AddNewBookViewController: UIViewController {
             .horizontally(12)
             .height(28)
         
-        line.pin
-            .width(view.frame.width)
-            .bottom(80)
-        
-        menuBackgroundLabel.pin
-            .height(80)
-            .width(view.frame.width)
-            .bottom(0)
-        
-        menuRecommendButton.pin
-            .width((view.frame.width - 14 * 5) / 4)
-            .height(60)
-            .bottom(20)
-            .left(14)
-        
-        menuFavouriteButton.pin
-            .width((view.frame.width - 14 * 5) / 4)
-            .height(60)
-            .bottom(20)
-            .left(14 * 2 + menuRecommendButton.frame.width)
-        
-        menuAddBookButton.pin
-            .width((view.frame.width - 14 * 5) / 4)
-            .height(60)
-            .bottom(20)
-            .left(14 * 3 + 2 * menuRecommendButton.frame.width)
-        
-        menuProfileButton.pin
-            .width((view.frame.width - 14 * 5) / 4)
-            .height(60)
-            .bottom(20)
-            .left(14 * 4 + 3 * menuRecommendButton.frame.width)
-            .right(14)
-        
         
         scrollView.pin
             .below(of: screenLabel).marginTop(10)
-            .height(view.frame.height - (50 + screenLabel.frame.height) - (20 + menuRecommendButton.frame.height) - 1)
+            .height(view.frame.height - (50 + screenLabel.frame.height) - 83)
+        // 83 - height of tabBar
             .width(view.frame.width)
         
         
@@ -348,28 +304,48 @@ class AddNewBookViewController: UIViewController {
             .height((view.frame.width - 12 * 4) / 3)
             .width((view.frame.width - 12 * 4) / 3)
         
-        firstAddedPhotoImageView.pin
+        
+        rightPhotoImageView.pin
             .below(of: photoLabel).marginVertical(12)
             .left(12 * 3 + 2 * addPhotoButton.frame.width)
             .right(12)
             .height(addPhotoButton.frame.height)
             .width(addPhotoButton.frame.width)
         
-        secondAddedPhotoImageView.pin
+        rightNumberPhotoLabel.pin
+            .below(of: photoLabel).marginVertical(20)
+            .left(12 * 3 + 3 * rightPhotoImageView.frame.width - 14 - 6)
+            .height(14)
+            .width(14)
+        
+        centerPhotoImageView.pin
             .below(of: photoLabel).marginVertical(12)
             .left(12 * 2 + addPhotoButton.frame.width)
             .height(addPhotoButton.frame.height)
             .width(addPhotoButton.frame.width)
         
-        thirdAddedPhotoImageView.pin
+        centerNumberPhotoLabel.pin
+            .below(of: photoLabel).marginVertical(20)
+            .left(12 * 2 + 2 * centerPhotoImageView.frame.width - 14 - 6)
+            .height(14)
+            .width(14)
+        
+        leftPhotoImageView.pin
             .below(of: photoLabel).marginVertical(12)
             .left(12)
             .height(addPhotoButton.frame.height)
             .width(addPhotoButton.frame.width)
         
+        leftNumberPhotoLabel.pin
+            .below(of: photoLabel).marginVertical(20)
+            .left(12 + leftPhotoImageView.frame.width - 14 - 6)
+            .height(14)
+            .width(14)
+        
+        
         correctPhotoButton.pin
             .below(of: addPhotoButton).marginTop(10)
-            .center()
+            .left(view.frame.width / 2 - 52)
             .height(17)
             .width(104)
         
@@ -455,18 +431,11 @@ class AddNewBookViewController: UIViewController {
         
         addBookButton.pin
             .below(of: languageTextView).marginTop(40)
-            .center()
+            .left(view.frame.width / 2 - 65)
             .width(130)
             .height(40)
 
     }
-    
-
-    @objc
-    func didTapAddButton(_ sender: Any){
-        self.output.didTapAddButton()
-    }
-    
 }
 
 
@@ -487,7 +456,6 @@ extension AddNewBookViewController:UITextViewDelegate {
     }
      
 }
- 
 
 // to hide keyboard when tap
 extension AddNewBookViewController {
@@ -521,51 +489,24 @@ extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource 
 
 extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     
-    func saveTextViewContents(){
-        
-        newBook?.bookName = bookNameTextView.text!
-        newBook?.bookAuthor = authorNameTextView.text!
-
-        // picker number id
-        newBook?.bookGenreId = 3
-        
-        // вставить номер кнопки
-        newBook?.bookCondition = 3
-        
-        if descriptionTextView.text.isEmpty {
-            newBook?.bookDescription = nil
-        }
-        else {
-            newBook?.bookDescription = descriptionTextView.text
-        }
-        
-        newBook?.bookLanguage = languageTextView.text
-        
-    }
     
     
     func showMenuAlert() {
-        
-        let alert = UIAlertController(title: "Выйти?", message: "Книга не добавлена \nизменения не будут сохранены", preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "", style: .default, handler: nil))
+        print("aleeert")
+
+        let alert = UIAlertController(title: "Выйти?", message: "Изменения не будут сохранены", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Выйти", style: .default, handler: nil))
         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
-        
+
         self.present(alert, animated: true)
         
     }
     
-    func didTapMenuButtons(){
-        
+    func changeCondition(_ addedCondition: Int) {
+        for i in 0 ..< addedCondition {
+            conditionButtons[i].setImage(conditionPaintedStarImage, for: .normal)
+        }
     }
+
 }
-
-
-
-
- 
- 
-
- 
- 
- 

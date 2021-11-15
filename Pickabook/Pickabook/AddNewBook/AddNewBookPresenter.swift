@@ -9,65 +9,41 @@ import Foundation
 
  
 protocol AddNewBookPresenterProtocol: AnyObject {
-    var newBook: Book? { get set }
+    var newBook: Book? { get }
     func didTapAddButton()
+    func didTapConditionButton(_ addedCondition: Int)
     func showMenuAlert()
 }
  
  
-final class AddNewBookPresenter: AddNewBookPresenterProtocol {
-    
-    weak var view: AddNewBookViewControllerProtocol?
+final class AddNewBookPresenter{
     var newBook: Book?
+    weak var view: AddNewBookViewControllerProtocol?
+    // newBook nil and condition ne zapolnyaetsya
+    
+    
+}
+    
+extension AddNewBookPresenter: AddNewBookPresenterProtocol {
     
     func showMenuAlert() {
-        view?.showMenuAlert()
+        
     }
-
-    
     
     
     func didTapAddButton() {
-        
+        self.view?.showMenuAlert()
     }
  
- 
+    func didTapConditionButton(_ addedCondition: Int) {
+        newBook?.bookCondition = addedCondition
+        self.view?.changeCondition(addedCondition)
+    }
+
 }
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
 
  
- 
- 
- 
- 
-/*
-class AddBookPresenter: PresenterInputProtocol{
- 
-    let output: PresenterOutputProtocol
-    let book: Book
- 
-    required init(output: PresenterOutputProtocol, book: Book) {
-        self.output = output
-        self.book = book
-    }
- 
-    func didTapButton() {
-        let nameBook = book.nameBook
-        self.output.setNameBook(book: nameBook)
-    }
- 
-}
-*/
- 
+
  
  
  
