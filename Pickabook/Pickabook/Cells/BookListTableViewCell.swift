@@ -20,20 +20,19 @@ class BookListTableViewCell: UITableViewCell {
     //    var bookDescription: String?
     //    var bookLanguage: String
     
-    let bookImage = UILabel() //= UIImage() //need repair
+    let bookImage = UILabel() //= UIImage() //need fix
     let bookNameLabel = UILabel()
     let bookAuthorLabel = UILabel()
-    let bookConditionLabel = UILabel()
-    
-    let bookConditionIcon  = UILabel() //= UIImage() //need repair
-    
-    //let view = UIView()
-    
+
+    //  can be added (look comments down)
+//    let bookConditionLabel = UILabel()
+//    let bookConditionIcon  = UILabel() //= UIImage() //need fix
+        
     func configure(with book: Book) {
-        //bookImage = book.bookImages[0] //need repair
+        //bookImage = book.bookImages[0] //need fix
         bookNameLabel.text = book.bookName
         bookAuthorLabel.text = book.bookAuthor
-        //bookConditionLabel.text = String(book.bookCondition) //can be added (look comments down)
+        //bookConditionLabel.text = String(book.bookCondition)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -70,6 +69,8 @@ class BookListTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        //высота строки выставлена 100 в extension viewcontroller'а
         
         bookImage.pin
             .top(10)

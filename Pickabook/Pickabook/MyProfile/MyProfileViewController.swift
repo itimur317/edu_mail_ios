@@ -8,7 +8,6 @@
 import UIKit
 import PinLayout 
 
-//UITableViewDelegate, UITableViewDataSource
 class MyProfileViewController : UIViewController, MyProfileViewControllerProtocol {
     
     func presentProfile(profiles: [Profile]) {}
@@ -24,30 +23,30 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
         fatalError("init(coder:) has not been implemented")
     }
     
-    //let conditionPaintedStarImage = UIImage(named: "paintedStar") //example
+    //example //let Image = UIImage(named: "nameOfImage")
     let myProfileTitle = UILabel()
     let changeProfileDataButton = UIButton() //let changeProfileDataButton = UIBarButtonItem() //can be upgraded
-    let profileImage = UILabel() //let profileImage = UIImage() //need repair
+    let profileImage = UILabel() //let profileImage = UIImage() //need fix
     let profileName = UILabel()
-    //let profileAboutInfo = UITextView()
+    //let profileAboutInfo = UITextView() //can be added
     let profilePhoneNumber = UILabel()
     let profileMailAdress = UILabel()
-    let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
-    let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
+    //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
+    //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
     let profileBookListTitle = UILabel()
     let profileBookListTableView = UITableView()
-    let profileBookList: [Book] = [Book(bookImages: [], bookName: "Преступление и наказание", bookAuthor: "Ф.М. Достоевский", bookGenreId: 1, bookCondition: 4, bookDescription: "слдтвлс", bookLanguage: "ьдылвсы"), Book(bookImages: [], bookName: "Кулинарная книга", bookAuthor: "Народов Кавказа", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj"),Book(bookImages: [], bookName: "Моя биография", bookAuthor: "Неизветный автор", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj"),Book(bookImages: [], bookName: "Календарь за 1956 год", bookAuthor: "ГКСП имени В.И. Ленина", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj"),Book(bookImages: [], bookName: "Ну зачем долистал сюда", bookAuthor: "Конец  списка", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj")]
+    let profileBookList: [Book] = [Book(bookImages: [], bookName: "Преступление и наказание", bookAuthor: "Ф.М. Достоевский", bookGenreId: 1, bookCondition: 4, bookDescription: "слдтвлс", bookLanguage: "ьдылвсы"), Book(bookImages: [], bookName: "Кулинарная книга", bookAuthor: "Народов Кавказа", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj"),Book(bookImages: [], bookName: "Малая земля", bookAuthor: "Леонид Ильич Брежнев", bookGenreId: 1, bookCondition: 4, bookDescription: "слдтвлс", bookLanguage: "ьдылвсы"),Book(bookImages: [], bookName: "Моя биография", bookAuthor: "Неизветный автор", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj"),Book(bookImages: [], bookName: "Календарь за 1956 год", bookAuthor: "ГКСП имени В.И. Ленина", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj"),Book(bookImages: [], bookName: "Ну зачем долистал сюда", bookAuthor: "Конец  списка", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj")]
      
     override func viewDidLoad() {
         super.viewDidLoad()
-        //tableView.delegate = self
-        //tableView.dataSource = self
         view.backgroundColor = .white
         //title = "Мой профиль"
 
         myProfileTitle.text = "Мой профиль"
         view.addSubview(myProfileTitle)
         
+        changeProfileDataButton.layer.cornerRadius = 10
+        changeProfileDataButton.layer.masksToBounds = true
         changeProfileDataButton.setTitle("edit", for: .normal)
         changeProfileDataButton.backgroundColor = UIColor(red: 0.39, green: 0.42, blue: 0.71, alpha: 1.00)
         changeProfileDataButton.titleLabel?.font = changeProfileDataButton.titleLabel?.font.withSize(10)
@@ -83,7 +82,6 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
         profileBookListTitle.text = "Книги на обмен"
         view.addSubview(profileBookListTitle)
         
-        //profileBookListTableView.backgroundColor = UIColor(red: 0.71, green: 0.75, blue: 0.93, alpha: 1.00)
         profileBookListTableView.dataSource = self
         profileBookListTableView.delegate = self
         profileBookListTableView.register(BookListTableViewCell.self, forCellReuseIdentifier: "BookListTableViewCell")
@@ -117,7 +115,6 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
 //        profileAboutInfo.pin
 //            .below(of: profileName).marginTop(0)
 //            .horizontally(12)
-////            .sizeToFit(.height)
 //            .height(50)
         
         profileMailAdress.pin
@@ -145,11 +142,11 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
 }
 
 extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
-    //количество столбцов
+    //количество строк
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return profileBookList.count
     }
-    //высота столбца
+    //высота строки
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
@@ -170,50 +167,3 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
 }
-
-
-
-//        override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProductTableViewCell", for: indexPath) as? ProductTableViewCell else {
-//                return UITableViewCell()
-//            }
-//
-//            let product = products[indexPath.row]
-//            cell.configure(with: product)
-//
-//            return cell
-//        }
-
-//extension MyProfileViewController: UITableViewController {
-//    private var books: [Book] = []
-//
-//        override func viewDidLoad() {
-//            super.viewDidLoad()
-//            //products = ProductManager.shared.loadProducts()
-//            tableView.separatorStyle = .none
-//        }
-//
-
-//
-//        override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//            let product = products[indexPath.row]
-//
-//            let viewController = ProductViewController()
-//            let navigationController = UINavigationController(rootViewController: viewController)
-//
-//            viewController.product = product
-//            viewController.delegate = self
-//
-//            present(navigationController, animated: true, completion: nil)
-//        }
-//}
-//
-//extension MyProfileViewController: ProductViewControllerDelegate {
-//    func didTapChatButton(productViewController: UIViewController, productId: String) {
-//        productViewController.dismiss(animated: true)
-//
-//        let alertVC = UIAlertController(title: "Start Chat", message: productId, preferredStyle: .alert)
-//        alertVC.addAction(UIAlertAction(title: "OK", style: .default))
-//        present(alertVC, animated: true, completion: nil)
-//    }
-//}
