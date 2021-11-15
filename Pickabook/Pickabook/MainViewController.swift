@@ -57,15 +57,6 @@ class MainViewController: UITabBarController {
             self.view.backgroundColor = .systemPink
         }
     }
-    
-    class TestAddVC : UIViewController{
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            self.view.backgroundColor = .systemTeal
-        }
-    }
-    
 
     /*
     // MARK: - Navigation
