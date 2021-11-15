@@ -29,13 +29,66 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
     let profileImage = UILabel() //let profileImage = UIImage() //need fix
     let profileName = UILabel()
     //let profileAboutInfo = UITextView() //can be added
-    let profilePhoneNumber = UILabel()
     let profileMailAdress = UILabel()
+    let profilePhoneNumber = UILabel()
     //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
     //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
     let profileBookListTitle = UILabel()
     let profileBookListTableView = UITableView()
-    let profileBookList: [Book] = [Book(bookImages: [], bookName: "Преступление и наказание", bookAuthor: "Ф.М. Достоевский", bookGenreId: 1, bookCondition: 4, bookDescription: "слдтвлс", bookLanguage: "ьдылвсы"), Book(bookImages: [], bookName: "Кулинарная книга", bookAuthor: "Народов Кавказа", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj"),Book(bookImages: [], bookName: "Малая земля", bookAuthor: "Леонид Ильич Брежнев", bookGenreId: 1, bookCondition: 4, bookDescription: "слдтвлс", bookLanguage: "ьдылвсы"),Book(bookImages: [], bookName: "Моя биография", bookAuthor: "Неизветный автор", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj"),Book(bookImages: [], bookName: "Календарь за 1956 год", bookAuthor: "ГКСП имени В.И. Ленина", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj"),Book(bookImages: [], bookName: "Ну зачем долистал сюда", bookAuthor: "Конец  списка", bookGenreId: 1, bookCondition: 4, bookDescription: "[pqk", bookLanguage: "fkejbowj")]
+    let profileBookList: [Book] = [
+        Book (
+            bookImages: [],
+            bookName: "Преступление и наказание",
+            bookAuthor: "Ф.М. Достоевский",
+            bookGenreId: 1,
+            bookCondition: 4,
+            bookDescription: "слдтвлс",
+            bookLanguage: "ьдылвсы"
+        ),
+        Book (
+            bookImages: [],
+            bookName: "Кулинарная книга",
+            bookAuthor: "Народов Кавказа",
+            bookGenreId: 1, bookCondition: 4,
+            bookDescription: "[pqk",
+            bookLanguage: "fkejbowj"
+        ),
+        Book (
+            bookImages: [],
+            bookName: "Малая земля",
+            bookAuthor: "Леонид Ильич Брежнев",
+            bookGenreId: 1,
+            bookCondition: 4,
+            bookDescription: "слдтвлс",
+            bookLanguage: "ьдылвсы"
+        ),
+        Book (
+            bookImages: [],
+            bookName: "Моя биография",
+            bookAuthor: "Неизветный автор",
+            bookGenreId: 1,
+            bookCondition: 4,
+            bookDescription: "[pqk",
+            bookLanguage: "fkejbowj"
+        ),
+        Book (
+            bookImages: [],
+            bookName: "Календарь за 1956 год",
+            bookAuthor: "ГКСП имени В.И. Ленина",
+            bookGenreId: 1,
+            bookCondition: 4,
+            bookDescription: "[pqk",
+            bookLanguage: "fkejbowj"),
+        Book (
+            bookImages: [],
+            bookName: "Ну зачем долистал сюда",
+            bookAuthor: "Конец  списка",
+            bookGenreId: 1,
+            bookCondition: 4,
+            bookDescription: "[pqk",
+            bookLanguage: "fkejbowj"
+        )
+    ]
      
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +101,12 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
         changeProfileDataButton.layer.cornerRadius = 10
         changeProfileDataButton.layer.masksToBounds = true
         changeProfileDataButton.setTitle("edit", for: .normal)
-        changeProfileDataButton.backgroundColor = UIColor(red: 0.39, green: 0.42, blue: 0.71, alpha: 1.00)
+        changeProfileDataButton.backgroundColor = UIColor (
+            red: 0.39,
+            green: 0.42,
+            blue: 0.71,
+            alpha: 1.00
+        )
         changeProfileDataButton.titleLabel?.font = changeProfileDataButton.titleLabel?.font.withSize(10)
         changeProfileDataButton.setTitleColor(UIColor.black, for: .normal)
         view.addSubview(changeProfileDataButton)
@@ -56,7 +114,12 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
         //profileImage.imageWithoutBaseline()
         profileImage.layer.cornerRadius = 60
         profileImage.layer.masksToBounds = true
-        profileImage.backgroundColor = UIColor(red: 0.62, green: 0.85, blue: 0.82, alpha: 1.00)
+        profileImage.backgroundColor = UIColor (
+            red: 0.62,
+            green: 0.85,
+            blue: 0.82,
+            alpha: 1.00
+        )
         view.addSubview(profileImage)
         
         profileName.text = "Попуг Олежа"
