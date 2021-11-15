@@ -10,6 +10,7 @@ import Foundation
 protocol MyProfileViewControllerProtocol: AnyObject {
     func presentProfile(profiles: [Profile])
     func presentAlert(title: String, message: String)
+    func changeProfileDataView()
     //var bookList: [Book]? { get }
     /*  func setBookAuthor(author: String)
     func setBookGenres(genres: [Int])
@@ -20,6 +21,7 @@ protocol MyProfileViewControllerProtocol: AnyObject {
  
 protocol MyProfilePresenterProtocol: AnyObject {
     func didTapAddButton()
+    func didTapChangeProfileDataButton()
 }
  
  
@@ -34,6 +36,10 @@ final class MyProfilePresenter: MyProfilePresenterProtocol {
  
     func didTapAddButton() {
         //
+    }
+    
+    func didTapChangeProfileDataButton() {
+        self.view?.changeProfileDataView()
     }
  
 }

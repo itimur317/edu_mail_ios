@@ -8,7 +8,7 @@
 import UIKit
 import PinLayout 
 
-class MyProfileViewController : UIViewController, MyProfileViewControllerProtocol {
+class MyProfileViewController : UIViewController {
     
     func presentProfile(profiles: [Profile]) {}
     func presentAlert(title: String, message: String) {}
@@ -98,6 +98,7 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
         myProfileTitle.text = "Мой профиль"
         view.addSubview(myProfileTitle)
         
+        changeProfileDataButton.addTarget(self, action: #selector(didTapChangeProfileDataButton(_ :)), for: .touchUpInside)
         changeProfileDataButton.layer.cornerRadius = 10
         changeProfileDataButton.layer.masksToBounds = true
         changeProfileDataButton.setTitle("edit", for: .normal)
@@ -201,6 +202,10 @@ class MyProfileViewController : UIViewController, MyProfileViewControllerProtoco
             .bottom(12)
         
     }
+    
+    @objc func didTapChangeProfileDataButton(_ sender: UIButton) {
+        self.output.didTapChangeProfileDataButton()
+    }
 
 }
 
@@ -227,6 +232,17 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //
+    }
+    
+}
+
+extension MyProfileViewController: MyProfileViewControllerProtocol {
+    
+    func changeProfileDataView() {
+        let changeProfileDataPresenter = ChangeProfileDataPresenter()
+        let changeProfileDataViewController = ChangeProfileDataViewController(output: changeProfileDataPresenter)
+        navigationController?.pushViewController(changeProfileDataViewController, animated: true)
+        changeProfileDataPresenter.view = changeProfileDataViewController
     }
     
 }

@@ -6,67 +6,44 @@
 //
  
 import Foundation
-//output
-protocol AddNewBookViewControllerProtocol: AnyObject {
-    var newBook: Book? { get }
-    /*  func setBookAuthor(author: String)
-    func setBookGenres(genres: [Int])
-    func setBookCondition(condition: Int)
-    func setBookDescription(description: String?)
-    func setBookLanguage(language: String)*/
-}
- 
-protocol AddNewBookPresenterProtocol: AnyObject {
-    func didTapAddButton()
-}
- 
- 
-final class AddNewBookPresenter: AddNewBookPresenterProtocol {
-    
-    weak var view: AddNewBookViewControllerProtocol?
-    var newBook: Book?
- 
-    func didTapAddButton() {
-        
-    }
- 
- 
-}
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
 
  
- 
- 
- 
- 
-/*
-class AddBookPresenter: PresenterInputProtocol{
- 
-    let output: PresenterOutputProtocol
-    let book: Book
- 
-    required init(output: PresenterOutputProtocol, book: Book) {
-        self.output = output
-        self.book = book
-    }
- 
-    func didTapButton() {
-        let nameBook = book.nameBook
-        self.output.setNameBook(book: nameBook)
-    }
- 
+protocol AddNewBookPresenterProtocol: AnyObject {
+    var newBook: Book? { get }
+    func didTapAddButton()
+    func didTapConditionButton(_ addedCondition: Int)
+    func showMenuAlert()
 }
-*/
  
+ 
+final class AddNewBookPresenter{
+    var newBook: Book?
+    weak var view: AddNewBookViewControllerProtocol?
+    // newBook nil and condition ne zapolnyaetsya
+    
+    
+}
+    
+extension AddNewBookPresenter: AddNewBookPresenterProtocol {
+    
+    func showMenuAlert() {
+        
+    }
+    
+    
+    func didTapAddButton() {
+        self.view?.showMenuAlert()
+    }
+ 
+    func didTapConditionButton(_ addedCondition: Int) {
+        newBook?.bookCondition = addedCondition
+        self.view?.changeCondition(addedCondition)
+    }
+
+}
+
+ 
+
  
  
  
