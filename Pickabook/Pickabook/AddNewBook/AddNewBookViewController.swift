@@ -17,7 +17,7 @@ protocol AddNewBookViewControllerProtocol: AnyObject {
 }
 
 
-class AddNewBookViewController: UIViewController {
+final class AddNewBookViewController: UIViewController {
     
     var output: AddNewBookPresenterProtocol
     
@@ -260,7 +260,7 @@ class AddNewBookViewController: UIViewController {
     
     @objc func didTapAddButton(_ sender: UIButton) {
         
-        self.output.didTapAddButton(bookName: bookNameTextView.text, bookNameColor: bookNameTextView.textColor!, authorName: authorNameTextView.text, authorNameColor : authorNameTextView.textColor!, bookDescription: descriptionTextView.text ,bookDescriptionColor : descriptionTextView.textColor!, bookLanguage: languageTextView.text, bookLanguageColor: languageTextView.textColor!)
+        self.output.didTapAddButton(bookName: bookNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), bookNameColor: bookNameTextView.textColor!, authorName: authorNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), authorNameColor : authorNameTextView.textColor!, bookDescription: descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines) ,bookDescriptionColor : descriptionTextView.textColor!, bookLanguage: languageTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), bookLanguageColor: languageTextView.textColor!)
         
     }
     
@@ -519,8 +519,10 @@ extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource 
 
 extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     func openAddDoneView() {
-        let AddDoneView = AddDoneViewController()
-        navigationController?.pushViewController(AddDoneView, animated: true)
+        let addedNewBookPresenter = AddedNewBookPresenter()
+        let addedNewBookViewController = AddedNewBookViewController(output: addedNewBookPresenter)
+        navigationController?.pushViewController(addedNewBookViewController, animated: true)
+        addedNewBookPresenter.view = addedNewBookViewController
     }
     
     

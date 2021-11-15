@@ -26,9 +26,11 @@ class MainViewController: UITabBarController {
         favoritesVC.title = ""
         
         let addPresenter = AddNewBookPresenter()
+   //     let addRouter = AddNewBookRouter()
         let addViewController = AddNewBookViewController(output: addPresenter)
         let addVC = UINavigationController(rootViewController: addViewController)
         addPresenter.view = addViewController
+   //     addPresenter.router = addRouter
         addVC.tabBarItem.image = UIImage(named: "AddViewIcon")
         addVC.title = ""
         

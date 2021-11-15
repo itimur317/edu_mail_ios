@@ -23,9 +23,9 @@ final class AddNewBookPresenter{
     init(){
         newBook = Book(bookImages: nil, bookName: "", bookAuthor: "", bookGenre: "Не выбран" , bookCondition: 0, bookDescription: nil, bookLanguage: "Русский")
     }
-    weak var view: AddNewBookViewControllerProtocol?
+    weak var view : AddNewBookViewControllerProtocol?
     
-  //  weak var router 
+    var router : AddNewBookRouterProtocol?
     
     
 }
@@ -34,7 +34,7 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol {
     
     func didTapAddButton(bookName: String, bookNameColor: UIColor, authorName: String, authorNameColor : UIColor, bookDescription: String,bookDescriptionColor : UIColor, bookLanguage: String, bookLanguageColor: UIColor) {
         
-        if bookName == "" ||  authorName == "" ||  bookLanguage == "" || bookNameColor == .gray || authorNameColor == .gray  || self.newBook.bookCondition == 0 || self.newBook.bookGenre == "Не выбран" {
+        if (bookName == "" ||  authorName == "" ||  bookLanguage == "" || bookNameColor == .gray || authorNameColor == .gray  || self.newBook.bookCondition == 0 || self.newBook.bookGenre == "Не выбран") {
             
             self.view?.requiredFieldAlert()
             
@@ -49,6 +49,7 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol {
             }
             self.newBook.bookLanguage = bookLanguage
             self.view?.openAddDoneView()
+         //   self.router.openAddDoneView()
         }
         
 
