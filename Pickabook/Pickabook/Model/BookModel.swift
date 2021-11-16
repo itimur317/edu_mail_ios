@@ -8,10 +8,10 @@ import Foundation
 import UIKit
 
 struct Book {
-    var bookImages: [UIImage] = []
+    var bookImages: [UIImage]? = []
     var bookName: String
     var bookAuthor: String
-    var bookGenres: [GenreType]
+    var bookGenres: GenreType
     var bookCondition: Int
     var bookDescription: String?
     var bookLanguage: String
@@ -21,37 +21,37 @@ var books : [Book] =  [
     Book(
         bookName: "Автостопом по галактике",
         bookAuthor: "Дуглас Адамс",
-        bookGenres: [.bestsellers, .fantastic],
+        bookGenres: .fantastic,
         bookCondition: 3,
         bookLanguage: "Русский"),
     Book(
         bookName: "Детективное агенство Дирка Джентли",
         bookAuthor: "Дуглас Адамс",
-        bookGenres: [.bestsellers, .detectives],
+        bookGenres:  .detectives,
         bookCondition: 2,
         bookLanguage: "Русский"),
     Book(
         bookName: "Кровь, пот и пиксели",
         bookAuthor: "Кто-то",
-        bookGenres: [.art, .business],
+        bookGenres: .art,
         bookCondition: 3,
         bookLanguage: "Русский"),
     Book(
         bookName: "Я-Малала",
         bookAuthor: "Малала Юсуфзай",
-        bookGenres: [.bestsellers, .biography],
+        bookGenres: .biography,
         bookCondition: 3,
         bookLanguage: "Русский"),
     Book(
         bookName: "Сборник стихов",
         bookAuthor: "Анна Ахматова",
-        bookGenres: [.poetry, .classic],
+        bookGenres: .poetry,
         bookCondition: 3,
         bookLanguage: "Русский"),
     Book(
         bookName: "Эмоциональный интеллект" ,
         bookAuthor: "Дэниел Гоулман",
-        bookGenres: [.bestsellers, .scipop,.psychology],
+        bookGenres: .psychology,
         bookCondition: 3,
         bookLanguage: "Русский")
 ]

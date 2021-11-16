@@ -27,7 +27,7 @@ final class BooksCollectionViewPresenter: BooksCollectionViewPresenterProtocol {
     func loadBooks(genre: Genre) -> [Book] {
         // здесь будет загрузка книг из бд
         
-        let sortedBooks = books.filter({ $0.bookGenres.contains(where: {$0 == genre.type}) })
+        let sortedBooks = books.filter({ $0.bookGenres == genre.type })
         return sortedBooks
     }
 }
