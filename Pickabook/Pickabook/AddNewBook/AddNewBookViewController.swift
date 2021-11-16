@@ -77,6 +77,8 @@ class AddNewBookViewController: UIViewController {
     let languageTextView = UITextView()
     
     let addBookButton = UIButton()
+    
+    let arrayOfGenres = Until.shared.genres
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -481,7 +483,7 @@ extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource 
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return arrayOfGenres[row].genre
+        return arrayOfGenres[row].name
     }
     
 }

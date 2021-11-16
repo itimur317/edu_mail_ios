@@ -35,60 +35,8 @@ class MyProfileViewController : UIViewController {
     //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
     let profileBookListTitle = UILabel()
     let profileBookListTableView = UITableView()
-    let profileBookList: [Book] = [
-        Book (
-            bookImages: [],
-            bookName: "Преступление и наказание",
-            bookAuthor: "Ф.М. Достоевский",
-            bookGenreId: 1,
-            bookCondition: 4,
-            bookDescription: "слдтвлс",
-            bookLanguage: "ьдылвсы"
-        ),
-        Book (
-            bookImages: [],
-            bookName: "Кулинарная книга",
-            bookAuthor: "Народов Кавказа",
-            bookGenreId: 1, bookCondition: 4,
-            bookDescription: "[pqk",
-            bookLanguage: "fkejbowj"
-        ),
-        Book (
-            bookImages: [],
-            bookName: "Малая земля",
-            bookAuthor: "Леонид Ильич Брежнев",
-            bookGenreId: 1,
-            bookCondition: 4,
-            bookDescription: "слдтвлс",
-            bookLanguage: "ьдылвсы"
-        ),
-        Book (
-            bookImages: [],
-            bookName: "Моя биография",
-            bookAuthor: "Неизветный автор",
-            bookGenreId: 1,
-            bookCondition: 4,
-            bookDescription: "[pqk",
-            bookLanguage: "fkejbowj"
-        ),
-        Book (
-            bookImages: [],
-            bookName: "Календарь за 1956 год",
-            bookAuthor: "ГКСП имени В.И. Ленина",
-            bookGenreId: 1,
-            bookCondition: 4,
-            bookDescription: "[pqk",
-            bookLanguage: "fkejbowj"),
-        Book (
-            bookImages: [],
-            bookName: "Ну зачем долистал сюда",
-            bookAuthor: "Конец  списка",
-            bookGenreId: 1,
-            bookCondition: 4,
-            bookDescription: "[pqk",
-            bookLanguage: "fkejbowj"
-        )
-    ]
+    
+    let profileBookList = Until.shared.books
      
     override func viewDidLoad() {
         super.viewDidLoad()
