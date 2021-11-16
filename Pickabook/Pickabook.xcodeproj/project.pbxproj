@@ -11,7 +11,6 @@
 		E13E79A5274431B500BEE7EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A4274431B500BEE7EC /* Assets.xcassets */; };
 		E13E79A8274431B500BEE7EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A6274431B500BEE7EC /* LaunchScreen.storyboard */; };
 		E13E79BD2744323500BEE7EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79B12744323500BEE7EC /* SceneDelegate.swift */; };
-		E13E79BE2744323500BEE7EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79B22744323500BEE7EC /* ViewController.swift */; };
 		E13E79C52744323500BEE7EC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79B92744323500BEE7EC /* MainViewController.swift */; };
 		E13E79C72744323500BEE7EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79BB2744323500BEE7EC /* AppDelegate.swift */; };
 		E13E79CB2744338400BEE7EC /* PinLayout in Frameworks */ = {isa = PBXBuildFile; productRef = E13E79CA2744338400BEE7EC /* PinLayout */; };
@@ -48,7 +47,6 @@
 		E13E79A7274431B500BEE7EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E13E79A9274431B500BEE7EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E13E79B12744323500BEE7EC /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E13E79B22744323500BEE7EC /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E13E79B92744323500BEE7EC /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = Pickabook/MainViewController.swift; sourceTree = SOURCE_ROOT; };
 		E13E79BB2744323500BEE7EC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E13E79C82744335500BEE7EC /* Pickabook-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Pickabook-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 				E13E79F22744352200BEE7EC /* Model */,
 				E13E79EE2744351800BEE7EC /* BooksCollectionView */,
 				E13E79F52744354900BEE7EC /* Cells */,
-				E13E79B22744323500BEE7EC /* ViewController.swift */,
 				E13E79B12744323500BEE7EC /* SceneDelegate.swift */,
 				E13E79BB2744323500BEE7EC /* AppDelegate.swift */,
 				E13E79B92744323500BEE7EC /* MainViewController.swift */,
@@ -132,7 +129,6 @@
 		E13E79CF2744341F00BEE7EC /* GenreCollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				E13E79D22744344200BEE7EC /* GenreCell.swift */,
 				E13E79D02744344200BEE7EC /* GenreCollectionViewController.swift */,
 				E13E79D12744344200BEE7EC /* GenreCollectionViewPresenter.swift */,
 				E13E79D32744344200BEE7EC /* GenreModel.swift */,
@@ -177,7 +173,6 @@
 			children = (
 				E13E79EF2744351800BEE7EC /* BooksCollectionViewPresenter.swift */,
 				E13E79F02744351800BEE7EC /* BooksCollectionViewController.swift */,
-				E13E79F12744351800BEE7EC /* BookCell.swift */,
 			);
 			path = BooksCollectionView;
 			sourceTree = "<group>";
@@ -194,6 +189,8 @@
 		E13E79F52744354900BEE7EC /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				E13E79D22744344200BEE7EC /* GenreCell.swift */,
+				E13E79F12744351800BEE7EC /* BookCell.swift */,
 				E13E79F62744354900BEE7EC /* BookListTableViewCell.swift */,
 			);
 			path = Cells;
@@ -304,7 +301,6 @@
 				E13E79D62744344200BEE7EC /* GenreCell.swift in Sources */,
 				E13E79DC274434C200BEE7EC /* ChangeProfileDataViewController.swift in Sources */,
 				E13E7A00274436F700BEE7EC /* BookModel.swift in Sources */,
-				E13E79BE2744323500BEE7EC /* ViewController.swift in Sources */,
 				E13E7A032744371100BEE7EC /* BookCell.swift in Sources */,
 				E13E79FD274435AE00BEE7EC /* MyProfilePresenter.swift in Sources */,
 				E13E7A042744373F00BEE7EC /* BookListTableViewCell.swift in Sources */,
