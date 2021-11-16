@@ -10,12 +10,14 @@ import Foundation
 import PinLayout
 
 protocol AddNewBookViewControllerProtocol: AnyObject {
-    func showMenuAlert()
     func changeCondition(_ addedCondition: Int)
+    func openAddDoneView()
+    func requiredFieldAlert()
+    func setDefault()
 }
 
 
-class AddNewBookViewController: UIViewController {
+final class AddNewBookViewController: UIViewController {
     
     var output: AddNewBookPresenterProtocol
     
@@ -76,15 +78,14 @@ class AddNewBookViewController: UIViewController {
     let languageLabel = UILabel()
     let languageTextView = UITextView()
     
-    let addBookButton = UIButton()
+    let requiredLabel = UILabel()
     
-    let arrayOfGenres = Until.shared.genres
+    let addBookButton = UIButton()
  
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
-
+     
         self.hideKeyboardWhenTappedAround()
         
         screenLabel.text = "Добавление книги"
@@ -93,7 +94,7 @@ class AddNewBookViewController: UIViewController {
         view.addSubview(screenLabel)
         
         
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 1660)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 1690)
         view.addSubview(scrollView)
         
         
@@ -151,10 +152,10 @@ class AddNewBookViewController: UIViewController {
         bookNameTextView.layer.cornerRadius = 2
         bookNameTextView.font = UIFont.systemFont(ofSize: 16)
         bookNameTextView.textColor = .gray
-        bookNameTextView.backgroundColor = .systemGray3
+        bookNameTextView.backgroundColor = .systemGray6
         scrollView.addSubview(bookNameTextView)
         // если серый, то ничего сохранять не надо
-    
+
         
         authorNameLabel.text = "Автор*"
         authorNameLabel.textAlignment = .left
@@ -167,8 +168,9 @@ class AddNewBookViewController: UIViewController {
         authorNameTextView.layer.cornerRadius = 2
         authorNameTextView.font = UIFont.systemFont(ofSize: 16)
         authorNameTextView.textColor = .gray
-        authorNameTextView.backgroundColor = .systemGray3
+        authorNameTextView.backgroundColor = .systemGray6
         scrollView.addSubview(authorNameTextView)
+        
         
         genresNameLabel.text = "Жанр*"
         genresNameLabel.textAlignment = .left
@@ -220,7 +222,7 @@ class AddNewBookViewController: UIViewController {
         descriptionTextView.layer.cornerRadius = 2
         descriptionTextView.font = UIFont.systemFont(ofSize: 16)
         descriptionTextView.textColor = .gray
-        descriptionTextView.backgroundColor = .systemGray3
+        descriptionTextView.backgroundColor = .systemGray6
         scrollView.addSubview(descriptionTextView)
         
         languageLabel.text = "Язык*"
@@ -234,8 +236,15 @@ class AddNewBookViewController: UIViewController {
         languageTextView.layer.cornerRadius = 2
         languageTextView.font = UIFont.systemFont(ofSize: 16)
         languageTextView.textColor = .black
-        languageTextView.backgroundColor = .systemGray3
+        languageTextView.backgroundColor = .systemGray6
         scrollView.addSubview(languageTextView)
+        
+        
+        requiredLabel.text = "* - обозначены поля, обязательные для заполнения"
+      //  requiredLabel.textAlignment = .left
+        requiredLabel.numberOfLines = 2
+        requiredLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        scrollView.addSubview(requiredLabel)
         
         
         addBookButton.setTitle("Добавить", for: .normal)
@@ -248,9 +257,12 @@ class AddNewBookViewController: UIViewController {
     }
     
     
+    
+    
     @objc func didTapAddButton(_ sender: UIButton) {
-        print("dadadad")
-        self.output.didTapAddButton()
+        
+        self.output.didTapAddButton(bookName: bookNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), bookNameColor: bookNameTextView.textColor!, authorName: authorNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), authorNameColor : authorNameTextView.textColor!, bookDescription: descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines) ,bookDescriptionColor : descriptionTextView.textColor!, bookLanguage: languageTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), bookLanguageColor: languageTextView.textColor!)
+        
     }
     
 
@@ -271,7 +283,6 @@ class AddNewBookViewController: UIViewController {
         
         self.output.didTapConditionButton(addedCondition)
     }
-    
     
     
     override func viewDidLayoutSubviews() {
@@ -398,7 +409,7 @@ class AddNewBookViewController: UIViewController {
         for i in 0...4 {
             conditionButtons[i].pin
                 .width(32)
-                .after(of: conditionLabel).marginLeft(30 + CGFloat(i) *  conditionButtons[0].frame.width)
+                .after(of: conditionLabel).marginLeft(12 + CGFloat(i) *  conditionButtons[0].frame.width)
                 .below(of: genresToChoosePickerView).marginTop(8)
                 .height(32)
         }
@@ -430,9 +441,14 @@ class AddNewBookViewController: UIViewController {
             .horizontally(12)
             .height(34)
         
+        requiredLabel.pin
+            .below(of: languageTextView).marginTop(12)
+            .horizontally(12)
+            .height(50)
+        
         
         addBookButton.pin
-            .below(of: languageTextView).marginTop(40)
+            .below(of: requiredLabel).marginTop(12)
             .left(view.frame.width / 2 - 65)
             .width(130)
             .height(40)
@@ -448,6 +464,7 @@ extension AddNewBookViewController:UITextViewDelegate {
             textView.text = ""
             textView.textColor = .black
         }
+        
     }
 
     func textViewDidEndEditing(_ textView: UITextView, _ placeholder: String) {
@@ -479,27 +496,42 @@ extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource 
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return arrayOfGenres.count
+        return 1 + genres.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return arrayOfGenres[row].name
+        if row == 0 {
+            return "Не выбран"
+        } else {
+            return genres[row - 1].name
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if row == 0 {
+            output.newBook.bookGenre = "Не выбран"
+        } else {
+            output.newBook.bookGenre = genres[row - 1].name
+        }
     }
     
 }
 
 
 extension AddNewBookViewController: AddNewBookViewControllerProtocol {
+    func openAddDoneView() {
+        let addedNewBookPresenter = AddedNewBookPresenter()
+        let addedNewBookViewController = AddedNewBookViewController(output: addedNewBookPresenter)
+        navigationController?.pushViewController(addedNewBookViewController, animated: true)
+        addedNewBookPresenter.view = addedNewBookViewController
+    }
     
-    
-    
-    func showMenuAlert() {
-        print("aleeert")
-
-        let alert = UIAlertController(title: "Выйти?", message: "Изменения не будут сохранены", preferredStyle: .alert)
-
-        alert.addAction(UIAlertAction(title: "Выйти", style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+    func requiredFieldAlert() {
+        print("required")
+        
+        let alert = UIAlertController(title: "Обязательные поля", message: "Заполните обязательные поля!", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
 
         self.present(alert, animated: true)
         
@@ -510,5 +542,28 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
             conditionButtons[i].setImage(conditionPaintedStarImage, for: .normal)
         }
     }
-
+    
+    func setDefault() {
+        bookNameTextView.textColor = .gray
+        bookNameTextView.text = "Укажите название книги(без кавычек)..."
+        
+        authorNameTextView.textColor = .gray
+        authorNameTextView.text = "Укажите автора книги..."
+        
+        for i in 0..<5 {
+            conditionButtons[i].setImage(conditionStarImage, for: .normal)
+        }
+        
+        self.genresToChoosePickerView.selectRow(0, inComponent: 0, animated: true)
+        
+        descriptionTextView.textColor = .gray
+        descriptionTextView.text = "Добавьте описание, например, наличие автографа автора или редкость издания..."
+        
+        languageTextView.text = "Русский"
+        
+        
+    }
+    
 }
+
+
