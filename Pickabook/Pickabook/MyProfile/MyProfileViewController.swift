@@ -36,7 +36,7 @@ class MyProfileViewController : UIViewController {
     let profileBookListTitle = UILabel()
     let profileBookListTableView = UITableView()
     
-    let profileBookList = Until.shared.books
+    let profileBookList = Util.shared.books
      
     override func viewDidLoad() {
         super.viewDidLoad()

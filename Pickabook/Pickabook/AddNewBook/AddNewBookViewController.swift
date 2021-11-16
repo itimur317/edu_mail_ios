@@ -81,6 +81,8 @@ final class AddNewBookViewController: UIViewController {
     let requiredLabel = UILabel()
     
     let addBookButton = UIButton()
+    
+    let genres = Util.shared.genres
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -509,9 +511,9 @@ extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource 
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if row == 0 {
-            output.newBook.bookGenre = "Не выбран"
+            output.newBook.bookGenres = .bestsellers
         } else {
-            output.newBook.bookGenre = genres[row - 1].name
+            output.newBook.bookGenres = genres[row - 1].type
         }
     }
     

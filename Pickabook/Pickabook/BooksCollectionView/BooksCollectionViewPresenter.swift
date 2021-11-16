@@ -15,7 +15,7 @@ protocol BooksCollectionViewPresenterProtocol: AnyObject {
 
 final class BooksCollectionViewPresenter: BooksCollectionViewPresenterProtocol {
     weak var delegate : BooksCollectionViewController?
-    let books = Until.shared.books
+    let books = Util.shared.books
     
     public func setViewDelegate(delegate: BooksCollectionViewController) {
         self.delegate = delegate

@@ -11,7 +11,7 @@ private let reuseIdentifier = "Cell"
 
 class GenreCollectionViewController: UICollectionViewController {
     let presenter: GenreCollectionViewPresenter!
-    let genres = Until.shared.genres
+    let genres = Util.shared.genres
     
     init(output: GenreCollectionViewPresenter){
         self.presenter = output

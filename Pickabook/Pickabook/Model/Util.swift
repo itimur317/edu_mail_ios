@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-class Until {
-    static let shared = Until()
+class Util {
+    static let shared = Util()
     
     let genres = [
         Genre(
