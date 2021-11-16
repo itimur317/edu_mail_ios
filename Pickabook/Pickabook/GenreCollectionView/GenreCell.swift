@@ -7,13 +7,12 @@
 
 import UIKit
 
-class CustomCell: UICollectionViewCell {
+class GenreCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         layer.cornerRadius = 15
         addView()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -28,10 +27,9 @@ class CustomCell: UICollectionViewCell {
         
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.frame.size.width = 100
-        label.frame.size.height = 300
-        
+        label.frame.size = CGSize(width: 100, height: 60)
         label.translatesAutoresizingMaskIntoConstraints = false
+                
         return label
     }()
     
@@ -40,12 +38,10 @@ class CustomCell: UICollectionViewCell {
         
         namelabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         namelabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
-        namelabel.sizeToFit()
     }
     
     func configure(genre: Genre){
         namelabel.text = genre.name
         backgroundColor = genre.color
     }
-    
 }
