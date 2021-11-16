@@ -10,10 +10,10 @@ import Foundation
 import PinLayout
 
 protocol AddNewBookViewControllerProtocol: AnyObject {
-    func showMenuAlert()
     func changeCondition(_ addedCondition: Int)
     func openAddDoneView()
     func requiredFieldAlert()
+    func setDefault()
 }
 
 
@@ -155,7 +155,7 @@ final class AddNewBookViewController: UIViewController {
         bookNameTextView.backgroundColor = .systemGray6
         scrollView.addSubview(bookNameTextView)
         // если серый, то ничего сохранять не надо
-    
+
         
         authorNameLabel.text = "Автор*"
         authorNameLabel.textAlignment = .left
@@ -170,6 +170,7 @@ final class AddNewBookViewController: UIViewController {
         authorNameTextView.textColor = .gray
         authorNameTextView.backgroundColor = .systemGray6
         scrollView.addSubview(authorNameTextView)
+        
         
         genresNameLabel.text = "Жанр*"
         genresNameLabel.textAlignment = .left
@@ -525,19 +526,6 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
         addedNewBookPresenter.view = addedNewBookViewController
     }
     
-    
-    func showMenuAlert() {
-        print("aleeert")
-
-        let alert = UIAlertController(title: "Выйти?", message: "Изменения не будут сохранены", preferredStyle: .alert)
-
-        alert.addAction(UIAlertAction(title: "Выйти", style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler:nil))
-
-        self.present(alert, animated: true)
-        
-    }
-    
     func requiredFieldAlert() {
         print("required")
         
@@ -553,6 +541,27 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
         for i in 0 ..< addedCondition {
             conditionButtons[i].setImage(conditionPaintedStarImage, for: .normal)
         }
+    }
+    
+    func setDefault() {
+        bookNameTextView.textColor = .gray
+        bookNameTextView.text = "Укажите название книги(без кавычек)..."
+        
+        authorNameTextView.textColor = .gray
+        authorNameTextView.text = "Укажите автора книги..."
+        
+        for i in 0..<5 {
+            conditionButtons[i].setImage(conditionStarImage, for: .normal)
+        }
+        
+        self.genresToChoosePickerView.selectRow(0, inComponent: 0, animated: true)
+        
+        descriptionTextView.textColor = .gray
+        descriptionTextView.text = "Добавьте описание, например, наличие автографа автора или редкость издания..."
+        
+        languageTextView.text = "Русский"
+        
+        
     }
     
 }

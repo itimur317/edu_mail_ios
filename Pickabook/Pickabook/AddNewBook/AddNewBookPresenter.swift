@@ -13,8 +13,6 @@ protocol AddNewBookPresenterProtocol: AnyObject {
     var newBook: Book { get set }
     func didTapAddButton(bookName: String, bookNameColor: UIColor, authorName: String, authorNameColor : UIColor, bookDescription: String,bookDescriptionColor : UIColor, bookLanguage: String, bookLanguageColor: UIColor)
     func didTapConditionButton(_ addedCondition: Int)
-  //  func didChooseGenre()
-    func showMenuAlert()
 }
  
  
@@ -48,8 +46,10 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol {
                 self.newBook.bookDescription = bookDescription
             }
             self.newBook.bookLanguage = bookLanguage
+            
+            self.view?.setDefault()
             self.view?.openAddDoneView()
-         //   self.router.openAddDoneView()
+            
         }
         
 
@@ -61,21 +61,12 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol {
         print(self.newBook.bookLanguage)
 
     }
-    
-    
-    func showMenuAlert() {
-        
-    }
-    
-    
-//    func didTapAddButton() {
-//        self.view?.showMenuAlert()
-//    }
  
     func didTapConditionButton(_ addedCondition: Int) {
         newBook.bookCondition = addedCondition
         self.view?.changeCondition(addedCondition)
     }
+
 
 }
 

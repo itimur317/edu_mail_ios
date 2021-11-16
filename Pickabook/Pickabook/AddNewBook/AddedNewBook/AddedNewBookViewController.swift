@@ -26,7 +26,6 @@ class AddedNewBookViewController : UIViewController, AddedNewBookViewControllerP
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     let addedNewBookLabel = UILabel()
     let daultyImage = UIImage(named: "addedNewBookImage")
     let daultyImageView = UIImageView()
