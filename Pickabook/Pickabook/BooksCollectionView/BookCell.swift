@@ -35,7 +35,6 @@ class BookCell: UICollectionViewCell {
         
 //        label.numberOfLines = 0
 //        label.lineBreakMode = .byWordWrapping
-//        label.sizeToFit()
         
         return label
     }()
