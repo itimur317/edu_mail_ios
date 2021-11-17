@@ -32,7 +32,7 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol {
     
     func didTapAddButton(bookName: String, bookNameColor: UIColor, authorName: String, authorNameColor : UIColor, bookDescription: String,bookDescriptionColor : UIColor, bookLanguage: String, bookLanguageColor: UIColor) {
         
-        if (bookName == "" ||  authorName == "" ||  bookLanguage == "" || bookNameColor == .gray || authorNameColor == .gray  || self.newBook.bookCondition == 0 || self.newBook.bookGenres == .bestsellers) {
+        if (bookName == "" ||  authorName == "" ||  bookLanguage == "" || bookNameColor == .gray || authorNameColor == .gray  || self.newBook.bookCondition == 0 || self.newBook.bookGenres == .notSelected) {
             
             self.view?.requiredFieldAlert()
             

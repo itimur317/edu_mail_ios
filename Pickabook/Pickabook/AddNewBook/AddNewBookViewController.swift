@@ -511,12 +511,11 @@ extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource 
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if row == 0 {
-            output.newBook.bookGenres = .bestsellers
+            output.newBook.bookGenres = .notSelected
         } else {
             output.newBook.bookGenres = genres[row - 1].type
         }
     }
-    
 }
 
 
