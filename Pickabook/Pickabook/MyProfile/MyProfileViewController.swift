@@ -23,42 +23,29 @@ class MyProfileViewController : UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //example //let Image = UIImage(named: "nameOfImage")
-    let myProfileTitle = UILabel()
-    let changeProfileDataButton = UIButton() //let changeProfileDataButton = UIBarButtonItem() //can be upgraded
     let profileImage = UILabel() //let profileImage = UIImage() //need fix
     let profileName = UILabel()
     //let profileAboutInfo = UITextView() //can be added
     let profileMailAdress = UILabel()
     let profilePhoneNumber = UILabel()
-    //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
-    //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
     let profileBookListTitle = UILabel()
     let profileBookListTableView = UITableView()
+    //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
+    //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
     
     let profileBookList = Util.shared.books
      
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        //title = "Мой профиль"
-
-        myProfileTitle.text = "Мой профиль"
-        view.addSubview(myProfileTitle)
         
-        changeProfileDataButton.addTarget(self, action: #selector(didTapChangeProfileDataButton(_ :)), for: .touchUpInside)
-        changeProfileDataButton.layer.cornerRadius = 10
-        changeProfileDataButton.layer.masksToBounds = true
-        changeProfileDataButton.setTitle("edit", for: .normal)
-        changeProfileDataButton.backgroundColor = UIColor (
-            red: 0.39,
-            green: 0.42,
-            blue: 0.71,
-            alpha: 1.00
-        )
-        changeProfileDataButton.titleLabel?.font = changeProfileDataButton.titleLabel?.font.withSize(10)
-        changeProfileDataButton.setTitleColor(UIColor.black, for: .normal)
-        view.addSubview(changeProfileDataButton)
+//        back button
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.navigationBar.tintColor = .black
+        
+//        title and top right button
+        navigationItem.title = "Мой профиль"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(didTapChangeProfileDataButton(_ :))) //old: changeProfileDataButton.addTarget(self, action: #selector(didTapChangeProfileDataButton(_ :)), for: .touchUpInside)
         
         //profileImage.imageWithoutBaseline()
         profileImage.layer.cornerRadius = 60
@@ -101,21 +88,16 @@ class MyProfileViewController : UIViewController {
         
     }
     
+    @objc func didTapChangeProfileDataButton(_ sender: UIButton) {
+        self.output.didTapChangeProfileDataButton()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        myProfileTitle.pin  //it can be added to UInavigationbar (title)
-            .top(50)
-            .horizontally(12)
-            .height(28)
-        
-        changeProfileDataButton.pin //it can be added to UInavigationbar
-            .top(50)
-            .right(12)
-            .size(28)
-        
         profileImage.pin
-            .below(of: myProfileTitle).marginTop(10)
+            //.below(of: myProfileTitle).marginTop(10)
+            .top(50+26)
             .topCenter()
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
 
@@ -149,10 +131,6 @@ class MyProfileViewController : UIViewController {
             .horizontally(12)
             .bottom(12)
         
-    }
-    
-    @objc func didTapChangeProfileDataButton(_ sender: UIButton) {
-        self.output.didTapChangeProfileDataButton()
     }
 
 }
