@@ -20,7 +20,6 @@ protocol MyProfileViewControllerProtocol: AnyObject {
 }
  
 protocol MyProfilePresenterProtocol: AnyObject {
-    func didTapAddButton()
     func didTapChangeProfileDataButton()
 }
  
@@ -29,14 +28,8 @@ final class MyProfilePresenter: MyProfilePresenterProtocol {
     
     weak var view: MyProfileViewControllerProtocol?
     
-    //var bookList: [Book]?
-    public func getProfiles() {
-        //
-    }
- 
-    func didTapAddButton() {
-        //
-    }
+//    public func getProfiles() {
+//    }
     
     func didTapChangeProfileDataButton() {
         self.view?.changeProfileDataView()

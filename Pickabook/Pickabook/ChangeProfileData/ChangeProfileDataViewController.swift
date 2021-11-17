@@ -33,7 +33,7 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
     
     let image = UILabel() //= UIImage() //need fix
     let imageEditImageView = UIImageView()//= UIButton()
-    let imageEditIcon = UIImage(systemName: "pencil")
+    let imageEditIcon = UIImage(named: "imageEditIcon")
     
     let nameLabel = UILabel()
     let nameTextField = UITextField()

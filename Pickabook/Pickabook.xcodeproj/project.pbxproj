@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A52ABB7427455F5000EA87D8 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ABB7327455F5000EA87D8 /* UserProfileViewController.swift */; };
+		A52ABB7627455F6B00EA87D8 /* UserProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ABB7527455F6B00EA87D8 /* UserProfilePresenter.swift */; };
+		A52ABB7C2745611800EA87D8 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ABB7B2745611800EA87D8 /* RegistrationViewController.swift */; };
+		A52ABB7E2745613B00EA87D8 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ABB7D2745613B00EA87D8 /* AuthorizationViewController.swift */; };
 		E13E79A3274431B300BEE7EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A1274431B300BEE7EC /* Main.storyboard */; };
 		E13E79A5274431B500BEE7EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A4274431B500BEE7EC /* Assets.xcassets */; };
 		E13E79A8274431B500BEE7EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A6274431B500BEE7EC /* LaunchScreen.storyboard */; };
@@ -20,7 +24,6 @@
 		E13E79D62744344200BEE7EC /* GenreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79D22744344200BEE7EC /* GenreCell.swift */; };
 		E13E79D72744344200BEE7EC /* GenreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79D32744344200BEE7EC /* GenreModel.swift */; };
 		E13E79DC274434C200BEE7EC /* ChangeProfileDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79D9274434C200BEE7EC /* ChangeProfileDataViewController.swift */; };
-		E13E79DD274434C200BEE7EC /* ChangeProfileDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79DA274434C200BEE7EC /* ChangeProfileDataModel.swift */; };
 		E13E79DE274434C200BEE7EC /* ChangeProfileDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79DB274434C200BEE7EC /* ChangeProfileDataPresenter.swift */; };
 		E13E79E5274434FC00BEE7EC /* AddNewBookRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79E0274434FC00BEE7EC /* AddNewBookRouter.swift */; };
 		E13E79E6274434FC00BEE7EC /* AddNewBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79E1274434FC00BEE7EC /* AddNewBookPresenter.swift */; };
@@ -41,6 +44,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A52ABB7327455F5000EA87D8 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		A52ABB7527455F6B00EA87D8 /* UserProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePresenter.swift; sourceTree = "<group>"; };
+		A52ABB7B2745611800EA87D8 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		A52ABB7D2745613B00EA87D8 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		E13E7998274431B300BEE7EC /* Pickabook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pickabook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E13E79A2274431B300BEE7EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E13E79A4274431B500BEE7EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,7 +62,6 @@
 		E13E79D22744344200BEE7EC /* GenreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenreCell.swift; sourceTree = "<group>"; };
 		E13E79D32744344200BEE7EC /* GenreModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenreModel.swift; sourceTree = "<group>"; };
 		E13E79D9274434C200BEE7EC /* ChangeProfileDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeProfileDataViewController.swift; sourceTree = "<group>"; };
-		E13E79DA274434C200BEE7EC /* ChangeProfileDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeProfileDataModel.swift; sourceTree = "<group>"; };
 		E13E79DB274434C200BEE7EC /* ChangeProfileDataPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeProfileDataPresenter.swift; sourceTree = "<group>"; };
 		E13E79E0274434FC00BEE7EC /* AddNewBookRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewBookRouter.swift; sourceTree = "<group>"; };
 		E13E79E1274434FC00BEE7EC /* AddNewBookPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewBookPresenter.swift; sourceTree = "<group>"; };
@@ -88,6 +94,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A52ABB7227455F2400EA87D8 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				A52ABB7327455F5000EA87D8 /* UserProfileViewController.swift */,
+				A52ABB7527455F6B00EA87D8 /* UserProfilePresenter.swift */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
+		A52ABB7727455F7D00EA87D8 /* Profiles */ = {
+			isa = PBXGroup;
+			children = (
+				E13E79F7274435A100BEE7EC /* MyProfile */,
+				A52ABB7227455F2400EA87D8 /* UserProfile */,
+			);
+			path = Profiles;
+			sourceTree = "<group>";
+		};
+		A52ABB782745602200EA87D8 /* RegAndAuth */ = {
+			isa = PBXGroup;
+			children = (
+				A52ABB7A274560E700EA87D8 /* Authorization */,
+				A52ABB79274560D300EA87D8 /* Registration */,
+			);
+			path = RegAndAuth;
+			sourceTree = "<group>";
+		};
+		A52ABB79274560D300EA87D8 /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				A52ABB7B2745611800EA87D8 /* RegistrationViewController.swift */,
+			);
+			path = Registration;
+			sourceTree = "<group>";
+		};
+		A52ABB7A274560E700EA87D8 /* Authorization */ = {
+			isa = PBXGroup;
+			children = (
+				A52ABB7D2745613B00EA87D8 /* AuthorizationViewController.swift */,
+			);
+			path = Authorization;
+			sourceTree = "<group>";
+		};
 		E13E798F274431B300BEE7EC = {
 			isa = PBXGroup;
 			children = (
@@ -107,7 +156,8 @@
 		E13E799A274431B300BEE7EC /* Pickabook */ = {
 			isa = PBXGroup;
 			children = (
-				E13E79F7274435A100BEE7EC /* MyProfile */,
+				A52ABB782745602200EA87D8 /* RegAndAuth */,
+				A52ABB7727455F7D00EA87D8 /* Profiles */,
 				E13E79DF274434E700BEE7EC /* AddNewBook */,
 				E13E79D82744345700BEE7EC /* ChangeProfileData */,
 				E13E79CF2744341F00BEE7EC /* GenreCollectionView */,
@@ -139,7 +189,6 @@
 		E13E79D82744345700BEE7EC /* ChangeProfileData */ = {
 			isa = PBXGroup;
 			children = (
-				E13E79DA274434C200BEE7EC /* ChangeProfileDataModel.swift */,
 				E13E79D9274434C200BEE7EC /* ChangeProfileDataViewController.swift */,
 				E13E79DB274434C200BEE7EC /* ChangeProfileDataPresenter.swift */,
 			);
@@ -180,6 +229,7 @@
 		E13E79F22744352200BEE7EC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E13E79F9274435AE00BEE7EC /* MyProfileModel.swift */,
 				E13E79F32744352200BEE7EC /* BookModel.swift */,
 				E13E79FE2744363500BEE7EC /* Util.swift */,
 			);
@@ -199,7 +249,6 @@
 		E13E79F7274435A100BEE7EC /* MyProfile */ = {
 			isa = PBXGroup;
 			children = (
-				E13E79F9274435AE00BEE7EC /* MyProfileModel.swift */,
 				E13E79F8274435AE00BEE7EC /* MyProfileViewController.swift */,
 				E13E79FA274435AE00BEE7EC /* MyProfilePresenter.swift */,
 			);
@@ -294,7 +343,7 @@
 				E13E79DE274434C200BEE7EC /* ChangeProfileDataPresenter.swift in Sources */,
 				E13E7A022744370E00BEE7EC /* BooksCollectionViewController.swift in Sources */,
 				E13E7A06274437B200BEE7EC /* AddedNewBookPresenter.swift in Sources */,
-				E13E79DD274434C200BEE7EC /* ChangeProfileDataModel.swift in Sources */,
+				A52ABB7627455F6B00EA87D8 /* UserProfilePresenter.swift in Sources */,
 				E13E79C52744323500BEE7EC /* MainViewController.swift in Sources */,
 				E13E7A012744370700BEE7EC /* BooksCollectionViewPresenter.swift in Sources */,
 				E13E79FF2744363500BEE7EC /* Util.swift in Sources */,
@@ -302,6 +351,8 @@
 				E13E79DC274434C200BEE7EC /* ChangeProfileDataViewController.swift in Sources */,
 				E13E7A00274436F700BEE7EC /* BookModel.swift in Sources */,
 				E13E7A032744371100BEE7EC /* BookCell.swift in Sources */,
+				A52ABB7427455F5000EA87D8 /* UserProfileViewController.swift in Sources */,
+				A52ABB7E2745613B00EA87D8 /* AuthorizationViewController.swift in Sources */,
 				E13E79FD274435AE00BEE7EC /* MyProfilePresenter.swift in Sources */,
 				E13E7A042744373F00BEE7EC /* BookListTableViewCell.swift in Sources */,
 				E13E79D52744344200BEE7EC /* GenreCollectionViewPresenter.swift in Sources */,
@@ -312,6 +363,7 @@
 				E13E7A07274437B500BEE7EC /* AddedNewBookRouter.swift in Sources */,
 				E13E79E6274434FC00BEE7EC /* AddNewBookPresenter.swift in Sources */,
 				E13E79E8274434FC00BEE7EC /* AddNewBookInteractor.swift in Sources */,
+				A52ABB7C2745611800EA87D8 /* RegistrationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
