@@ -152,8 +152,8 @@
 				E13E79EA2744350700BEE7EC /* AddedNewBook */,
 				E13E79E3274434FC00BEE7EC /* AddNewBookInteractor.swift */,
 				E13E79E1274434FC00BEE7EC /* AddNewBookPresenter.swift */,
-				E13E79E0274434FC00BEE7EC /* AddNewBookRouter.swift */,
 				E13E79E2274434FC00BEE7EC /* AddNewBookViewController.swift */,
+				E13E79E0274434FC00BEE7EC /* AddNewBookRouter.swift */,
 			);
 			path = AddNewBook;
 			sourceTree = "<group>";
