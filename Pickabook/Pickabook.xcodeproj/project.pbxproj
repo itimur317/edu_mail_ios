@@ -11,6 +11,7 @@
 		A52ABB7627455F6B00EA87D8 /* UserProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ABB7527455F6B00EA87D8 /* UserProfilePresenter.swift */; };
 		A52ABB7C2745611800EA87D8 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ABB7B2745611800EA87D8 /* RegistrationViewController.swift */; };
 		A52ABB7E2745613B00EA87D8 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ABB7D2745613B00EA87D8 /* AuthorizationViewController.swift */; };
+		A5BB7E5D27467F06009A7E04 /* AuthorizationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BB7E5C27467F06009A7E04 /* AuthorizationPresenter.swift */; };
 		E13E79A3274431B300BEE7EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A1274431B300BEE7EC /* Main.storyboard */; };
 		E13E79A5274431B500BEE7EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A4274431B500BEE7EC /* Assets.xcassets */; };
 		E13E79A8274431B500BEE7EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A6274431B500BEE7EC /* LaunchScreen.storyboard */; };
@@ -48,6 +49,7 @@
 		A52ABB7527455F6B00EA87D8 /* UserProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePresenter.swift; sourceTree = "<group>"; };
 		A52ABB7B2745611800EA87D8 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		A52ABB7D2745613B00EA87D8 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
+		A5BB7E5C27467F06009A7E04 /* AuthorizationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationPresenter.swift; sourceTree = "<group>"; };
 		E13E7998274431B300BEE7EC /* Pickabook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pickabook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E13E79A2274431B300BEE7EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E13E79A4274431B500BEE7EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				A52ABB7D2745613B00EA87D8 /* AuthorizationViewController.swift */,
+				A5BB7E5C27467F06009A7E04 /* AuthorizationPresenter.swift */,
 			);
 			path = Authorization;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				E13E79C52744323500BEE7EC /* MainViewController.swift in Sources */,
 				E13E7A012744370700BEE7EC /* BooksCollectionViewPresenter.swift in Sources */,
 				E13E79FF2744363500BEE7EC /* Util.swift in Sources */,
+				A5BB7E5D27467F06009A7E04 /* AuthorizationPresenter.swift in Sources */,
 				E13E79D62744344200BEE7EC /* GenreCell.swift in Sources */,
 				E13E79DC274434C200BEE7EC /* ChangeProfileDataViewController.swift in Sources */,
 				E13E7A00274436F700BEE7EC /* BookModel.swift in Sources */,

@@ -46,7 +46,7 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
     let instagramLinkLabel = UILabel()
     let instagramLinkTextField = UITextField()
     
-    let seveButton = UIButton()
+    let saveButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,18 +112,18 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
         }
 
 //        кнопка сохранения
-        //seveButton.titleLabel?.font = backButton.titleLabel?.font.withSize(10)
-        seveButton.layer.cornerRadius = 14
-        seveButton.layer.masksToBounds = true
-        seveButton.backgroundColor = UIColor (
+        //saveButton.titleLabel?.font = backButton.titleLabel?.font.withSize(10)
+        saveButton.layer.cornerRadius = 14
+        saveButton.layer.masksToBounds = true
+        saveButton.backgroundColor = UIColor (
             red: 0.62,
             green: 0.85,
             blue: 0.82,
             alpha: 1.00
         )
-        seveButton.setTitle("Cохранить", for: .normal)
-        seveButton.setTitleColor(UIColor.black, for: .normal)
-        scrollView.addSubview(seveButton)
+        saveButton.setTitle("Cохранить", for: .normal)
+        saveButton.setTitleColor(UIColor.black, for: .normal)
+        scrollView.addSubview(saveButton)
         
     }
     
@@ -203,7 +203,7 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
             .height(CGFloat(textFieldHeight))
         
 //        кнопка сохранения
-        seveButton.pin
+        saveButton.pin
             .below(of: instagramLinkTextField).marginTop(18)
             //.bottom(12)
             .horizontally(12)
