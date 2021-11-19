@@ -10,10 +10,10 @@ import UIKit
 import PinLayout
 
 protocol SuccessAddNewBookViewControllerProtocol : AnyObject {
-    
+    func dismissView()
 }
 
-class SuccessAddNewBookViewController : UIViewController, SuccessAddNewBookViewControllerProtocol {
+class SuccessAddNewBookViewController : UIViewController {
     
     var output: SuccessAddNewBookPresenterProtocol
     
@@ -27,7 +27,7 @@ class SuccessAddNewBookViewController : UIViewController, SuccessAddNewBookViewC
     }
     
     let addedNewBookLabel = UILabel()
-    let daultyImage = UIImage(named: "addedNewBookImage")
+    let daultyImage = UIImage(named: "successAddNewBookImage")
     let daultyImageView = UIImageView()
     let okButton = UIButton()
 
@@ -55,11 +55,7 @@ class SuccessAddNewBookViewController : UIViewController, SuccessAddNewBookViewC
         okButton.addTarget(self, action: #selector(didTapOkButton(_:)), for: .touchUpInside)
         view.addSubview(okButton)
     }
-    
-    @objc
-    func didTapOkButton(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
-    }
+
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -83,5 +79,17 @@ class SuccessAddNewBookViewController : UIViewController, SuccessAddNewBookViewC
 
     }
     
+    @objc
+    func didTapOkButton(_ sender: UIButton) {
+        output.didTapOkButton()
+    }
+    
 }
 
+extension SuccessAddNewBookViewController: SuccessAddNewBookViewControllerProtocol {
+    
+    func dismissView() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+}

@@ -523,13 +523,19 @@ extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource 
 
 extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     func openAddDoneView() {
-
-        let successAddNewBookPresenter = SuccessAddNewBookPresenter()
-        let successAddNewBookViewController = SuccessAddNewBookViewController(output: successAddNewBookPresenter)
-        successAddNewBookPresenter.view = successAddNewBookViewController
-        successAddNewBookViewController.modalPresentationStyle = .fullScreen
-        present(successAddNewBookViewController, animated: true, completion: nil)
-
+        
+        let failAddNewBookPresenter = FailAddNewBookPresenter()
+        let failAddNewBookViewController = FailAddNewBookViewController(output: failAddNewBookPresenter)
+        failAddNewBookPresenter.view = failAddNewBookViewController
+        failAddNewBookViewController.modalPresentationStyle = .fullScreen
+        present(failAddNewBookViewController, animated: true, completion: nil)
+        
+//        let successAddNewBookPresenter = SuccessAddNewBookPresenter()
+//        let successAddNewBookViewController = SuccessAddNewBookViewController(output: successAddNewBookPresenter)
+//        successAddNewBookPresenter.view = successAddNewBookViewController
+//        successAddNewBookViewController.modalPresentationStyle = .fullScreen
+//        present(successAddNewBookViewController, animated: true, completion: nil)
+        
     }
     
     func requiredFieldAlert() {
