@@ -50,7 +50,7 @@ class SuccessAddNewBookViewController : UIViewController {
         okButton.setTitle("Отлично", for: .normal)
         okButton.titleLabel?.textAlignment = .center
         okButton.setTitleColor(.white, for: .highlighted)
-        okButton.backgroundColor = UIColor(red: 0.99, green: 0.53, blue: 0.16, alpha: 1.00)
+        okButton.backgroundColor = UIColor(named: "buttonColor")
         okButton.layer.cornerRadius = 10
         okButton.addTarget(self, action: #selector(didTapOkButton(_:)), for: .touchUpInside)
         view.addSubview(okButton)

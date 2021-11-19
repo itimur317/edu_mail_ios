@@ -49,7 +49,7 @@ class FailAddNewBookViewController : UIViewController {
         tryAgainButton.setTitle("Попробовать снова", for: .normal)
         tryAgainButton.titleLabel?.textAlignment = .center
         tryAgainButton.setTitleColor(.white, for: .highlighted)
-        tryAgainButton.backgroundColor = UIColor(red: 0.99, green: 0.53, blue: 0.16, alpha: 1.00)
+        tryAgainButton.backgroundColor = UIColor(named: "buttonColor")
         tryAgainButton.layer.cornerRadius = 10
         tryAgainButton.addTarget(self, action: #selector(didTapTryAgainButton(_:)), for: .touchUpInside)
         view.addSubview(tryAgainButton)
