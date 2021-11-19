@@ -26,6 +26,7 @@ class GenreCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = "Жанры"
         //View
         setCollectionView()
         

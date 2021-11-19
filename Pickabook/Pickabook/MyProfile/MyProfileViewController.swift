@@ -40,11 +40,9 @@ class MyProfileViewController : UIViewController {
      
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        //title = "Мой профиль"
-
-        myProfileTitle.text = "Мой профиль"
-        view.addSubview(myProfileTitle)
+        
+        navigationItem.title = "Мой профиль"
+    
         
         changeProfileDataButton.addTarget(self, action: #selector(didTapChangeProfileDataButton(_ :)), for: .touchUpInside)
         changeProfileDataButton.layer.cornerRadius = 10
