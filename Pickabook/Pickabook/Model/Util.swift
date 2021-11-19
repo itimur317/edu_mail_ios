@@ -66,7 +66,7 @@ class Util {
             color : UIColor(red: 1.00, green: 0.66, blue: 0.18, alpha: 1.00)),
         Genre(
             type: .scipop,
-            name: "Научно-\nпопулярное",
+            name: "Научно-популярное",
             color : UIColor(red: 0.78, green: 0.84, blue: 0.43, alpha: 1.00)),
         Genre(
             type: .health,

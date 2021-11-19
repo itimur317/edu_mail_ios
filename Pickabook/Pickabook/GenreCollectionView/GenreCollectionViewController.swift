@@ -44,6 +44,7 @@ class GenreCollectionViewController: UICollectionViewController {
         let size = CGSize(width:(collectionView!.bounds.width - 30) / 2, height: 90)
         layout.itemSize = size
         
+        
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
