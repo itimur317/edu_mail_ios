@@ -59,9 +59,6 @@ class FailAddNewBookViewController : UIViewController {
         quitButton.setTitleColor(UIColor(red: 0.29, green: 0.16, blue: 0.15, alpha: 1.00), for: .normal)
         quitButton.backgroundColor = .white
         quitButton.addTarget(self, action: #selector(didTapQuitButton(_:)), for: .touchUpInside)
-        quitButton.layer.cornerRadius = 10
-        quitButton.layer.borderWidth = 1
-        quitButton.layer.borderColor = UIColor(red: 0.29, green: 0.16, blue: 0.15, alpha: 1.00).cgColor
         view.addSubview(quitButton)
     }
     
@@ -96,8 +93,8 @@ class FailAddNewBookViewController : UIViewController {
         
         quitButton.pin
             .below(of: tryAgainButton).marginTop(12)
-            .left(view.frame.width / 2 - 40)
-            .width(80)
+            .left(view.frame.width / 2 - 50)
+            .width(100)
             .height(30)
 
     }

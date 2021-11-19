@@ -10,6 +10,8 @@
 		3920BB5A274802CD007A6B4D /* FailAddNewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3920BB59274802CD007A6B4D /* FailAddNewBookViewController.swift */; };
 		3920BB5E27480329007A6B4D /* SuccessNewBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3920BB5D27480329007A6B4D /* SuccessNewBookPresenter.swift */; };
 		3920BB602748038A007A6B4D /* FailAddNewBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3920BB5F2748038A007A6B4D /* FailAddNewBookPresenter.swift */; };
+		39F7A50A27482825003E196B /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7A50927482825003E196B /* LibraryViewController.swift */; };
+		39F7A50C27482836003E196B /* LibraryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7A50B27482836003E196B /* LibraryPresenter.swift */; };
 		E13E79A3274431B300BEE7EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A1274431B300BEE7EC /* Main.storyboard */; };
 		E13E79A5274431B500BEE7EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A4274431B500BEE7EC /* Assets.xcassets */; };
 		E13E79A8274431B500BEE7EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A6274431B500BEE7EC /* LaunchScreen.storyboard */; };
@@ -43,6 +45,8 @@
 		3920BB59274802CD007A6B4D /* FailAddNewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailAddNewBookViewController.swift; sourceTree = "<group>"; };
 		3920BB5D27480329007A6B4D /* SuccessNewBookPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessNewBookPresenter.swift; sourceTree = "<group>"; };
 		3920BB5F2748038A007A6B4D /* FailAddNewBookPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailAddNewBookPresenter.swift; sourceTree = "<group>"; };
+		39F7A50927482825003E196B /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
+		39F7A50B27482836003E196B /* LibraryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPresenter.swift; sourceTree = "<group>"; };
 		E13E7998274431B300BEE7EC /* Pickabook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pickabook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E13E79A2274431B300BEE7EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E13E79A4274431B500BEE7EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -95,6 +99,15 @@
 			path = FailAddNewBook;
 			sourceTree = "<group>";
 		};
+		39F7A508274827F2003E196B /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				39F7A50927482825003E196B /* LibraryViewController.swift */,
+				39F7A50B27482836003E196B /* LibraryPresenter.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
 		E13E798F274431B300BEE7EC = {
 			isa = PBXGroup;
 			children = (
@@ -114,8 +127,9 @@
 		E13E799A274431B300BEE7EC /* Pickabook */ = {
 			isa = PBXGroup;
 			children = (
-				E13E79F7274435A100BEE7EC /* MyProfile */,
 				E13E79DF274434E700BEE7EC /* AddNewBook */,
+				39F7A508274827F2003E196B /* Library */,
+				E13E79F7274435A100BEE7EC /* MyProfile */,
 				E13E79D82744345700BEE7EC /* ChangeProfileData */,
 				E13E79CF2744341F00BEE7EC /* GenreCollectionView */,
 				E13E79F22744352200BEE7EC /* Model */,
@@ -303,6 +317,7 @@
 				E13E7A012744370700BEE7EC /* BooksCollectionViewPresenter.swift in Sources */,
 				E13E79FF2744363500BEE7EC /* Util.swift in Sources */,
 				E13E79D62744344200BEE7EC /* GenreCell.swift in Sources */,
+				39F7A50A27482825003E196B /* LibraryViewController.swift in Sources */,
 				E13E79DC274434C200BEE7EC /* ChangeProfileDataViewController.swift in Sources */,
 				E13E7A00274436F700BEE7EC /* BookModel.swift in Sources */,
 				E13E7A032744371100BEE7EC /* BookCell.swift in Sources */,
@@ -315,6 +330,7 @@
 				E13E79FB274435AE00BEE7EC /* MyProfileViewController.swift in Sources */,
 				3920BB5E27480329007A6B4D /* SuccessNewBookPresenter.swift in Sources */,
 				E13E79E6274434FC00BEE7EC /* AddNewBookPresenter.swift in Sources */,
+				39F7A50C27482836003E196B /* LibraryPresenter.swift in Sources */,
 				3920BB602748038A007A6B4D /* FailAddNewBookPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

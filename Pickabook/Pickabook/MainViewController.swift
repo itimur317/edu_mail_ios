@@ -28,14 +28,24 @@ class MainViewController: UITabBarController {
 //        favoritesVC.tabBarItem.image = UIImage(named: "FavViewIcon")
 //        favoritesVC.title = ""
         
-        let addPresenter = AddNewBookPresenter()
-        let addViewController = AddNewBookViewController(output: addPresenter)
-        let addVC = UINavigationController(rootViewController: addViewController)
-        addPresenter.view = addViewController
-        addVC.tabBarItem.image = UIImage(named: "AddViewIcon")
-        addVC.title = ""
+//        let addPresenter = AddNewBookPresenter()
+//        let addViewController = AddNewBookViewController(output: addPresenter)
+//        let addVC = UINavigationController(rootViewController: addViewController)
+//        addPresenter.view = addViewController
+//        addVC.tabBarItem.image = UIImage(named: "AddViewIcon")
+//        addVC.title = ""
+    
+        // LibraryViewController
         
-        self.setViewControllers([genresVC, addVC, myProfileVC], animated: false)
+        let libraryPresenter = LibraryPresenter()
+        let libraryViewController = LibraryViewController(output: libraryPresenter)
+        let libraryVC = UINavigationController(rootViewController: libraryViewController)
+        libraryPresenter.view = libraryViewController
+        libraryVC.tabBarItem.image = UIImage(named: "AddViewIcon")
+        libraryVC.title = ""
+         
+        
+        self.setViewControllers([genresVC, libraryVC, myProfileVC], animated: false)
         self.modalPresentationStyle = .fullScreen
         self.tabBar.backgroundColor = .white
                                 
