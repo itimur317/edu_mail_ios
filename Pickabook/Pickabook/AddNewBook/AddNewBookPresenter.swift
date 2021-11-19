@@ -23,8 +23,6 @@ final class AddNewBookPresenter{
     }
     weak var view : AddNewBookViewControllerProtocol?
     
-    var router : AddNewBookRouterProtocol?
-    
     
 }
     
