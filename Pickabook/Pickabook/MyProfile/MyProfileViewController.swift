@@ -41,8 +41,6 @@ class MyProfileViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Мой профиль"
-    
         
         changeProfileDataButton.addTarget(self, action: #selector(didTapChangeProfileDataButton(_ :)), for: .touchUpInside)
         changeProfileDataButton.layer.cornerRadius = 10
