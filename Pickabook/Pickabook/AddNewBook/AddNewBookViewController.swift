@@ -30,11 +30,10 @@ final class AddNewBookViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    let screenLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 28))
+    let screenLabel = UILabel()
     
     let scrollView = UIScrollView()
-
+    
     let addPhotoDescriptionLabel = UILabel()
     let photoLabel = UILabel()
     let addPhotoButton = UIButton()
@@ -87,21 +86,21 @@ final class AddNewBookViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-     
+        
         self.hideKeyboardWhenTappedAround()
-        
-        screenLabel.text = "Добавление книги"
-        screenLabel.textAlignment = .center
-        screenLabel.font = UIFont.systemFont(ofSize: 28, weight: .semibold)
-        view.addSubview(screenLabel)
-        
         
         scrollView.contentSize = CGSize(width: view.frame.width, height: 1690)
         view.addSubview(scrollView)
         
         
+        screenLabel.text = "Добавить книгу"
+        screenLabel.textAlignment = .center
+        screenLabel.font = UIFont.systemFont(ofSize: 25, weight: .semibold)
+        view.addSubview(screenLabel)
+        
+        
         addPhotoDescriptionLabel.text = "Добавьте фото книги (максимум 3). \nДля комфортного обмена рекомендуем сделать фото обложки и титульного листа."
-        addPhotoDescriptionLabel.textAlignment = .left
+      //  addPhotoDescriptionLabel.textAlignment = .left
         addPhotoDescriptionLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         addPhotoDescriptionLabel.numberOfLines = 0
         scrollView.addSubview(addPhotoDescriptionLabel)
@@ -119,7 +118,7 @@ final class AddNewBookViewController: UIViewController {
         
         [leftPhotoImageView, centerPhotoImageView, rightPhotoImageView].forEach{
             ($0).layer.cornerRadius = 8
-            ($0).isHidden = true
+         //   ($0).isHidden = true
             scrollView.addSubview(($0))
         }
         
@@ -131,7 +130,7 @@ final class AddNewBookViewController: UIViewController {
             ($0).clipsToBounds = true
             ($0).textAlignment = .center
             ($0).layer.cornerRadius = 5
-            ($0).isHidden = true
+       //     ($0).isHidden = true
             scrollView.addSubview(($0))
         }
         
@@ -290,23 +289,22 @@ final class AddNewBookViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        screenLabel.pin
-            .top(50)
-            .horizontally(12)
-            .height(28)
-        
-        
         scrollView.pin
-            .below(of: screenLabel).marginTop(10)
-            .height(view.frame.height - (50 + screenLabel.frame.height) - 83)
-        // 83 - height of tabBar
+            .top(view.pin.safeArea).marginTop(42)
+            .bottom(view.pin.safeArea)
             .width(view.frame.width)
         
+        screenLabel.pin
+            .top(view.pin.safeArea).marginTop(12)
+            .horizontally(40)
+            .height(28)
         
         addPhotoDescriptionLabel.pin
-            .below(of: screenLabel).marginTop(10)
+            .below(of: screenLabel).marginTop(6)
             .horizontally(12)
             .height(88)
+
+        print(addPhotoDescriptionLabel.numberOfLines)
         
         photoLabel.pin
             .below(of: addPhotoDescriptionLabel).marginTop(10)
@@ -539,9 +537,8 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     }
     
     func requiredFieldAlert() {
-        print("required")
         
-        let alert = UIAlertController(title: "Обязательные поля", message: "Заполните обязательные поля!", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Недостаточно данных", message: "Заполните обязательные поля!", preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
 
@@ -579,3 +576,12 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
 }
 
 
+extension String {
+
+func lineSpaced(_ spacing: CGFloat) -> NSAttributedString {
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineSpacing = spacing
+    let attributedString = NSAttributedString(string: self, attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+    return attributedString
+}
+}

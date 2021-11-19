@@ -10,10 +10,10 @@ import UIKit
 import PinLayout
 
 protocol LibraryViewControllerProtocol : AnyObject {
-    
+    func showQuitAlert()
 }
 
-class LibraryViewController : UIViewController, LibraryViewControllerProtocol {
+class LibraryViewController : UIViewController {
     
     var output: LibraryPresenterProtocol
     
@@ -49,12 +49,27 @@ class LibraryViewController : UIViewController, LibraryViewControllerProtocol {
     }
     
     @objc
-    func didTapAddNewBookButton(_ sender: UIButton){
+    func didTapAddNewBookButton(_ sender: UIButton) {
         let addNewBookPresenter = AddNewBookPresenter()
         let addNewBookViewController = AddNewBookViewController(output: addNewBookPresenter)
         addNewBookPresenter.view = addNewBookViewController
-        addNewBookViewController.modalPresentationStyle = .fullScreen
+     //   addNewBookViewController.modalPresentationStyle = .fullScreen
         present(addNewBookViewController, animated: true, completion: nil)
     }
-    
+}
+
+extension LibraryViewController: LibraryViewControllerProtocol {
+    func showQuitAlert() {
+        let alert = UIAlertController(title: "Выйти?", message: "Данные не сохранятся", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Да", style: .destructive, handler: {
+            action in
+            
+            self.navigationController?.popViewController(animated: true)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+
+        self.present(alert, animated: true)
+        
+    }
 }

@@ -18,6 +18,7 @@ protocol AddNewBookPresenterProtocol: AnyObject {
  
 final class AddNewBookPresenter{
     var newBook: Book
+    
     init(){
         newBook = Book(bookImages: nil, bookName: "", bookAuthor: "", bookGenres: .notSelected , bookCondition: 0, bookDescription: nil, bookLanguage: "Русский")
     }
