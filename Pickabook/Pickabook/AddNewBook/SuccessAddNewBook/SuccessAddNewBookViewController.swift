@@ -9,15 +9,15 @@ import Foundation
 import UIKit
 import PinLayout
 
-protocol SuccessNewBookViewControllerProtocol : AnyObject {
+protocol SuccessAddNewBookViewControllerProtocol : AnyObject {
     
 }
 
-class SuccessNewBookViewController : UIViewController, SuccessNewBookViewControllerProtocol {
+class SuccessAddNewBookViewController : UIViewController, SuccessAddNewBookViewControllerProtocol {
     
-    var output: SuccessNewBookPresenterProtocol
+    var output: SuccessAddNewBookPresenterProtocol
     
-    init(output: SuccessNewBookPresenterProtocol){
+    init(output: SuccessAddNewBookPresenterProtocol){
         self.output = output
         super.init(nibName: nil, bundle: nil)
     }
