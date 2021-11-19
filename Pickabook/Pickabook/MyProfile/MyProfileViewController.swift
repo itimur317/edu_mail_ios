@@ -4,9 +4,8 @@
 //
 //  Created by Даниил Найко on 08.11.2021.
 //
-
 import UIKit
-import PinLayout 
+import PinLayout
 
 class MyProfileViewController : UIViewController {
     
@@ -25,15 +24,19 @@ class MyProfileViewController : UIViewController {
     
     let profileImage = UILabel() //let profileImage = UIImage() //need fix
     let profileName = UILabel()
-    //let profileAboutInfo = UITextView() //can be added
     let profileMailAdress = UILabel()
     let profilePhoneNumber = UILabel()
     let profileBookListTitle = UILabel()
     let profileBookListTableView = UITableView()
+
     //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
     //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
     
+
     let profileBookList = Util.shared.books
+    //let profileAboutInfo = UITextView() //can be added
+    //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
+    //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
      
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,7 +103,6 @@ class MyProfileViewController : UIViewController {
             .top(50+26)
             .topCenter()
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
-
         profileName.pin
             .below(of: profileImage).marginTop(10)
             .horizontally(12)
