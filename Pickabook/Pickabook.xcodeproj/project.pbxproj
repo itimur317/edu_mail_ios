@@ -129,8 +129,8 @@
 		E13E79CF2744341F00BEE7EC /* GenreCollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				E13E79D02744344200BEE7EC /* GenreCollectionViewController.swift */,
 				E13E79D12744344200BEE7EC /* GenreCollectionViewPresenter.swift */,
+				E13E79D02744344200BEE7EC /* GenreCollectionViewController.swift */,
 				E13E79D32744344200BEE7EC /* GenreModel.swift */,
 			);
 			path = GenreCollectionView;
@@ -140,8 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				E13E79DA274434C200BEE7EC /* ChangeProfileDataModel.swift */,
-				E13E79DB274434C200BEE7EC /* ChangeProfileDataPresenter.swift */,
 				E13E79D9274434C200BEE7EC /* ChangeProfileDataViewController.swift */,
+				E13E79DB274434C200BEE7EC /* ChangeProfileDataPresenter.swift */,
 			);
 			path = ChangeProfileData;
 			sourceTree = "<group>";
@@ -152,8 +152,8 @@
 				E13E79EA2744350700BEE7EC /* AddedNewBook */,
 				E13E79E3274434FC00BEE7EC /* AddNewBookInteractor.swift */,
 				E13E79E1274434FC00BEE7EC /* AddNewBookPresenter.swift */,
-				E13E79E0274434FC00BEE7EC /* AddNewBookRouter.swift */,
 				E13E79E2274434FC00BEE7EC /* AddNewBookViewController.swift */,
+				E13E79E0274434FC00BEE7EC /* AddNewBookRouter.swift */,
 			);
 			path = AddNewBook;
 			sourceTree = "<group>";
@@ -161,8 +161,8 @@
 		E13E79EA2744350700BEE7EC /* AddedNewBook */ = {
 			isa = PBXGroup;
 			children = (
-				E13E79EB2744350700BEE7EC /* AddedNewBookViewController.swift */,
 				E13E79EC2744350700BEE7EC /* AddedNewBookPresenter.swift */,
+				E13E79EB2744350700BEE7EC /* AddedNewBookViewController.swift */,
 				E13E79ED2744350700BEE7EC /* AddedNewBookRouter.swift */,
 			);
 			path = AddedNewBook;
@@ -200,8 +200,8 @@
 			isa = PBXGroup;
 			children = (
 				E13E79F9274435AE00BEE7EC /* MyProfileModel.swift */,
-				E13E79FA274435AE00BEE7EC /* MyProfilePresenter.swift */,
 				E13E79F8274435AE00BEE7EC /* MyProfileViewController.swift */,
+				E13E79FA274435AE00BEE7EC /* MyProfilePresenter.swift */,
 			);
 			path = MyProfile;
 			sourceTree = "<group>";
