@@ -33,8 +33,8 @@
 		E13E7A022744370E00BEE7EC /* BooksCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79F02744351800BEE7EC /* BooksCollectionViewController.swift */; };
 		E13E7A032744371100BEE7EC /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79F12744351800BEE7EC /* BookCell.swift */; };
 		E13E7A042744373F00BEE7EC /* BookListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79F62744354900BEE7EC /* BookListTableViewCell.swift */; };
-		E13E7A05274437AE00BEE7EC /* AddedNewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79EB2744350700BEE7EC /* AddedNewBookViewController.swift */; };
-		E13E7A06274437B200BEE7EC /* AddedNewBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79EC2744350700BEE7EC /* AddedNewBookPresenter.swift */; };
+		E13E7A05274437AE00BEE7EC /* SuccessNewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79EB2744350700BEE7EC /* SuccessNewBookViewController.swift */; };
+		E13E7A06274437B200BEE7EC /* SuccessNewBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79EC2744350700BEE7EC /* SuccessNewBookPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,8 +56,8 @@
 		E13E79DB274434C200BEE7EC /* ChangeProfileDataPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeProfileDataPresenter.swift; sourceTree = "<group>"; };
 		E13E79E1274434FC00BEE7EC /* AddNewBookPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewBookPresenter.swift; sourceTree = "<group>"; };
 		E13E79E2274434FC00BEE7EC /* AddNewBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewBookViewController.swift; sourceTree = "<group>"; };
-		E13E79EB2744350700BEE7EC /* AddedNewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedNewBookViewController.swift; sourceTree = "<group>"; };
-		E13E79EC2744350700BEE7EC /* AddedNewBookPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedNewBookPresenter.swift; sourceTree = "<group>"; };
+		E13E79EB2744350700BEE7EC /* SuccessNewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessNewBookViewController.swift; sourceTree = "<group>"; };
+		E13E79EC2744350700BEE7EC /* SuccessNewBookPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessNewBookPresenter.swift; sourceTree = "<group>"; };
 		E13E79EF2744351800BEE7EC /* BooksCollectionViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksCollectionViewPresenter.swift; sourceTree = "<group>"; };
 		E13E79F02744351800BEE7EC /* BooksCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksCollectionViewController.swift; sourceTree = "<group>"; };
 		E13E79F12744351800BEE7EC /* BookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
@@ -82,6 +82,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3920BB562748016B007A6B4D /* FailAddNewBook */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FailAddNewBook;
+			sourceTree = "<group>";
+		};
 		E13E798F274431B300BEE7EC = {
 			isa = PBXGroup;
 			children = (
@@ -143,20 +150,21 @@
 		E13E79DF274434E700BEE7EC /* AddNewBook */ = {
 			isa = PBXGroup;
 			children = (
-				E13E79EA2744350700BEE7EC /* AddedNewBook */,
+				3920BB562748016B007A6B4D /* FailAddNewBook */,
+				E13E79EA2744350700BEE7EC /* SuccessNewBook */,
 				E13E79E1274434FC00BEE7EC /* AddNewBookPresenter.swift */,
 				E13E79E2274434FC00BEE7EC /* AddNewBookViewController.swift */,
 			);
 			path = AddNewBook;
 			sourceTree = "<group>";
 		};
-		E13E79EA2744350700BEE7EC /* AddedNewBook */ = {
+		E13E79EA2744350700BEE7EC /* SuccessNewBook */ = {
 			isa = PBXGroup;
 			children = (
-				E13E79EC2744350700BEE7EC /* AddedNewBookPresenter.swift */,
-				E13E79EB2744350700BEE7EC /* AddedNewBookViewController.swift */,
+				E13E79EC2744350700BEE7EC /* SuccessNewBookPresenter.swift */,
+				E13E79EB2744350700BEE7EC /* SuccessNewBookViewController.swift */,
 			);
-			path = AddedNewBook;
+			path = SuccessNewBook;
 			sourceTree = "<group>";
 		};
 		E13E79EE2744351800BEE7EC /* BooksCollectionView */ = {
@@ -280,10 +288,10 @@
 				E13E79C72744323500BEE7EC /* AppDelegate.swift in Sources */,
 				E13E79E7274434FC00BEE7EC /* AddNewBookViewController.swift in Sources */,
 				E13E79FC274435AE00BEE7EC /* MyProfileModel.swift in Sources */,
-				E13E7A05274437AE00BEE7EC /* AddedNewBookViewController.swift in Sources */,
+				E13E7A05274437AE00BEE7EC /* SuccessNewBookViewController.swift in Sources */,
 				E13E79DE274434C200BEE7EC /* ChangeProfileDataPresenter.swift in Sources */,
 				E13E7A022744370E00BEE7EC /* BooksCollectionViewController.swift in Sources */,
-				E13E7A06274437B200BEE7EC /* AddedNewBookPresenter.swift in Sources */,
+				E13E7A06274437B200BEE7EC /* SuccessNewBookPresenter.swift in Sources */,
 				E13E79DD274434C200BEE7EC /* ChangeProfileDataModel.swift in Sources */,
 				E13E79C52744323500BEE7EC /* MainViewController.swift in Sources */,
 				E13E7A012744370700BEE7EC /* BooksCollectionViewPresenter.swift in Sources */,

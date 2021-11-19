@@ -252,7 +252,7 @@ final class AddNewBookViewController: UIViewController {
         addBookButton.setTitle("Добавить", for: .normal)
         addBookButton.titleLabel?.textAlignment = .center
         addBookButton.setTitleColor(.white, for: .highlighted)
-        addBookButton.backgroundColor = UIColor(red: 0.99, green: 0.53, blue: 0.16, alpha: 1.00)
+        addBookButton.backgroundColor = UIColor(named: "buttonColor")
         addBookButton.layer.cornerRadius = 10
         addBookButton.addTarget(self, action: #selector(didTapAddButton(_:)), for: .touchUpInside)
         scrollView.addSubview(addBookButton)
@@ -523,10 +523,13 @@ extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource 
 
 extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     func openAddDoneView() {
-        let addedNewBookPresenter = AddedNewBookPresenter()
-        let addedNewBookViewController = AddedNewBookViewController(output: addedNewBookPresenter)
-        navigationController?.pushViewController(addedNewBookViewController, animated: true)
-        addedNewBookPresenter.view = addedNewBookViewController
+
+        let successNewBookPresenter = SuccessNewBookPresenter()
+        let successNewBookViewController = SuccessNewBookViewController(output: successNewBookPresenter)
+        successNewBookPresenter.view = successNewBookViewController
+        successNewBookViewController.modalPresentationStyle = .fullScreen
+        present(successNewBookViewController, animated: true, completion: nil)
+
     }
     
     func requiredFieldAlert() {

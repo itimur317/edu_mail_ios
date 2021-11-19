@@ -9,15 +9,15 @@ import Foundation
 import UIKit
 import PinLayout
 
-protocol AddedNewBookViewControllerProtocol : AnyObject {
+protocol SuccessNewBookViewControllerProtocol : AnyObject {
     
 }
 
-class AddedNewBookViewController : UIViewController, AddedNewBookViewControllerProtocol {
+class SuccessNewBookViewController : UIViewController, SuccessNewBookViewControllerProtocol {
     
-    var output: AddedNewBookPresenterProtocol
+    var output: SuccessNewBookPresenterProtocol
     
-    init(output: AddedNewBookPresenterProtocol){
+    init(output: SuccessNewBookPresenterProtocol){
         self.output = output
         super.init(nibName: nil, bundle: nil)
     }
@@ -52,8 +52,13 @@ class AddedNewBookViewController : UIViewController, AddedNewBookViewControllerP
         okButton.setTitleColor(.white, for: .highlighted)
         okButton.backgroundColor = UIColor(red: 0.99, green: 0.53, blue: 0.16, alpha: 1.00)
         okButton.layer.cornerRadius = 10
-    //    okButton.addTarget(self, action: #selector(didTapOkButton(_:)), for: .touchUpInside)
+        okButton.addTarget(self, action: #selector(didTapOkButton(_:)), for: .touchUpInside)
         view.addSubview(okButton)
+    }
+    
+    @objc
+    func didTapOkButton(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLayoutSubviews() {
