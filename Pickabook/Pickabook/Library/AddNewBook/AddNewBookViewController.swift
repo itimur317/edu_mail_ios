@@ -30,10 +30,10 @@ final class AddNewBookViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    let screenLabel = UILabel()
-    
+ 
     let scrollView = UIScrollView()
+    
+    let closeButtonImage = UIImage(named: "closeButton")
     
     let addPhotoDescriptionLabel = UILabel()
     let photoLabel = UILabel()
@@ -84,30 +84,29 @@ final class AddNewBookViewController: UIViewController {
     let addBookButton = UIButton()
     
     let genres = Util.shared.genres
+
  
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addPhotoImagePicker.delegate = self
+        let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapCloseButton(_: )))
         
-        presentationController?.delegate = self
+        navigationItem.rightBarButtonItem = closeButton
+
+        addPhotoImagePicker.delegate = self
 
         view.backgroundColor = .white
         
         self.hideKeyboardWhenTappedAround()
         
+        title = "Добавить книгу"
+        
+        
         scrollView.contentSize = CGSize(width: view.frame.width, height: 1690)
         view.addSubview(scrollView)
-        
-        
-        screenLabel.text = "Добавить книгу"
-        screenLabel.textAlignment = .center
-        screenLabel.font = UIFont.systemFont(ofSize: 25, weight: .semibold)
-        view.addSubview(screenLabel)
-        
+    
         
         addPhotoDescriptionLabel.text = "Добавьте фото книги (максимум 3). \nДля комфортного обмена рекомендуем сделать фото обложки и титульного листа."
-      //  addPhotoDescriptionLabel.textAlignment = .left
         addPhotoDescriptionLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         addPhotoDescriptionLabel.numberOfLines = 0
         scrollView.addSubview(addPhotoDescriptionLabel)
@@ -267,6 +266,21 @@ final class AddNewBookViewController: UIViewController {
         
     }
     
+    
+    @objc
+    func didTapCloseButton(_ sender: UIBarButtonItem) {
+        
+        let alert = UIAlertController(title: "Выйти?", message: "Данные не сохранятся.", preferredStyle: .alert)
+
+         alert.addAction(UIAlertAction(title: "Да", style: .destructive)
+                         {_ in self.dismiss(animated: true, completion: nil)})
+
+         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+
+         present(alert, animated: true)
+        
+    }
+    
     @objc func didTapAddButton(_ sender: UIButton) {
         
         self.output.didTapAddButton(bookName: bookNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), bookNameColor: bookNameTextView.textColor!, authorName: authorNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), authorNameColor : authorNameTextView.textColor!, bookDescription: descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines) ,bookDescriptionColor : descriptionTextView.textColor!, bookLanguage: languageTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), bookLanguageColor: languageTextView.textColor!)
@@ -334,18 +348,14 @@ final class AddNewBookViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+ 
         scrollView.pin
-            .top(view.pin.safeArea).marginTop(42)
+            .top(view.pin.safeArea)
             .bottom(view.pin.safeArea)
             .width(view.frame.width)
         
-        screenLabel.pin
-            .top(view.pin.safeArea).marginTop(12)
-            .horizontally(40)
-            .height(28)
-        
         addPhotoDescriptionLabel.pin
-            .below(of: screenLabel).marginTop(6)
+            .top()
             .horizontally(12)
             .height(88)
         
@@ -497,6 +507,7 @@ final class AddNewBookViewController: UIViewController {
             .height(40)
 
     }
+    
 }
 
 
@@ -617,42 +628,6 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
         
     }
     
-}
-
-extension AddNewBookViewController: UIAdaptivePresentationControllerDelegate{
-    
-    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        return false
-    }
-    
-    
-    func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
-        let alert = UIAlertController(title: "Выйти?", message: "Данные не сохранятся.", preferredStyle: .alert)
-
-        alert.addAction(UIAlertAction(title: "Да", style: .destructive)
-                        {_ in self.dismiss(animated: true, completion: nil)})
-
-        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
-
-        present(alert, animated: true)
-    }
-    
-}
-
-extension AddNewBookViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            setImage(pickedImage)
-        }
-        
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
     func setImage(_ pickedImage: UIImage) {
         if centerPhotoImageView.image == nil {
             
@@ -692,5 +667,20 @@ extension AddNewBookViewController : UIImagePickerControllerDelegate, UINavigati
         correctPhotoButton.isHidden = false
     }
     
+}
+
+extension AddNewBookViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            setImage(pickedImage)
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
     
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+        
 }

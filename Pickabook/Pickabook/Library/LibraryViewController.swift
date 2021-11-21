@@ -50,11 +50,14 @@ final class LibraryViewController : UIViewController {
     
     @objc
     func didTapAddNewBookButton(_ sender: UIButton) {
+        
         let addNewBookPresenter = AddNewBookPresenter()
         let addNewBookViewController = AddNewBookViewController(output: addNewBookPresenter)
+        let navigationController = UINavigationController(rootViewController: addNewBookViewController)
         addNewBookPresenter.view = addNewBookViewController
-     //   addNewBookViewController.modalPresentationStyle = .fullScreen
-        present(addNewBookViewController, animated: true, completion: nil)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
+        
     }
 }
 
