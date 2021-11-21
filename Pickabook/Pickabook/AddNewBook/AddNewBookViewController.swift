@@ -14,7 +14,7 @@ protocol AddNewBookViewControllerProtocol: AnyObject {
     func openAddDoneView()
     func requiredFieldAlert()
     func setDefault()
-    
+    func setImage(_ pickedImage: UIImage)
 }
 
 
@@ -39,7 +39,8 @@ final class AddNewBookViewController: UIViewController {
     let photoLabel = UILabel()
     let addPhotoButton = UIButton()
     let addPhotoImage = UIImage(named: "addPhotoImage")
-    //dodelat' photo
+    
+    var addPhotoImagePicker = UIImagePickerController()
     let leftPhotoImageView = UIImageView()
     let centerPhotoImageView = UIImageView()
     let rightPhotoImageView = UIImageView()
@@ -87,8 +88,8 @@ final class AddNewBookViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "adadadadadadadad"
-
+        addPhotoImagePicker.delegate = self
+        
         presentationController?.delegate = self
 
         view.backgroundColor = .white
@@ -119,32 +120,34 @@ final class AddNewBookViewController: UIViewController {
         addPhotoButton.backgroundColor = .blue
         addPhotoButton.layer.cornerRadius = 8
         addPhotoButton.setImage(addPhotoImage, for: .normal)
+        addPhotoButton.addTarget(self, action: #selector(didTapAddPhotoButton(_:)), for: .touchUpInside)
         scrollView.addSubview(addPhotoButton)
 
         
         [leftPhotoImageView, centerPhotoImageView, rightPhotoImageView].forEach{
-            ($0).layer.cornerRadius = 8
-         //   ($0).isHidden = true
-            scrollView.addSubview(($0))
+            $0.layer.cornerRadius = 8
+            $0.layer.masksToBounds = true
+            $0.isHidden = true
+            scrollView.addSubview($0)
         }
         
         [leftNumberPhotoLabel, centerNumberPhotoLabel, rightNumberPhotoLabel].forEach {
-            ($0).text = "0"
-            ($0).backgroundColor = .black
-            ($0).font = UIFont.systemFont(ofSize: 10, weight: .bold)
-            ($0).textColor = .white
-            ($0).clipsToBounds = true
-            ($0).textAlignment = .center
-            ($0).layer.cornerRadius = 5
-       //     ($0).isHidden = true
-            scrollView.addSubview(($0))
+            $0.text = "0"
+            $0.backgroundColor = .black
+            $0.font = UIFont.systemFont(ofSize: 10, weight: .bold)
+            $0.textColor = .white
+            $0.clipsToBounds = true
+            $0.textAlignment = .center
+            $0.layer.cornerRadius = 5
+            $0.isHidden = true
+            scrollView.addSubview($0)
         }
         
         correctPhotoButton.setTitle("Удалить фото", for: .normal)
         correctPhotoButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         correctPhotoButton.setTitleColor(.gray, for: .normal)
-        // hide it
         correctPhotoButton.isHidden = true
+        correctPhotoButton.addTarget(self, action: #selector(didTapCorrectPhotoButton(_:)), for: .touchUpInside)
         scrollView.addSubview(correctPhotoButton)
         
  
@@ -286,6 +289,44 @@ final class AddNewBookViewController: UIViewController {
         }
         
         self.output.didTapConditionButton(addedCondition)
+    }
+    
+    @objc
+    func didTapAddPhotoButton(_ sender: UIButton) {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            addPhotoImagePicker.allowsEditing = false
+            addPhotoImagePicker.sourceType = .savedPhotosAlbum
+                    
+            present(addPhotoImagePicker, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Нет доступа!", message: "У Pickabook нет доступа к вашим фото.\nЧтобы предоставить доступ, перейдите в Настройки и включите Фото.", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+            
+            present(alert, animated: true)
+        }
+    }
+    
+    @objc
+    func didTapCorrectPhotoButton(_ sender: UIButton) {
+        if leftPhotoImageView.image != nil {
+            addPhotoButton.isHidden = false
+        }
+            
+        [leftPhotoImageView, centerPhotoImageView, rightPhotoImageView].forEach {
+            if $0.image != nil {
+                $0.image = nil
+                $0.isHidden = true
+            }
+        }
+        
+        [leftNumberPhotoLabel, centerNumberPhotoLabel, rightNumberPhotoLabel].forEach {
+            if $0.text != "0" {
+                $0.text = "0"
+                $0.isHidden = true
+            }
+        }
+
     }
     
     
@@ -594,5 +635,61 @@ extension AddNewBookViewController: UIAdaptivePresentationControllerDelegate{
 
         present(alert, animated: true)
     }
+    
+}
+
+extension AddNewBookViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            setImage(pickedImage)
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func setImage(_ pickedImage: UIImage) {
+        if centerPhotoImageView.image == nil {
+            
+            centerNumberPhotoLabel.isHidden = false
+            centerNumberPhotoLabel.text = "1"
+            
+            centerPhotoImageView.isHidden = false
+            centerPhotoImageView.contentMode = .scaleToFill
+            centerPhotoImageView.image = pickedImage
+            
+        } else if rightPhotoImageView.image == nil {
+            
+            rightNumberPhotoLabel.isHidden = false
+            
+            rightNumberPhotoLabel.text = "1"
+            centerNumberPhotoLabel.text = "2"
+            
+            rightPhotoImageView.isHidden = false
+            rightPhotoImageView.contentMode = .scaleToFill
+            rightPhotoImageView.image = centerPhotoImageView.image
+            
+            centerPhotoImageView.image = pickedImage
+            
+        } else {
+            
+            leftNumberPhotoLabel.isHidden = false
+            leftNumberPhotoLabel.text = "3"
+            
+            leftPhotoImageView.isHidden = false
+            leftPhotoImageView.contentMode = .scaleToFill
+            leftPhotoImageView.image = pickedImage
+            
+            addPhotoButton.isHidden = true
+            
+        }
+        
+        correctPhotoButton.isHidden = false
+    }
+    
     
 }
