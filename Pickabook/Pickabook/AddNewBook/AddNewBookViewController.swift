@@ -326,7 +326,8 @@ final class AddNewBookViewController: UIViewController {
                 $0.isHidden = true
             }
         }
-
+        
+        correctPhotoButton.isHidden = true 
     }
     
     
