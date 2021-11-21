@@ -15,5 +15,8 @@ class LibraryPresenter : LibraryPresenterProtocol {
     
     weak var view : LibraryViewControllerProtocol?
     
+    func dismissView(){
+        view?.dismissView()
+    }
 
 }

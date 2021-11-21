@@ -24,7 +24,6 @@ final class AddNewBookPresenter{
     }
     weak var view : AddNewBookViewControllerProtocol?
     
-    
 }
     
 extension AddNewBookPresenter: AddNewBookPresenterProtocol {
@@ -66,7 +65,8 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol {
         self.view?.changeCondition(addedCondition)
     }
 
-
+    
+    
 }
 
  

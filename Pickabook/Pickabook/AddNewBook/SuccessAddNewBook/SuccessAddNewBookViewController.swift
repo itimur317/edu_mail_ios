@@ -13,7 +13,7 @@ protocol SuccessAddNewBookViewControllerProtocol : AnyObject {
     func dismissView()
 }
 
-class SuccessAddNewBookViewController : UIViewController {
+final class SuccessAddNewBookViewController : UIViewController {
     
     var output: SuccessAddNewBookPresenterProtocol
     
@@ -90,6 +90,7 @@ extension SuccessAddNewBookViewController: SuccessAddNewBookViewControllerProtoc
     
     func dismissView() {
         dismiss(animated: true, completion: nil)
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
 }

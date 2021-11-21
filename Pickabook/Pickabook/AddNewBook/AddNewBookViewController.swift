@@ -14,6 +14,7 @@ protocol AddNewBookViewControllerProtocol: AnyObject {
     func openAddDoneView()
     func requiredFieldAlert()
     func setDefault()
+    
 }
 
 
@@ -85,6 +86,11 @@ final class AddNewBookViewController: UIViewController {
  
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.title = "adadadadadadadad"
+
+        presentationController?.delegate = self
+
         view.backgroundColor = .white
         
         self.hideKeyboardWhenTappedAround()
@@ -255,17 +261,14 @@ final class AddNewBookViewController: UIViewController {
         addBookButton.layer.cornerRadius = 10
         addBookButton.addTarget(self, action: #selector(didTapAddButton(_:)), for: .touchUpInside)
         scrollView.addSubview(addBookButton)
+        
     }
-    
-    
-    
     
     @objc func didTapAddButton(_ sender: UIButton) {
         
         self.output.didTapAddButton(bookName: bookNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), bookNameColor: bookNameTextView.textColor!, authorName: authorNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), authorNameColor : authorNameTextView.textColor!, bookDescription: descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines) ,bookDescriptionColor : descriptionTextView.textColor!, bookLanguage: languageTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), bookLanguageColor: languageTextView.textColor!)
         
     }
-    
 
     @objc
     func didTapConditionButton(_ sender: UIButton) {
@@ -303,8 +306,6 @@ final class AddNewBookViewController: UIViewController {
             .below(of: screenLabel).marginTop(6)
             .horizontally(12)
             .height(88)
-
-        print(addPhotoDescriptionLabel.numberOfLines)
         
         photoLabel.pin
             .below(of: addPhotoDescriptionLabel).marginTop(10)
@@ -520,6 +521,7 @@ extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource 
 
 
 extension AddNewBookViewController: AddNewBookViewControllerProtocol {
+    
     func openAddDoneView() {
         
         let failAddNewBookPresenter = FailAddNewBookPresenter()
@@ -527,6 +529,7 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
         failAddNewBookPresenter.view = failAddNewBookViewController
         failAddNewBookViewController.modalPresentationStyle = .fullScreen
         present(failAddNewBookViewController, animated: true, completion: nil)
+        
         
 //        let successAddNewBookPresenter = SuccessAddNewBookPresenter()
 //        let successAddNewBookViewController = SuccessAddNewBookViewController(output: successAddNewBookPresenter)
@@ -570,18 +573,26 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
         
         languageTextView.text = "Русский"
         
-        
     }
     
 }
 
+extension AddNewBookViewController: UIAdaptivePresentationControllerDelegate{
+    
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        return false
+    }
+    
+    
+    func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
+        let alert = UIAlertController(title: "Выйти?", message: "Данные не сохранятся.", preferredStyle: .alert)
 
-extension String {
+        alert.addAction(UIAlertAction(title: "Да", style: .destructive)
+                        {_ in self.dismiss(animated: true, completion: nil)})
 
-func lineSpaced(_ spacing: CGFloat) -> NSAttributedString {
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = spacing
-    let attributedString = NSAttributedString(string: self, attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
-    return attributedString
-}
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+
+        present(alert, animated: true)
+    }
+    
 }

@@ -10,10 +10,10 @@ import UIKit
 import PinLayout
 
 protocol LibraryViewControllerProtocol : AnyObject {
-    func showQuitAlert()
+    func dismissView()
 }
 
-class LibraryViewController : UIViewController {
+final class LibraryViewController : UIViewController {
     
     var output: LibraryPresenterProtocol
     
@@ -59,17 +59,7 @@ class LibraryViewController : UIViewController {
 }
 
 extension LibraryViewController: LibraryViewControllerProtocol {
-    func showQuitAlert() {
-        let alert = UIAlertController(title: "Выйти?", message: "Данные не сохранятся", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Да", style: .destructive, handler: {
-            action in
-            
-            self.navigationController?.popViewController(animated: true)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
-
-        self.present(alert, animated: true)
-        
+    func dismissView(){
+        dismiss(animated: true, completion: nil)
     }
 }

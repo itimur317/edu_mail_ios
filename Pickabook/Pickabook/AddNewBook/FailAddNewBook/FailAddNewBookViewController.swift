@@ -13,7 +13,7 @@ protocol FailAddNewBookViewControllerProtocol : AnyObject {
     func dismissView()
 }
 
-class FailAddNewBookViewController : UIViewController {
+final class FailAddNewBookViewController : UIViewController {
     
     var output: FailAddNewBookPresenterProtocol
     
@@ -104,5 +104,6 @@ class FailAddNewBookViewController : UIViewController {
 extension FailAddNewBookViewController: FailAddNewBookViewControllerProtocol {
     func dismissView() {
         dismiss(animated: true, completion: nil)
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
 }
