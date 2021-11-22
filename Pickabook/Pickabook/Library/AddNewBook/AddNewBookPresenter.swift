@@ -11,7 +11,14 @@ import UIKit
  
 protocol AddNewBookPresenterProtocol: AnyObject {
     var newBook: Book { get set }
-    func didTapAddButton(bookName: String, bookNameColor: UIColor, authorName: String, authorNameColor : UIColor, bookDescription: String,bookDescriptionColor : UIColor, bookLanguage: String, bookLanguageColor: UIColor)
+    func didTapAddButton(bookName: String,
+                         bookNameColor: UIColor,
+                         authorName: String,
+                         authorNameColor : UIColor,
+                         bookDescription: String,
+                         bookDescriptionColor : UIColor,
+                         bookLanguage: String,
+                         bookLanguageColor: UIColor)
     func didTapConditionButton(_ addedCondition: Int)
     func didTapAddPhotoButton()
 }
@@ -21,7 +28,13 @@ final class AddNewBookPresenter{
     var newBook: Book
     
     init(){
-        newBook = Book(bookImages: nil, bookName: "", bookAuthor: "", bookGenres: .notSelected , bookCondition: 0, bookDescription: nil, bookLanguage: "Русский")
+        newBook = Book(bookImages: nil,
+                       bookName: "",
+                       bookAuthor: "",
+                       bookGenres: .notSelected ,
+                       bookCondition: 0,
+                       bookDescription: nil,
+                       bookLanguage: "Русский")
     }
     weak var view : AddNewBookViewControllerProtocol?
     
@@ -29,9 +42,19 @@ final class AddNewBookPresenter{
     
 extension AddNewBookPresenter: AddNewBookPresenterProtocol {
     
-    func didTapAddButton(bookName: String, bookNameColor: UIColor, authorName: String, authorNameColor : UIColor, bookDescription: String, bookDescriptionColor : UIColor, bookLanguage: String, bookLanguageColor: UIColor) {
+    func didTapAddButton(bookName: String,
+                         bookNameColor: UIColor,
+                         authorName: String,
+                         authorNameColor : UIColor,
+                         bookDescription: String,
+                         bookDescriptionColor : UIColor,
+                         bookLanguage: String,
+                         bookLanguageColor: UIColor) {
         
-        if (bookName == "" ||  authorName == "" ||  bookLanguage == "" || bookNameColor == .gray || authorNameColor == .gray  || self.newBook.bookCondition == 0 || self.newBook.bookGenres == .notSelected) {
+        if (bookName == "" ||  authorName == ""
+            ||  bookLanguage == "" || bookNameColor == .gray
+            || authorNameColor == .gray  || self.newBook.bookCondition == 0
+            || self.newBook.bookGenres == .notSelected) {
             
             self.view?.requiredFieldAlert()
             

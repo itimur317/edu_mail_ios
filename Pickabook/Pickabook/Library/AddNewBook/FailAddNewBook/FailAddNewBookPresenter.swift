@@ -12,7 +12,7 @@ protocol FailAddNewBookPresenterProtocol : AnyObject {
     func didTapQuitButton()
 }
 
-class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol {
+final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol {
     
     weak var view : FailAddNewBookViewControllerProtocol?
     

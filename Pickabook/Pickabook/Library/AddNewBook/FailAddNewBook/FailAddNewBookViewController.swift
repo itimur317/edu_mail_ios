@@ -51,23 +51,27 @@ final class FailAddNewBookViewController : UIViewController {
         tryAgainButton.setTitleColor(.white, for: .highlighted)
         tryAgainButton.backgroundColor = UIColor(named: "buttonColor")
         tryAgainButton.layer.cornerRadius = 10
-        tryAgainButton.addTarget(self, action: #selector(didTapTryAgainButton(_:)), for: .touchUpInside)
+        tryAgainButton.addTarget(self,
+                                 action: #selector(didTapTryAgainButton(_:)),
+                                 for: .touchUpInside)
         view.addSubview(tryAgainButton)
         
         quitButton.setTitle("Выйти", for: .normal)
         quitButton.titleLabel?.textAlignment = .center
         quitButton.setTitleColor(UIColor(red: 0.29, green: 0.16, blue: 0.15, alpha: 1.00), for: .normal)
         quitButton.backgroundColor = .white
-        quitButton.addTarget(self, action: #selector(didTapQuitButton(_:)), for: .touchUpInside)
+        quitButton.addTarget(self,
+                             action: #selector(didTapQuitButton(_:)),
+                             for: .touchUpInside)
         view.addSubview(quitButton)
     }
     
     @objc
-    func didTapTryAgainButton(_ sender: UIButton) {
+    private func didTapTryAgainButton(_ sender: UIButton) {
     }
     
     @objc
-    func didTapQuitButton(_ sender: UIButton) {
+    private func didTapQuitButton(_ sender: UIButton) {
         output.didTapQuitButton()
     }
     
