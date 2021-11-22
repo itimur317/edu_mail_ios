@@ -13,18 +13,17 @@ protocol AddNewBookPresenterProtocol: AnyObject {
     var newBook: Book { get set }
     func didTapAddButton(bookName: String, bookNameColor: UIColor, authorName: String, authorNameColor : UIColor, bookDescription: String,bookDescriptionColor : UIColor, bookLanguage: String, bookLanguageColor: UIColor)
     func didTapConditionButton(_ addedCondition: Int)
+    func didTapAddPhotoButton()
 }
  
  
 final class AddNewBookPresenter{
     var newBook: Book
+    
     init(){
         newBook = Book(bookImages: nil, bookName: "", bookAuthor: "", bookGenres: .notSelected , bookCondition: 0, bookDescription: nil, bookLanguage: "Русский")
     }
     weak var view : AddNewBookViewControllerProtocol?
-    
-    var router : AddNewBookRouterProtocol?
-    
     
 }
     
@@ -67,7 +66,10 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol {
         self.view?.changeCondition(addedCondition)
     }
 
-
+    func didTapAddPhotoButton() {
+        //
+    }
+    
 }
 
  

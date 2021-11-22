@@ -9,15 +9,15 @@ import Foundation
 import UIKit
 import PinLayout
 
-protocol AddedNewBookViewControllerProtocol : AnyObject {
-    
+protocol SuccessAddNewBookViewControllerProtocol : AnyObject {
+    func dismissView()
 }
 
-class AddedNewBookViewController : UIViewController, AddedNewBookViewControllerProtocol {
+final class SuccessAddNewBookViewController : UIViewController {
     
-    var output: AddedNewBookPresenterProtocol
+    var output: SuccessAddNewBookPresenterProtocol
     
-    init(output: AddedNewBookPresenterProtocol){
+    init(output: SuccessAddNewBookPresenterProtocol){
         self.output = output
         super.init(nibName: nil, bundle: nil)
     }
@@ -27,7 +27,7 @@ class AddedNewBookViewController : UIViewController, AddedNewBookViewControllerP
     }
     
     let addedNewBookLabel = UILabel()
-    let daultyImage = UIImage(named: "addedNewBookImage")
+    let daultyImage = UIImage(named: "successAddNewBookImage")
     let daultyImageView = UIImageView()
     let okButton = UIButton()
 
@@ -50,11 +50,12 @@ class AddedNewBookViewController : UIViewController, AddedNewBookViewControllerP
         okButton.setTitle("Отлично", for: .normal)
         okButton.titleLabel?.textAlignment = .center
         okButton.setTitleColor(.white, for: .highlighted)
-        okButton.backgroundColor = UIColor(red: 0.99, green: 0.53, blue: 0.16, alpha: 1.00)
+        okButton.backgroundColor = UIColor(named: "buttonColor")
         okButton.layer.cornerRadius = 10
-    //    okButton.addTarget(self, action: #selector(didTapOkButton(_:)), for: .touchUpInside)
+        okButton.addTarget(self, action: #selector(didTapOkButton(_:)), for: .touchUpInside)
         view.addSubview(okButton)
     }
+
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -78,5 +79,18 @@ class AddedNewBookViewController : UIViewController, AddedNewBookViewControllerP
 
     }
     
+    @objc
+    func didTapOkButton(_ sender: UIButton) {
+        output.didTapOkButton()
+    }
+    
 }
 
+extension SuccessAddNewBookViewController: SuccessAddNewBookViewControllerProtocol {
+    
+    func dismissView() {
+        dismiss(animated: true, completion: nil)
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+}
