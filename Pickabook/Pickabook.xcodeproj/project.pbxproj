@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		390C1837274BF76800F172EB /* AddNewBookAddedPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390C1836274BF76800F172EB /* AddNewBookAddedPhotoView.swift */; };
 		3920BB5A274802CD007A6B4D /* FailAddNewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3920BB59274802CD007A6B4D /* FailAddNewBookViewController.swift */; };
 		3920BB5E27480329007A6B4D /* SuccessNewBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3920BB5D27480329007A6B4D /* SuccessNewBookPresenter.swift */; };
 		3920BB602748038A007A6B4D /* FailAddNewBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3920BB5F2748038A007A6B4D /* FailAddNewBookPresenter.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		390C1836274BF76800F172EB /* AddNewBookAddedPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewBookAddedPhotoView.swift; sourceTree = "<group>"; };
 		3920BB59274802CD007A6B4D /* FailAddNewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailAddNewBookViewController.swift; sourceTree = "<group>"; };
 		3920BB5D27480329007A6B4D /* SuccessNewBookPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessNewBookPresenter.swift; sourceTree = "<group>"; };
 		3920BB5F2748038A007A6B4D /* FailAddNewBookPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailAddNewBookPresenter.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			children = (
 				E13E79E1274434FC00BEE7EC /* AddNewBookPresenter.swift */,
 				E13E79E2274434FC00BEE7EC /* AddNewBookViewController.swift */,
+				390C1836274BF76800F172EB /* AddNewBookAddedPhotoView.swift */,
 				3920BB562748016B007A6B4D /* FailAddNewBook */,
 				E13E79EA2744350700BEE7EC /* SuccessAddNewBook */,
 			);
@@ -307,6 +310,7 @@
 			files = (
 				E13E79C72744323500BEE7EC /* AppDelegate.swift in Sources */,
 				E13E79E7274434FC00BEE7EC /* AddNewBookViewController.swift in Sources */,
+				390C1837274BF76800F172EB /* AddNewBookAddedPhotoView.swift in Sources */,
 				3920BB5A274802CD007A6B4D /* FailAddNewBookViewController.swift in Sources */,
 				E13E79FC274435AE00BEE7EC /* MyProfileModel.swift in Sources */,
 				E13E7A05274437AE00BEE7EC /* SuccessAddNewBookViewController.swift in Sources */,
@@ -481,6 +485,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KZ6U2U6SB3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Pickabook/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -511,6 +516,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KZ6U2U6SB3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Pickabook/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

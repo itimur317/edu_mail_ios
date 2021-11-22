@@ -45,6 +45,7 @@ final class AddNewBookViewController: UIViewController {
     let centerPhotoImageView = UIImageView()
     let rightPhotoImageView = UIImageView()
     
+    
     let leftNumberPhotoLabel = UILabel()
     let centerNumberPhotoLabel = UILabel()
     let rightNumberPhotoLabel = UILabel()
@@ -122,11 +123,21 @@ final class AddNewBookViewController: UIViewController {
         addPhotoButton.addTarget(self, action: #selector(didTapAddPhotoButton(_:)), for: .touchUpInside)
         scrollView.addSubview(addPhotoButton)
 
+        let leftPhotoImageViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapLeftPhotoImageView(tapGestureRecognizer:)))
+        leftPhotoImageView.addGestureRecognizer(leftPhotoImageViewTapGestureRecognizer)
+        
+        let centerPhotoImageViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapCenterPhotoImageView(tapGestureRecognizer:)))
+        centerPhotoImageView.addGestureRecognizer(centerPhotoImageViewTapGestureRecognizer)
+        
+        let rightPhotoImageViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapRightPhotoImageView(tapGestureRecognizer:)))
+        rightPhotoImageView.addGestureRecognizer(rightPhotoImageViewTapGestureRecognizer)
+        
         
         [leftPhotoImageView, centerPhotoImageView, rightPhotoImageView].forEach{
             $0.layer.cornerRadius = 8
             $0.layer.masksToBounds = true
             $0.isHidden = true
+            $0.isUserInteractionEnabled = true
             scrollView.addSubview($0)
         }
         
@@ -164,7 +175,6 @@ final class AddNewBookViewController: UIViewController {
         bookNameTextView.backgroundColor = .systemGray6
         scrollView.addSubview(bookNameTextView)
         // если серый, то ничего сохранять не надо
-
         
         authorNameLabel.text = "Автор*"
         authorNameLabel.textAlignment = .left
@@ -266,6 +276,37 @@ final class AddNewBookViewController: UIViewController {
         
     }
     
+    @objc
+    func didTapLeftPhotoImageView(tapGestureRecognizer: UITapGestureRecognizer) {
+        print("left")
+        if let image = leftPhotoImageView.image {
+            openAddNewBookAddedPhotoView(image)
+        }
+    }
+    
+    @objc
+    func didTapCenterPhotoImageView(tapGestureRecognizer: UITapGestureRecognizer) {
+        print("center")
+        if let image = centerPhotoImageView.image {
+            openAddNewBookAddedPhotoView(image)
+        }
+    }
+    
+    @objc
+    func didTapRightPhotoImageView(tapGestureRecognizer: UITapGestureRecognizer) {
+        print("right")
+        if let image = rightPhotoImageView.image {
+            openAddNewBookAddedPhotoView(image)
+        }
+    }
+    
+    
+    func openAddNewBookAddedPhotoView(_ image : UIImage) {
+        let addNewBookAddPhotoView = AddNewBookAddPhotoView(image)
+        addNewBookAddPhotoView.modalPresentationStyle = .overFullScreen
+        present(addNewBookAddPhotoView, animated: true, completion: nil)
+    }
+    
     
     @objc
     func didTapCloseButton(_ sender: UIBarButtonItem) {
@@ -341,7 +382,7 @@ final class AddNewBookViewController: UIViewController {
             }
         }
         
-        correctPhotoButton.isHidden = true 
+        correctPhotoButton.isHidden = true
     }
     
     
