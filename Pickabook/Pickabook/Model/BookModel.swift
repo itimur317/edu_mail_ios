@@ -8,6 +8,7 @@ import Foundation
 import UIKit
 
 struct Book {
+    var identifier : String = UUID().uuidString
     var bookImages: [UIImage]? = []
     var bookName: String
     var bookAuthor: String
