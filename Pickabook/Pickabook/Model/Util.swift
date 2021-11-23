@@ -80,36 +80,42 @@ class Util {
     
     let books : [Book] =  [
         Book(
+            bookImages: [.init()],
             bookName: "Автостопом по галактике",
             bookAuthor: "Дуглас Адамс",
             bookGenres: .fantastic,
             bookCondition: 3,
             bookLanguage: "Русский"),
         Book(
+            bookImages: [.init()],
             bookName: "Детективное агенство Дирка Джентли",
             bookAuthor: "Дуглас Адамс",
             bookGenres:  .detectives,
             bookCondition: 2,
             bookLanguage: "Русский"),
         Book(
+            bookImages: [.init()],
             bookName: "Кровь, пот и пиксели",
             bookAuthor: "Кто-то",
             bookGenres: .art,
             bookCondition: 3,
             bookLanguage: "Русский"),
         Book(
+            bookImages: [.init()],
             bookName: "Я-Малала",
             bookAuthor: "Малала Юсуфзай",
             bookGenres: .biography,
             bookCondition: 3,
             bookLanguage: "Русский"),
         Book(
+            bookImages: [.init()],
             bookName: "Сборник стихов",
             bookAuthor: "Анна Ахматова",
             bookGenres: .poetry,
             bookCondition: 3,
             bookLanguage: "Русский"),
         Book(
+            bookImages: [.init()],
             bookName: "Эмоциональный интеллект" ,
             bookAuthor: "Дэниел Гоулман",
             bookGenres: .psychology,

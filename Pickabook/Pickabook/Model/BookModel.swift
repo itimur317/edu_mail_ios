@@ -9,7 +9,7 @@ import UIKit
 
 struct Book {
     var identifier : String = UUID().uuidString
-    var bookImages: [UIImage]? = []
+    var bookImages: [Data] 
     var bookName: String
     var bookAuthor: String
     var bookGenres: GenreType

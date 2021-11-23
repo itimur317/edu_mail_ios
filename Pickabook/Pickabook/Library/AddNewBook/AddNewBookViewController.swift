@@ -232,7 +232,6 @@ final class AddNewBookViewController: UIViewController {
             conditionButtons[i].setImage(conditionStarImage, for: .normal)
             scrollView.addSubview(conditionButtons[i])
         }
-
  
         
         conditionDescriptionLabel.text = "5 звезд \nКнига находится в идеальном состоянии\n\n4 звезды \nКнига была прочитана пару раз, использовалась аккуратно - нет заметных повреждений\n\n3 звезды\nКнига была прочитана несколько раз, допустимы небольшие повреждения(царапины на обложке, погнутые страницы и тп)\n\n2 звезды\nКнига была прочитана много раз, имеются повреждения(порванные или разрисованные страницы)\n\n1 звезда\nКнига находится в плохом состоянии, повреждения могут препятствовать чтению"
@@ -488,8 +487,6 @@ extension AddNewBookViewController {
     
     
 
-    
-    
     @objc
     private func didTapCloseButton(_ sender: UIBarButtonItem) {
         
@@ -507,7 +504,13 @@ extension AddNewBookViewController {
     @objc
     private func didTapAddButton(_ sender: UIButton) {
         
-        self.output.didTapAddButton(bookName: bookNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
+        let leftPhotoImageViewData = leftPhotoImageView.image?.jpegData(compressionQuality: 1.0)
+        let centerPhotoImageViewData = centerPhotoImageView.image?.jpegData(compressionQuality: 1.0)
+        let rightPhotoImageViewData = rightPhotoImageView.image?.jpegData(compressionQuality: 1.0)
+
+        
+        self.output.didTapAddButton(bookImages: [leftPhotoImageViewData, centerPhotoImageViewData, rightPhotoImageViewData],
+                                    bookName: bookNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
                                     bookNameColor: bookNameTextView.textColor!,
                                     authorName: authorNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
                                     authorNameColor : authorNameTextView.textColor!,
@@ -520,6 +523,7 @@ extension AddNewBookViewController {
 
     @objc
     private func didTapConditionButton(_ sender: UIButton) {
+        
         var addedCondition: Int = 0
         
         for i in 0...4 {
@@ -534,10 +538,12 @@ extension AddNewBookViewController {
         }
         
         self.output.didTapConditionButton(addedCondition)
+        
     }
     
     @objc
     private func didTapAddPhotoButton(_ sender: UIButton) {
+        
         if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
             addPhotoImagePicker.allowsEditing = false
             addPhotoImagePicker.sourceType = .savedPhotosAlbum
@@ -556,10 +562,12 @@ extension AddNewBookViewController {
             
             present(alert, animated: true)
         }
+        
     }
     
     @objc
     private func didTapCorrectPhotoButton(_ sender: UIButton) {
+        
         if leftPhotoImageView.image != nil {
             addPhotoButton.isHidden = false
         }
@@ -579,13 +587,17 @@ extension AddNewBookViewController {
         }
         
         correctPhotoButton.isHidden = true
+        
     }
+    
 }
 
 
 // for placeholder in UITextView
 extension AddNewBookViewController: UITextViewDelegate {
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
+        
         if textView.textColor == .gray {
             textView.text = ""
             textView.textColor = .black
@@ -594,16 +606,19 @@ extension AddNewBookViewController: UITextViewDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView, _ placeholder: String) {
+        
         if textView.text.isEmpty {
             textView.text = placeholder
             textView.textColor = .gray
         }
+        
     }
      
 }
 
 // to hide keyboard when tap
 extension AddNewBookViewController {
+    
     func hideKeyboardWhenTappedAround() {
         let tap = UITapGestureRecognizer(target: self,
                                          action: #selector(AddNewBookViewController.dismissKeyboard))
