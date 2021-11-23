@@ -25,25 +25,30 @@ final class AddNewBookAddPhotoView: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
         
-        let tapViewGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapViewGestureRecognizer(tapGestureRecognizer:)))
+        
+        let tapViewGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                              action: #selector(didTapViewGestureRecognizer(tapGestureRecognizer:)))
         view.addGestureRecognizer(tapViewGestureRecognizer)
         
-        let pinchImageViewGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(didPinchImageViewGestureRecognizer(pinchGestureRecognizer:)))
+        let pinchImageViewGestureRecognizer = UIPinchGestureRecognizer(target: self,
+                                                                       action: #selector(didPinchImageViewGestureRecognizer(pinchGestureRecognizer:)))
         
         currentPhotoImageView.frame = CGRect(x: 20, y: view.frame.height / 2  - (view.frame.width - 40) / 2, width: view.frame.width - 40, height: view.frame.width - 40)
+        
         currentPhotoImageView.backgroundColor = UIColor.black.withAlphaComponent(0.75)
         currentPhotoImageView.isUserInteractionEnabled = true
         currentPhotoImageView.addGestureRecognizer(pinchImageViewGestureRecognizer)
         view.addSubview(currentPhotoImageView)
+
     }
     
     @objc
     func didTapViewGestureRecognizer(tapGestureRecognizer: UITapGestureRecognizer) {
-        self.dismiss(animated: true, completion: nil)
+        moveOut()
     }
     
     @objc
-    func didPinchImageViewGestureRecognizer(pinchGestureRecognizer: UIPinchGestureRecognizer) {
+    private func didPinchImageViewGestureRecognizer(pinchGestureRecognizer: UIPinchGestureRecognizer) {
         if pinchGestureRecognizer.state == .began || pinchGestureRecognizer.state == .changed {
             self.view.bringSubviewToFront(currentPhotoImageView)
             pinchGestureRecognizer.view?.transform = (pinchGestureRecognizer.view?.transform)!.scaledBy(x: pinchGestureRecognizer.scale, y: pinchGestureRecognizer.scale)
@@ -51,6 +56,14 @@ final class AddNewBookAddPhotoView: UIViewController {
         } else if pinchGestureRecognizer.state == .ended {
             self.currentPhotoImageView.transform = CGAffineTransform.identity
         }
-        
+    }
+    
+    func moveOut() {
+        UIView.animate(withDuration: 0.24, animations: {
+            self.view.transform = CGAffineTransform(scaleX: 1.35, y: 1.35)
+            self.view.alpha = 0.0
+        }) { _ in
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }

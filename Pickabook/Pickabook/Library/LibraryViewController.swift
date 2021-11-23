@@ -32,8 +32,11 @@ final class LibraryViewController : UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        addNewBookButton.setTitle("ADD BOOK", for: .normal)
-        addNewBookButton.addTarget(self, action: #selector(didTapAddNewBookButton(_:)), for: .touchUpInside)
+        addNewBookButton.setTitle("ADD BOOK",
+                                  for: .normal)
+        addNewBookButton.addTarget(self,
+                                   action: #selector(didTapAddNewBookButton(_:)),
+                                   for: .touchUpInside)
         addNewBookButton.backgroundColor = .red
         view.addSubview(addNewBookButton)
     }
@@ -49,20 +52,23 @@ final class LibraryViewController : UIViewController {
     }
     
     @objc
-    func didTapAddNewBookButton(_ sender: UIButton) {
+    private func didTapAddNewBookButton(_ sender: UIButton) {
         
         let addNewBookPresenter = AddNewBookPresenter()
         let addNewBookViewController = AddNewBookViewController(output: addNewBookPresenter)
         let navigationController = UINavigationController(rootViewController: addNewBookViewController)
         addNewBookPresenter.view = addNewBookViewController
         navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true, completion: nil)
+        present(navigationController,
+                animated: true,
+                completion: nil)
         
     }
 }
 
 extension LibraryViewController: LibraryViewControllerProtocol {
     func dismissView(){
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true,
+                completion: nil)
     }
 }

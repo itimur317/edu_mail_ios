@@ -11,7 +11,7 @@ protocol SuccessAddNewBookPresenterProtocol : AnyObject {
     func didTapOkButton()
 }
 
-class SuccessAddNewBookPresenter : SuccessAddNewBookPresenterProtocol {
+final class SuccessAddNewBookPresenter : SuccessAddNewBookPresenterProtocol {
     
     weak var view : SuccessAddNewBookViewControllerProtocol?
     

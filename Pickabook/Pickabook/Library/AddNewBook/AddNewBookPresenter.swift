@@ -11,7 +11,15 @@ import UIKit
  
 protocol AddNewBookPresenterProtocol: AnyObject {
     var newBook: Book { get set }
-    func didTapAddButton(bookName: String, bookNameColor: UIColor, authorName: String, authorNameColor : UIColor, bookDescription: String,bookDescriptionColor : UIColor, bookLanguage: String, bookLanguageColor: UIColor)
+    func didTapAddButton(bookImages: [Data?],
+                         bookName: String,
+                         bookNameColor: UIColor,
+                         authorName: String,
+                         authorNameColor : UIColor,
+                         bookDescription: String,
+                         bookDescriptionColor : UIColor,
+                         bookLanguage: String,
+                         bookLanguageColor: UIColor)
     func didTapConditionButton(_ addedCondition: Int)
     func didTapAddPhotoButton()
 }
@@ -20,8 +28,14 @@ protocol AddNewBookPresenterProtocol: AnyObject {
 final class AddNewBookPresenter{
     var newBook: Book
     
-    init(){
-        newBook = Book(bookImages: nil, bookName: "", bookAuthor: "", bookGenres: .notSelected , bookCondition: 0, bookDescription: nil, bookLanguage: "Русский")
+    init() {
+        newBook = Book(bookImages: [],
+                       bookName: "",
+                       bookAuthor: "",
+                       bookGenres: .notSelected ,
+                       bookCondition: 0,
+                       bookDescription: nil,
+                       bookLanguage: "Русский")
     }
     weak var view : AddNewBookViewControllerProtocol?
     
@@ -29,13 +43,42 @@ final class AddNewBookPresenter{
     
 extension AddNewBookPresenter: AddNewBookPresenterProtocol {
     
-    func didTapAddButton(bookName: String, bookNameColor: UIColor, authorName: String, authorNameColor : UIColor, bookDescription: String, bookDescriptionColor : UIColor, bookLanguage: String, bookLanguageColor: UIColor) {
+    func didTapAddButton(bookImages:[Data?],
+                         bookName: String,
+                         bookNameColor: UIColor,
+                         authorName: String,
+                         authorNameColor : UIColor,
+                         bookDescription: String,
+                         bookDescriptionColor : UIColor,
+                         bookLanguage: String,
+                         bookLanguageColor: UIColor) {
         
-        if (bookName == "" ||  authorName == "" ||  bookLanguage == "" || bookNameColor == .gray || authorNameColor == .gray  || self.newBook.bookCondition == 0 || self.newBook.bookGenres == .notSelected) {
+        if (bookImages[1] == nil || bookName == "" ||  authorName == ""
+            ||  bookLanguage == "" || bookNameColor == .gray
+            || authorNameColor == .gray  || self.newBook.bookCondition == 0
+            || self.newBook.bookGenres == .notSelected) {
             
             self.view?.requiredFieldAlert()
             
         } else {
+            
+            // when added just centerImage
+            if bookImages[2] == nil {
+                self.newBook.bookImages = [bookImages[1]!]
+            }
+            
+            // when added centerImage and rightImage
+            else if bookImages[0] == nil {
+                self.newBook.bookImages = [bookImages[2]!, bookImages[1]!]
+            }
+            
+            // all added
+            else {
+                self.newBook.bookImages = [bookImages[2]!, bookImages[1]! , bookImages[0]!]
+            }
+            
+           
+           
             
             self.newBook.bookName = bookName
             self.newBook.bookAuthor = authorName
@@ -51,7 +94,7 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol {
             
         }
         
-
+        print(self.newBook.bookImages)
         print(self.newBook.bookName)
         print(self.newBook.bookAuthor)
         print(self.newBook.bookCondition)

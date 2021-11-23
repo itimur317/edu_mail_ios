@@ -52,7 +52,9 @@ final class SuccessAddNewBookViewController : UIViewController {
         okButton.setTitleColor(.white, for: .highlighted)
         okButton.backgroundColor = UIColor(named: "buttonColor")
         okButton.layer.cornerRadius = 10
-        okButton.addTarget(self, action: #selector(didTapOkButton(_:)), for: .touchUpInside)
+        okButton.addTarget(self,
+                           action: #selector(didTapOkButton(_:)),
+                           for: .touchUpInside)
         view.addSubview(okButton)
     }
 
@@ -80,7 +82,7 @@ final class SuccessAddNewBookViewController : UIViewController {
     }
     
     @objc
-    func didTapOkButton(_ sender: UIButton) {
+    private func didTapOkButton(_ sender: UIButton) {
         output.didTapOkButton()
     }
     

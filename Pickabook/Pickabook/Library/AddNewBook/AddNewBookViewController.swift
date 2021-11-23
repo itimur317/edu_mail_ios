@@ -24,7 +24,8 @@ final class AddNewBookViewController: UIViewController {
     
     init(output: AddNewBookPresenterProtocol){
         self.output = output
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil,
+                   bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -90,7 +91,9 @@ final class AddNewBookViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapCloseButton(_: )))
+        let closeButton = UIBarButtonItem(barButtonSystemItem: .close,
+                                          target: self,
+                                          action: #selector(didTapCloseButton(_: )))
         
         navigationItem.rightBarButtonItem = closeButton
 
@@ -120,16 +123,21 @@ final class AddNewBookViewController: UIViewController {
         addPhotoButton.backgroundColor = .blue
         addPhotoButton.layer.cornerRadius = 8
         addPhotoButton.setImage(addPhotoImage, for: .normal)
-        addPhotoButton.addTarget(self, action: #selector(didTapAddPhotoButton(_:)), for: .touchUpInside)
+        addPhotoButton.addTarget(self,
+                                 action: #selector(didTapAddPhotoButton(_:)),
+                                 for: .touchUpInside)
         scrollView.addSubview(addPhotoButton)
 
-        let leftPhotoImageViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapLeftPhotoImageView(tapGestureRecognizer:)))
+        let leftPhotoImageViewTapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                            action: #selector(didTapLeftPhotoImageView(tapGestureRecognizer:)))
         leftPhotoImageView.addGestureRecognizer(leftPhotoImageViewTapGestureRecognizer)
         
-        let centerPhotoImageViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapCenterPhotoImageView(tapGestureRecognizer:)))
+        let centerPhotoImageViewTapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                              action: #selector(didTapCenterPhotoImageView(tapGestureRecognizer:)))
         centerPhotoImageView.addGestureRecognizer(centerPhotoImageViewTapGestureRecognizer)
         
-        let rightPhotoImageViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapRightPhotoImageView(tapGestureRecognizer:)))
+        let rightPhotoImageViewTapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                             action: #selector(didTapRightPhotoImageView(tapGestureRecognizer:)))
         rightPhotoImageView.addGestureRecognizer(rightPhotoImageViewTapGestureRecognizer)
         
         
@@ -157,7 +165,9 @@ final class AddNewBookViewController: UIViewController {
         correctPhotoButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         correctPhotoButton.setTitleColor(.gray, for: .normal)
         correctPhotoButton.isHidden = true
-        correctPhotoButton.addTarget(self, action: #selector(didTapCorrectPhotoButton(_:)), for: .touchUpInside)
+        correctPhotoButton.addTarget(self,
+                                     action: #selector(didTapCorrectPhotoButton(_:)),
+                                     for: .touchUpInside)
         scrollView.addSubview(correctPhotoButton)
         
  
@@ -216,11 +226,12 @@ final class AddNewBookViewController: UIViewController {
 
         for i in 0...4{
             conditionButtons[i].backgroundColor = .white
-            conditionButtons[i].addTarget(self, action: #selector(didTapConditionButton(_:)), for: .touchUpInside)
+            conditionButtons[i].addTarget(self,
+                                          action: #selector(didTapConditionButton(_:)),
+                                          for: .touchUpInside)
             conditionButtons[i].setImage(conditionStarImage, for: .normal)
             scrollView.addSubview(conditionButtons[i])
         }
-
  
         
         conditionDescriptionLabel.text = "5 звезд \nКнига находится в идеальном состоянии\n\n4 звезды \nКнига была прочитана пару раз, использовалась аккуратно - нет заметных повреждений\n\n3 звезды\nКнига была прочитана несколько раз, допустимы небольшие повреждения(царапины на обложке, погнутые страницы и тп)\n\n2 звезды\nКнига была прочитана много раз, имеются повреждения(порванные или разрисованные страницы)\n\n1 звезда\nКнига находится в плохом состоянии, повреждения могут препятствовать чтению"
@@ -271,119 +282,14 @@ final class AddNewBookViewController: UIViewController {
         addBookButton.setTitleColor(.white, for: .highlighted)
         addBookButton.backgroundColor = UIColor(named: "buttonColor")
         addBookButton.layer.cornerRadius = 10
-        addBookButton.addTarget(self, action: #selector(didTapAddButton(_:)), for: .touchUpInside)
+        addBookButton.addTarget(self,
+                                action: #selector(didTapAddButton(_:)),
+                                for: .touchUpInside)
         scrollView.addSubview(addBookButton)
         
     }
     
-    @objc
-    func didTapLeftPhotoImageView(tapGestureRecognizer: UITapGestureRecognizer) {
-        print("left")
-        if let image = leftPhotoImageView.image {
-            openAddNewBookAddedPhotoView(image)
-        }
-    }
-    
-    @objc
-    func didTapCenterPhotoImageView(tapGestureRecognizer: UITapGestureRecognizer) {
-        print("center")
-        if let image = centerPhotoImageView.image {
-            openAddNewBookAddedPhotoView(image)
-        }
-    }
-    
-    @objc
-    func didTapRightPhotoImageView(tapGestureRecognizer: UITapGestureRecognizer) {
-        print("right")
-        if let image = rightPhotoImageView.image {
-            openAddNewBookAddedPhotoView(image)
-        }
-    }
-    
-    
-    func openAddNewBookAddedPhotoView(_ image : UIImage) {
-        let addNewBookAddPhotoView = AddNewBookAddPhotoView(image)
-        addNewBookAddPhotoView.modalPresentationStyle = .overFullScreen
-        present(addNewBookAddPhotoView, animated: true, completion: nil)
-    }
-    
-    
-    @objc
-    func didTapCloseButton(_ sender: UIBarButtonItem) {
-        
-        let alert = UIAlertController(title: "Выйти?", message: "Данные не сохранятся.", preferredStyle: .alert)
-
-         alert.addAction(UIAlertAction(title: "Да", style: .destructive)
-                         {_ in self.dismiss(animated: true, completion: nil)})
-
-         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
-
-         present(alert, animated: true)
-        
-    }
-    
-    @objc func didTapAddButton(_ sender: UIButton) {
-        
-        self.output.didTapAddButton(bookName: bookNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), bookNameColor: bookNameTextView.textColor!, authorName: authorNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), authorNameColor : authorNameTextView.textColor!, bookDescription: descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines) ,bookDescriptionColor : descriptionTextView.textColor!, bookLanguage: languageTextView.text.trimmingCharacters(in: .whitespacesAndNewlines), bookLanguageColor: languageTextView.textColor!)
-        
-    }
-
-    @objc
-    func didTapConditionButton(_ sender: UIButton) {
-        var addedCondition: Int = 0
-        
-        for i in 0...4 {
-            conditionButtons[i].setImage(conditionStarImage, for: .normal)
-        }
-        
-        for i in 0...4 {
-            if sender == conditionButtons[i] {
-                addedCondition = i + 1
-                break
-            }
-        }
-        
-        self.output.didTapConditionButton(addedCondition)
-    }
-    
-    @objc
-    func didTapAddPhotoButton(_ sender: UIButton) {
-        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
-            addPhotoImagePicker.allowsEditing = false
-            addPhotoImagePicker.sourceType = .savedPhotosAlbum
-                    
-            present(addPhotoImagePicker, animated: true, completion: nil)
-        } else {
-            let alert = UIAlertController(title: "Нет доступа!", message: "У Pickabook нет доступа к вашим фото.\nЧтобы предоставить доступ, перейдите в Настройки и включите Фото.", preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
-            
-            present(alert, animated: true)
-        }
-    }
-    
-    @objc
-    func didTapCorrectPhotoButton(_ sender: UIButton) {
-        if leftPhotoImageView.image != nil {
-            addPhotoButton.isHidden = false
-        }
-            
-        [leftPhotoImageView, centerPhotoImageView, rightPhotoImageView].forEach {
-            if $0.image != nil {
-                $0.image = nil
-                $0.isHidden = true
-            }
-        }
-        
-        [leftNumberPhotoLabel, centerNumberPhotoLabel, rightNumberPhotoLabel].forEach {
-            if $0.text != "0" {
-                $0.text = "0"
-                $0.isHidden = true
-            }
-        }
-        
-        correctPhotoButton.isHidden = true
-    }
+   
     
     
     override func viewDidLayoutSubviews() {
@@ -552,9 +458,146 @@ final class AddNewBookViewController: UIViewController {
 }
 
 
+// for @objc func
+extension AddNewBookViewController {
+    
+    @objc
+    private func didTapLeftPhotoImageView(tapGestureRecognizer: UITapGestureRecognizer) {
+        print("left")
+        if let image = leftPhotoImageView.image {
+            openAddNewBookAddedPhotoView(image)
+        }
+    }
+    
+    @objc
+    private func didTapCenterPhotoImageView(tapGestureRecognizer: UITapGestureRecognizer) {
+        print("center")
+        if let image = centerPhotoImageView.image {
+            openAddNewBookAddedPhotoView(image)
+        }
+    }
+    
+    @objc
+    private func didTapRightPhotoImageView(tapGestureRecognizer: UITapGestureRecognizer) {
+        print("right")
+        if let image = rightPhotoImageView.image {
+            openAddNewBookAddedPhotoView(image)
+        }
+    }
+    
+    
+
+    @objc
+    private func didTapCloseButton(_ sender: UIBarButtonItem) {
+        
+        let alert = UIAlertController(title: "Выйти?", message: "Данные не сохранятся.", preferredStyle: .alert)
+
+         alert.addAction(UIAlertAction(title: "Да", style: .destructive)
+                         {_ in self.dismiss(animated: true, completion: nil)})
+
+         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+
+         present(alert, animated: true)
+        
+    }
+    
+    @objc
+    private func didTapAddButton(_ sender: UIButton) {
+        
+        let leftPhotoImageViewData = leftPhotoImageView.image?.jpegData(compressionQuality: 1.0)
+        let centerPhotoImageViewData = centerPhotoImageView.image?.jpegData(compressionQuality: 1.0)
+        let rightPhotoImageViewData = rightPhotoImageView.image?.jpegData(compressionQuality: 1.0)
+
+        
+        self.output.didTapAddButton(bookImages: [leftPhotoImageViewData, centerPhotoImageViewData, rightPhotoImageViewData],
+                                    bookName: bookNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
+                                    bookNameColor: bookNameTextView.textColor!,
+                                    authorName: authorNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
+                                    authorNameColor : authorNameTextView.textColor!,
+                                    bookDescription: descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
+                                    bookDescriptionColor : descriptionTextView.textColor!,
+                                    bookLanguage: languageTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
+                                    bookLanguageColor: languageTextView.textColor!)
+        
+    }
+
+    @objc
+    private func didTapConditionButton(_ sender: UIButton) {
+        
+        var addedCondition: Int = 0
+        
+        for i in 0...4 {
+            conditionButtons[i].setImage(conditionStarImage, for: .normal)
+        }
+        
+        for i in 0...4 {
+            if sender == conditionButtons[i] {
+                addedCondition = i + 1
+                break
+            }
+        }
+        
+        self.output.didTapConditionButton(addedCondition)
+        
+    }
+    
+    @objc
+    private func didTapAddPhotoButton(_ sender: UIButton) {
+        
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            addPhotoImagePicker.allowsEditing = false
+            addPhotoImagePicker.sourceType = .savedPhotosAlbum
+                    
+            present(addPhotoImagePicker,
+                    animated: true,
+                    completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Нет доступа!",
+                                          message: "У Pickabook нет доступа к вашим фото.\nЧтобы предоставить доступ, перейдите в Настройки и включите Фото.",
+                                          preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Ок",
+                                          style: .default,
+                                          handler: nil))
+            
+            present(alert, animated: true)
+        }
+        
+    }
+    
+    @objc
+    private func didTapCorrectPhotoButton(_ sender: UIButton) {
+        
+        if leftPhotoImageView.image != nil {
+            addPhotoButton.isHidden = false
+        }
+            
+        [leftPhotoImageView, centerPhotoImageView, rightPhotoImageView].forEach {
+            if $0.image != nil {
+                $0.image = nil
+                $0.isHidden = true
+            }
+        }
+        
+        [leftNumberPhotoLabel, centerNumberPhotoLabel, rightNumberPhotoLabel].forEach {
+            if $0.text != "0" {
+                $0.text = "0"
+                $0.isHidden = true
+            }
+        }
+        
+        correctPhotoButton.isHidden = true
+        
+    }
+    
+}
+
+
 // for placeholder in UITextView
-extension AddNewBookViewController:UITextViewDelegate {
+extension AddNewBookViewController: UITextViewDelegate {
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
+        
         if textView.textColor == .gray {
             textView.text = ""
             textView.textColor = .black
@@ -563,18 +606,22 @@ extension AddNewBookViewController:UITextViewDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView, _ placeholder: String) {
+        
         if textView.text.isEmpty {
             textView.text = placeholder
             textView.textColor = .gray
         }
+        
     }
      
 }
 
 // to hide keyboard when tap
 extension AddNewBookViewController {
+    
     func hideKeyboardWhenTappedAround() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(AddNewBookViewController.dismissKeyboard))
+        let tap = UITapGestureRecognizer(target: self,
+                                         action: #selector(AddNewBookViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
@@ -622,7 +669,9 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
         let failAddNewBookViewController = FailAddNewBookViewController(output: failAddNewBookPresenter)
         failAddNewBookPresenter.view = failAddNewBookViewController
         failAddNewBookViewController.modalPresentationStyle = .fullScreen
-        present(failAddNewBookViewController, animated: true, completion: nil)
+        present(failAddNewBookViewController,
+                animated: true,
+                completion: nil)
         
         
 //        let successAddNewBookPresenter = SuccessAddNewBookPresenter()
@@ -635,9 +684,13 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     
     func requiredFieldAlert() {
         
-        let alert = UIAlertController(title: "Недостаточно данных", message: "Заполните обязательные поля!", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Недостаточно данных",
+                                      message: "Заполните обязательные поля!",
+                                      preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Ок",
+                                      style: .default,
+                                      handler: nil))
 
         self.present(alert, animated: true)
         
@@ -645,7 +698,8 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     
     func changeCondition(_ addedCondition: Int) {
         for i in 0 ..< addedCondition {
-            conditionButtons[i].setImage(conditionPaintedStarImage, for: .normal)
+            conditionButtons[i].setImage(conditionPaintedStarImage,
+                                         for: .normal)
         }
     }
     
@@ -708,6 +762,15 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
         correctPhotoButton.isHidden = false
     }
     
+    
+    private func openAddNewBookAddedPhotoView(_ image : UIImage) {
+        let addNewBookAddPhotoView = AddNewBookAddPhotoView(image)
+        addNewBookAddPhotoView.modalPresentationStyle = .overFullScreen
+        present(addNewBookAddPhotoView,
+                animated: true,
+                completion: nil)
+    }
+    
 }
 
 extension AddNewBookViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -723,5 +786,7 @@ extension AddNewBookViewController : UIImagePickerControllerDelegate, UINavigati
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
+
         
 }
+

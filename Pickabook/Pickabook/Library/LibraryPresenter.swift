@@ -11,7 +11,7 @@ protocol LibraryPresenterProtocol : AnyObject {
     
 }
 
-class LibraryPresenter : LibraryPresenterProtocol {
+final class LibraryPresenter : LibraryPresenterProtocol {
     
     weak var view : LibraryViewControllerProtocol?
     
