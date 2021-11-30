@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E10C955C2752773C00BAD159 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E10C955B2752773C00BAD159 /* IQKeyboardManagerSwift */; };
+		E10C955E2752777300BAD159 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10C955D2752777300BAD159 /* BookViewController.swift */; };
 		E13E79A3274431B300BEE7EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A1274431B300BEE7EC /* Main.storyboard */; };
 		E13E79A5274431B500BEE7EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A4274431B500BEE7EC /* Assets.xcassets */; };
 		E13E79A8274431B500BEE7EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A6274431B500BEE7EC /* LaunchScreen.storyboard */; };
@@ -14,7 +16,6 @@
 		E13E79C52744323500BEE7EC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79B92744323500BEE7EC /* MainViewController.swift */; };
 		E13E79C72744323500BEE7EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79BB2744323500BEE7EC /* AppDelegate.swift */; };
 		E13E79CB2744338400BEE7EC /* PinLayout in Frameworks */ = {isa = PBXBuildFile; productRef = E13E79CA2744338400BEE7EC /* PinLayout */; };
-		E13E79CE2744339200BEE7EC /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E13E79CD2744339200BEE7EC /* IQKeyboardManagerSwift */; };
 		E13E79D42744344200BEE7EC /* GenreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79D02744344200BEE7EC /* GenreCollectionViewController.swift */; };
 		E13E79D52744344200BEE7EC /* GenreCollectionViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79D12744344200BEE7EC /* GenreCollectionViewPresenter.swift */; };
 		E13E79D62744344200BEE7EC /* GenreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79D22744344200BEE7EC /* GenreCell.swift */; };
@@ -38,9 +39,11 @@
 		E13E7A05274437AE00BEE7EC /* AddedNewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79EB2744350700BEE7EC /* AddedNewBookViewController.swift */; };
 		E13E7A06274437B200BEE7EC /* AddedNewBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79EC2744350700BEE7EC /* AddedNewBookPresenter.swift */; };
 		E13E7A07274437B500BEE7EC /* AddedNewBookRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E79ED2744350700BEE7EC /* AddedNewBookRouter.swift */; };
+		E1551F712753ECC0001FB361 /* BookViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1551F702753ECC0001FB361 /* BookViewPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E10C955D2752777300BAD159 /* BookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		E13E7998274431B300BEE7EC /* Pickabook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pickabook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E13E79A2274431B300BEE7EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E13E79A4274431B500BEE7EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -73,6 +76,7 @@
 		E13E79F9274435AE00BEE7EC /* MyProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileModel.swift; sourceTree = "<group>"; };
 		E13E79FA274435AE00BEE7EC /* MyProfilePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfilePresenter.swift; sourceTree = "<group>"; };
 		E13E79FE2744363500BEE7EC /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		E1551F702753ECC0001FB361 /* BookViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookViewPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E13E79CB2744338400BEE7EC /* PinLayout in Frameworks */,
-				E13E79CE2744339200BEE7EC /* IQKeyboardManagerSwift in Frameworks */,
+				E10C955C2752773C00BAD159 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +111,7 @@
 		E13E799A274431B300BEE7EC /* Pickabook */ = {
 			isa = PBXGroup;
 			children = (
+				E1551F6F2753EC85001FB361 /* BookView */,
 				E13E79F7274435A100BEE7EC /* MyProfile */,
 				E13E79DF274434E700BEE7EC /* AddNewBook */,
 				E13E79D82744345700BEE7EC /* ChangeProfileData */,
@@ -131,7 +136,6 @@
 			children = (
 				E13E79D02744344200BEE7EC /* GenreCollectionViewController.swift */,
 				E13E79D12744344200BEE7EC /* GenreCollectionViewPresenter.swift */,
-				E13E79D32744344200BEE7EC /* GenreModel.swift */,
 			);
 			path = GenreCollectionView;
 			sourceTree = "<group>";
@@ -180,6 +184,7 @@
 		E13E79F22744352200BEE7EC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E13E79D32744344200BEE7EC /* GenreModel.swift */,
 				E13E79F32744352200BEE7EC /* BookModel.swift */,
 				E13E79FE2744363500BEE7EC /* Util.swift */,
 			);
@@ -206,6 +211,15 @@
 			path = MyProfile;
 			sourceTree = "<group>";
 		};
+		E1551F6F2753EC85001FB361 /* BookView */ = {
+			isa = PBXGroup;
+			children = (
+				E10C955D2752777300BAD159 /* BookViewController.swift */,
+				E1551F702753ECC0001FB361 /* BookViewPresenter.swift */,
+			);
+			path = BookView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -224,7 +238,7 @@
 			name = Pickabook;
 			packageProductDependencies = (
 				E13E79CA2744338400BEE7EC /* PinLayout */,
-				E13E79CD2744339200BEE7EC /* IQKeyboardManagerSwift */,
+				E10C955B2752773C00BAD159 /* IQKeyboardManagerSwift */,
 			);
 			productName = Pickabook;
 			productReference = E13E7998274431B300BEE7EC /* Pickabook.app */;
@@ -257,7 +271,7 @@
 			mainGroup = E13E798F274431B300BEE7EC;
 			packageReferences = (
 				E13E79C92744338400BEE7EC /* XCRemoteSwiftPackageReference "PinLayout" */,
-				E13E79CC2744339200BEE7EC /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				E10C955A2752773C00BAD159 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = E13E7999274431B300BEE7EC /* Products */;
 			projectDirPath = "";
@@ -290,11 +304,13 @@
 				E13E79C72744323500BEE7EC /* AppDelegate.swift in Sources */,
 				E13E79E7274434FC00BEE7EC /* AddNewBookViewController.swift in Sources */,
 				E13E79FC274435AE00BEE7EC /* MyProfileModel.swift in Sources */,
+				E1551F712753ECC0001FB361 /* BookViewPresenter.swift in Sources */,
 				E13E7A05274437AE00BEE7EC /* AddedNewBookViewController.swift in Sources */,
 				E13E79DE274434C200BEE7EC /* ChangeProfileDataPresenter.swift in Sources */,
 				E13E7A022744370E00BEE7EC /* BooksCollectionViewController.swift in Sources */,
 				E13E7A06274437B200BEE7EC /* AddedNewBookPresenter.swift in Sources */,
 				E13E79DD274434C200BEE7EC /* ChangeProfileDataModel.swift in Sources */,
+				E10C955E2752777300BAD159 /* BookViewController.swift in Sources */,
 				E13E79C52744323500BEE7EC /* MainViewController.swift in Sources */,
 				E13E7A012744370700BEE7EC /* BooksCollectionViewPresenter.swift in Sources */,
 				E13E79FF2744363500BEE7EC /* Util.swift in Sources */,
@@ -479,7 +495,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Pickabook/Pickabook-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -508,7 +524,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Pickabook/Pickabook-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -536,6 +552,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E10C955A2752773C00BAD159 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		E13E79C92744338400BEE7EC /* XCRemoteSwiftPackageReference "PinLayout" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/layoutBox/PinLayout.git";
@@ -544,26 +568,18 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		E13E79CC2744339200BEE7EC /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E10C955B2752773C00BAD159 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E10C955A2752773C00BAD159 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
 		E13E79CA2744338400BEE7EC /* PinLayout */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E13E79C92744338400BEE7EC /* XCRemoteSwiftPackageReference "PinLayout" */;
 			productName = PinLayout;
-		};
-		E13E79CD2744339200BEE7EC /* IQKeyboardManagerSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E13E79CC2744339200BEE7EC /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
-			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

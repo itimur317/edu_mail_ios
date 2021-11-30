@@ -22,7 +22,7 @@ final class BooksCollectionViewPresenter: BooksCollectionViewPresenterProtocol {
     }
     
     func chosedBook(book: Book) {
-        // открывает страницу книги
+        delegate?.presentNextVC(selectedBook: book)
     }
     
     func loadBooks(genre: Genre) -> [Book] {

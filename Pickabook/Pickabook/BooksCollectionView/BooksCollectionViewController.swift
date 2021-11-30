@@ -46,6 +46,15 @@ class BooksCollectionViewController: UICollectionViewController {
         self.collectionView.dataSource = self
         self.collectionView!.register(BookCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     }
+    
+    func presentNextVC(selectedBook : Book){
+        let presenterB = BookViewPresenter()
+        let vc = BookViewController(output: presenterB, book: selectedBook)
+        self.navigationController?.pushViewController(vc, animated: true)
+   
+        vc.navigationController?.navigationBar.tintColor = .black
+        vc.modalPresentationStyle = .fullScreen
+    }
 }
 
 extension BooksCollectionViewController {
@@ -64,5 +73,10 @@ extension BooksCollectionViewController {
         let book = sortedBooks[indexPath.row]
         cell.configure(with: book)
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let book = sortedBooks[indexPath.row]
+        presenter.chosedBook(book: book)
     }
 }

@@ -20,7 +20,6 @@ final class GenreCollectionViewPresenter: GenreCollectionViewPresenterProtocol {
     }
     
     func chosedGenre(genre: Genre) {
-        print("tabbed \(genre.name)")
         delegate?.presentNextVC(genre: genre)
     }
 }

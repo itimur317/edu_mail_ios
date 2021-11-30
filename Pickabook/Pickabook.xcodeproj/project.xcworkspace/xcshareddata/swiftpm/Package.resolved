@@ -5,9 +5,9 @@
         "package": "IQKeyboardManagerSwift",
         "repositoryURL": "https://github.com/hackiftekhar/IQKeyboardManager",
         "state": {
-          "branch": null,
+          "branch": "master",
           "revision": "474f849accae40fe61b5302d9b057dd48ee073ba",
-          "version": "6.5.9"
+          "version": null
         }
       },
       {

@@ -90,6 +90,7 @@ class Util {
             bookAuthor: "Дуглас Адамс",
             bookGenres:  .detectives,
             bookCondition: 2,
+            bookDescription : "Книга в хорошем состоянии, обменяю на другие книги данного автора.",
             bookLanguage: "Русский"),
         Book(
             bookName: "Кровь, пот и пиксели",

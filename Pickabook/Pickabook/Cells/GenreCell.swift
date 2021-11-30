@@ -20,21 +20,6 @@ class GenreCell: UICollectionViewCell {
     }
     
     let namelabel = UILabel()
-//    let namelabel: UILabel = {
-//        let label = UILabel()
-//        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-//        label.textAlignment = .left
-//        label.textColor = UIColor.white
-//
-//        label.numberOfLines = 0
-//        label.lineBreakMode = .byWordWrapping
-//
-//        label.frame.size = CGSize(width: ,  height: 60)
-//
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        ()
-//        return label
-//    }()
     
     func addView(){
         namelabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -52,7 +37,7 @@ class GenreCell: UICollectionViewCell {
         
         namelabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         namelabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        namelabel.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        namelabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
     }
     
     func configure(genre: Genre){
