@@ -31,11 +31,9 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
 //
     let scrollView = UIScrollView()
     
-    let backButton = UIButton()
-    let saveUpperButton = UIButton()
-    
     let image = UILabel() //= UIImage() //need fix
-    let imageEditIcon = UILabel() //= UIImage()
+    let imageEditImageView = UIImageView()//= UIButton()
+    let imageEditIcon = UIImage(systemName: "pencil")
     
     let nameLabel = UILabel()
     let nameTextField = UITextField()
@@ -53,10 +51,13 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        navigationItem.title = "Редактировать профиль"
+        //self.navigationController.navigationBar.titleTextAttributes = NSFontAttributeName[UIFont.Weight()] // пытался поменять толщину  заголовка, но уже не хочу
         self.hideKeyboardWhenTappedAround()
         
         //take 1
         scrollView.contentSize = CGSize(width: view.frame.width, height: 574) // need changes
+        view.addSubview(scrollView)
        
         //take 2
 //        scrollView.contentSize = CGSize (
@@ -65,19 +66,9 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
 //                CGFloat(view.frame.height) > CGFloat(574) ? view.frame.height : 574
 //            )
 //        )
-
-        view.addSubview(scrollView)
+//      view.addSubview(scrollView)
         
-        backButton.setTitle("<", for: .normal)
-        //backButton.titleLabel?.font = backButton.titleLabel?.font.withSize(10)
-        backButton.setTitleColor(UIColor.black, for: .normal)
-        view.addSubview(backButton)
-        
-        saveUpperButton.setTitle("save", for: .normal)
-        //saveUpperButton.titleLabel?.font = saveUpperButton.titleLabel?.font.withSize(10)
-        saveUpperButton.setTitleColor(UIColor.black, for: .normal)
-        view.addSubview(saveUpperButton)
-        
+//          image
         image.layer.cornerRadius = 60
         image.layer.masksToBounds = true
         image.backgroundColor = UIColor (
@@ -87,36 +78,29 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
             alpha: 1.00
         )
         scrollView.addSubview(image)
+                
+        imageEditImageView.image = imageEditIcon
+        scrollView.addSubview(imageEditImageView)
         
-        imageEditIcon.layer.cornerRadius = 60
-        imageEditIcon.layer.masksToBounds = true
-        imageEditIcon.backgroundColor = UIColor (
-            red: 0.62,
-            green: 0.85,
-            blue: 0.82,
-            alpha: 1.00
-        )
-        scrollView.addSubview(imageEditIcon)
-        
+//          labels
         nameLabel.text = "Имя"
         emailAdressLabel.text = "Электронная почта"
         phoneNumberLabel.text = "Номер телефона"
         telegramLinkLabel.text = "Ссылка на аккаунт в Telegram"
         instagramLinkLabel.text = "Ссылка на аккаунт в Instagram"
         
-//          label parameters
         [nameLabel, emailAdressLabel, phoneNumberLabel, telegramLinkLabel, instagramLinkLabel].forEach { label in
             label.font = UIFont.systemFont(ofSize: CGFloat(lableFontSize))
             scrollView.addSubview(label)
         }
         
+//          textFields
         nameTextField.text = "Попуг Олежа"
         emailAdressTextField.text = "peekabook@peeka.book"
         phoneNumberTextField.text = "+4 44 44"
         telegramLinkTextField.text = "https://t.me/"
         instagramLinkTextField.text = "https://www.instagram.com/"
         
-//          textField parameters
         [nameTextField, emailAdressTextField, phoneNumberTextField, telegramLinkTextField, instagramLinkTextField].forEach { textField in
             textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
             textField.leftViewMode = .always
@@ -145,36 +129,23 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
     
     override func viewDidLayoutSubviews() {
         super .viewDidLayoutSubviews()
-        
-//        will be deleted
-        backButton.pin
-            .top(40)
-            .left(12)
-            .height(28)
-            .width(50)
-
-//        will be deleted
-        saveUpperButton.pin
-            .top(40)
-            .right(12)
-            .height(28)
-            .width(50)
                 
         scrollView.pin
             .topLeft()
             .height(view.frame.height)
             .width(view.frame.width)
-                
+              
+//         image
         image.pin
             .top(12)
             .topCenter()
             .size(120)
         
-//        similar to image
-        imageEditIcon.pin
-            .top(12)
+//        edit icon ( pinned nearly similar to image )
+        imageEditImageView.pin
+            .top(12+35)
             .topCenter()
-            .size(120)
+            .size(50)
         
 //        имя
         nameLabel.pin

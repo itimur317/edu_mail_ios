@@ -31,4 +31,5 @@ enum GenreType {
     case scipop
     case health
     case kidslit
+    case notSelected
 }
