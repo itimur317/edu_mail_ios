@@ -12,65 +12,43 @@ class MainViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let presenter = GenreCollectionViewPresenter()
-        let genresVC = UINavigationController(rootViewController: GenreCollectionViewController(output: presenter))
+        let genrePresenter = GenreCollectionViewPresenter()
+        let genresVC = UINavigationController(rootViewController: GenreCollectionViewController(output: genrePresenter))
         genresVC.tabBarItem.image = UIImage(named: "SearchViewIcon")
         genresVC.title = ""
         
-        let profileVC = TestProfileVC()
-        profileVC.tabBarItem.image = UIImage(named: "ProfileViewIcon")
-        profileVC.title = ""
+        let myProfilePresenter = MyProfilePresenter()
+        let myProfileViewController = MyProfileViewController(output: myProfilePresenter)
+        let myProfileVC = UINavigationController(rootViewController: myProfileViewController)
+        myProfilePresenter.view = myProfileViewController
+        myProfileVC.tabBarItem.image = UIImage(named: "ProfileViewIcon")
+        myProfileVC.title = ""
         
-        let favoritesVC = TestFavVC()
-        favoritesVC.tabBarItem.image = UIImage(named: "FavViewIcon")
-        favoritesVC.title = ""
+//        let favoritesVC = TestFavVC()
+//        favoritesVC.tabBarItem.image = UIImage(named: "FavViewIcon")
+//        favoritesVC.title = ""
         
+//        let addPresenter = AddNewBookPresenter()
+//        let addViewController = AddNewBookViewController(output: addPresenter)
+//        let addVC = UINavigationController(rootViewController: addViewController)
+//        addPresenter.view = addViewController
+//        addVC.tabBarItem.image = UIImage(named: "AddViewIcon")
+//        addVC.title = ""
+    
+        // LibraryViewController
         
-        let addVC = TestAddVC()
-        addVC.tabBarItem.image = UIImage(named: "AddViewIcon")
-        addVC.title = ""
+        let libraryPresenter = LibraryPresenter()
+        let libraryViewController = LibraryViewController(output: libraryPresenter)
+        let libraryVC = UINavigationController(rootViewController: libraryViewController)
+        libraryPresenter.view = libraryViewController
+        libraryVC.tabBarItem.image = UIImage(named: "AddViewIcon")
+        libraryVC.title = ""
+         
         
-        self.setViewControllers([genresVC, favoritesVC, addVC, profileVC], animated: false)
-        
+        self.setViewControllers([genresVC, libraryVC, myProfileVC], animated: false)
         self.modalPresentationStyle = .fullScreen
         self.tabBar.backgroundColor = .white
+                                
         self.tabBar.tintColor = .black
     }
-    
-    class TestProfileVC : UIViewController{
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            self.view.backgroundColor = .systemPurple
-            
-        }
-    }
-    
-    class TestFavVC : UIViewController{
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            self.view.backgroundColor = .systemPink
-        }
-    }
-    
-    class TestAddVC : UIViewController{
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            self.view.backgroundColor = .systemTeal
-        }
-    }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
