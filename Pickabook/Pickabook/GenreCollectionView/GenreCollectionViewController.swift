@@ -73,18 +73,18 @@ extension GenreCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return genres.count
+        return genres.count - 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! GenreCell
         
-        cell.configure(genre: genres[indexPath.row])
+        cell.configure(genre: genres[indexPath.row + 1])
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let genre = genres[indexPath.row]
+        let genre = genres[indexPath.row + 1]
         presenter.chosedGenre(genre: genre)
     }
 }

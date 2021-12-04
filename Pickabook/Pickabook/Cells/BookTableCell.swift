@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import PinLayout
 
-class BookListTableViewCell: UITableViewCell {
+class BookTableCell: UITableViewCell {
         
     //struct Book {
     //    var bookImages: [UIImage] = []

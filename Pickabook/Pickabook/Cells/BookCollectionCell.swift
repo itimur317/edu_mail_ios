@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BookCell: UICollectionViewCell {
+class BookCollectionCell: UICollectionViewCell {
     let bookImageView : UIImageView = {
         let bookImageView = UIImageView()
         bookImageView.frame.size = CGSize(width: 70, height: 70)

@@ -1,19 +1,20 @@
 //
-//  MyProfileViewController.swift
+//  UserProfileViewController.swift
 //  Pickabook
 //
-//  Created by Даниил Найко on 08.11.2021.
+//  Created by Даниил Найко on 17.11.2021.
 //
+
 import UIKit
 import PinLayout
 
-class MyProfileViewController : UIViewController {
+class UserProfileViewController : UIViewController {
     
     func presentProfile(profiles: [Profile]) {}
     func presentAlert(title: String, message: String) {}
     
-    var output: MyProfilePresenterProtocol
-    init(output: MyProfilePresenterProtocol){
+    var output: UserProfilePresenterProtocol
+    init(output: UserProfilePresenterProtocol){
         self.output = output
         super.init(nibName: nil, bundle: nil)
     }
@@ -28,27 +29,22 @@ class MyProfileViewController : UIViewController {
     let profilePhoneNumber = UILabel()
     let profileBookListTitle = UILabel()
     let profileBookListTableView = UITableView()
-
-    //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
-    //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
-    
-
-    let profileBookList = Util.shared.books
+    let profileBookList = books
     //let profileAboutInfo = UITextView() //can be added
-    //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
-    //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
+    let linksView = UIView()
+    let profileTelegramLinkIcon = UIImage(named: "telegramIcon")
+    let profileInstagramLinkIcon = UIImage(named: "instagramIcon")
+    let profileTelegramLinkImageView = UIImageView()
+    let profileInstagramLinkImageView = UIImageView()
      
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        navigationItem.title = "Профиль пользователя"
         
 //        back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .black
-        
-//        title and top right button
-        navigationItem.title = "Мой профиль"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(didTapChangeProfileDataButton(_ :))) //old: changeProfileDataButton.addTarget(self, action: #selector(didTapChangeProfileDataButton(_ :)), for: .touchUpInside)
         
         //profileImage.imageWithoutBaseline()
         profileImage.layer.cornerRadius = 60
@@ -61,7 +57,7 @@ class MyProfileViewController : UIViewController {
         )
         view.addSubview(profileImage)
         
-        profileName.text = "Попуг Олежа"
+        profileName.text = "Попуг Геночка"
         profileName.textAlignment = .center
         view.addSubview(profileName)
         
@@ -76,7 +72,7 @@ class MyProfileViewController : UIViewController {
         profileMailAdress.textAlignment = .center
         view.addSubview(profileMailAdress)
         
-        profilePhoneNumber.text = "+4 44 44"
+        profilePhoneNumber.text = "+5 55 55"
         profilePhoneNumber.font = profilePhoneNumber.font.withSize(14)
         profilePhoneNumber.textAlignment = .center
         view.addSubview(profilePhoneNumber)
@@ -86,23 +82,35 @@ class MyProfileViewController : UIViewController {
         
         profileBookListTableView.dataSource = self
         profileBookListTableView.delegate = self
-        profileBookListTableView.register(BookListTableViewCell.self, forCellReuseIdentifier: "BookListTableViewCell")
+        profileBookListTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
         view.addSubview(profileBookListTableView)
+        
+        view.addSubview(linksView)
+        profileTelegramLinkImageView.image = profileTelegramLinkIcon
+        profileInstagramLinkImageView.image = profileInstagramLinkIcon
+        linksView.addSubview(profileTelegramLinkImageView)
+        linksView.addSubview(profileInstagramLinkImageView)
+
         
     }
     
-    @objc func didTapChangeProfileDataButton(_ sender: UIButton) {
-        self.output.didTapChangeProfileDataButton()
+    @objc func didTapTelegramLinkButton(_ sender: UIButton) {
+        self.output.didTapTelegramLinkButton()
+    }
+    @objc func didTapInstagramLinkButton(_ sender: UIButton) {
+        self.output.didTapInstagramLinkButton()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         profileImage.pin
-            //.below(of: myProfileTitle).marginTop(10)
-            .top(50+26)
+            .top(view.pin.safeArea.top+12)
+            //.below(of: UserProfileTitle).marginTop(10)
+            //.top(50+26)
             .topCenter()
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
+
         profileName.pin
             .below(of: profileImage).marginTop(10)
             .horizontally(12)
@@ -123,8 +131,24 @@ class MyProfileViewController : UIViewController {
             .horizontally(12)
             .height(28)
         
+        linksView.pin
+            .below(of: profilePhoneNumber).marginTop(10)
+            .topCenter()
+            .width(100)
+            .height(36)
+        
+            profileTelegramLinkImageView.pin
+                .top(0)
+                .left(0)
+                .size(linksView.frame.height)
+            
+            profileInstagramLinkImageView.pin
+                .top(0)
+                .right(0)
+                .size(linksView.frame.height)
+        
         profileBookListTitle.pin
-            .below(of: profilePhoneNumber)
+            .below(of: linksView).marginTop(12)
             .horizontally(12)
             .height(28)
         
@@ -137,7 +161,7 @@ class MyProfileViewController : UIViewController {
 
 }
 
-extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
+extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource {
     //количество строк
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return profileBookList.count
@@ -149,7 +173,7 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookListTableViewCell", for: indexPath) as? BookListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookTableCell", for: indexPath) as? BookTableCell else {
             return .init()
         }
         
@@ -159,12 +183,13 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
+        let book = profileBookList[indexPath.row]
+        output.didTapOpenBook(book: book)
     }
     
 }
 
-extension MyProfileViewController: MyProfileViewControllerProtocol {
+extension UserProfileViewController: UserProfileViewControllerProtocol {
     
     func changeProfileDataView() {
         let changeProfileDataPresenter = ChangeProfileDataPresenter()
@@ -173,4 +198,11 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
         changeProfileDataPresenter.view = changeProfileDataViewController
     }
     
+    func openBook(book: Book) {
+        let bookViewPresenter = BookViewPresenter()
+        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book)
+        navigationController?.pushViewController(bookProfileViewController, animated: true)
+        //bookViewPresenter.view = bookProfileViewController
+    }
+
 }

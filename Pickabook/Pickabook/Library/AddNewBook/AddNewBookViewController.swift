@@ -4,7 +4,7 @@
 //
 //  Created by Timur on 05.11.2021.
 //
- 
+
 import UIKit
 import Foundation
 import PinLayout
@@ -19,7 +19,7 @@ protocol AddNewBookViewControllerProtocol: AnyObject {
 
 
 final class AddNewBookViewController: UIViewController {
-    
+    let titleSize : CGFloat = 21
     var output: AddNewBookPresenterProtocol
     
     init(output: AddNewBookPresenterProtocol){
@@ -31,7 +31,7 @@ final class AddNewBookViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
- 
+    
     let scrollView = UIScrollView()
     
     let closeButtonImage = UIImage(named: "closeButton")
@@ -50,7 +50,7 @@ final class AddNewBookViewController: UIViewController {
     let leftNumberPhotoLabel = UILabel()
     let centerNumberPhotoLabel = UILabel()
     let rightNumberPhotoLabel = UILabel()
-
+    
     
     let correctPhotoButton = UIButton()
     
@@ -86,8 +86,8 @@ final class AddNewBookViewController: UIViewController {
     let addBookButton = UIButton()
     
     let genres = Util.shared.genres
-
- 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -96,18 +96,19 @@ final class AddNewBookViewController: UIViewController {
                                           action: #selector(didTapCloseButton(_: )))
         
         navigationItem.rightBarButtonItem = closeButton
-
+        
         addPhotoImagePicker.delegate = self
-
+        
         view.backgroundColor = .white
         
         self.hideKeyboardWhenTappedAround()
         
         title = "Добавить книгу"
         
+        
         scrollView.contentSize = CGSize(width: view.frame.width, height: 1690)
         view.addSubview(scrollView)
-    
+        
         
         addPhotoDescriptionLabel.text = "Добавьте фото книги (максимум 3). \nДля комфортного обмена рекомендуем сделать фото обложки и титульного листа."
         addPhotoDescriptionLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
@@ -116,7 +117,7 @@ final class AddNewBookViewController: UIViewController {
         
         photoLabel.text = "Фото*"
         photoLabel.textAlignment = .left
-        photoLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        photoLabel.font = UIFont.systemFont(ofSize: titleSize, weight: .medium)
         scrollView.addSubview(photoLabel)
         
         addPhotoButton.backgroundColor = .blue
@@ -126,7 +127,7 @@ final class AddNewBookViewController: UIViewController {
                                  action: #selector(didTapAddPhotoButton(_:)),
                                  for: .touchUpInside)
         scrollView.addSubview(addPhotoButton)
-
+        
         let leftPhotoImageViewTapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                             action: #selector(didTapLeftPhotoImageView(tapGestureRecognizer:)))
         leftPhotoImageView.addGestureRecognizer(leftPhotoImageViewTapGestureRecognizer)
@@ -169,10 +170,10 @@ final class AddNewBookViewController: UIViewController {
                                      for: .touchUpInside)
         scrollView.addSubview(correctPhotoButton)
         
- 
+        
         bookNameLabel.text = "Название*"
         bookNameLabel.textAlignment = .left
-        bookNameLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        bookNameLabel.font = UIFont.systemFont(ofSize: titleSize, weight: .medium)
         scrollView.addSubview(bookNameLabel)
         
         textViewDidBeginEditing(bookNameTextView)
@@ -187,7 +188,7 @@ final class AddNewBookViewController: UIViewController {
         
         authorNameLabel.text = "Автор*"
         authorNameLabel.textAlignment = .left
-        authorNameLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        authorNameLabel.font = UIFont.systemFont(ofSize: titleSize, weight: .medium)
         scrollView.addSubview(authorNameLabel)
         
         textViewDidBeginEditing(authorNameTextView)
@@ -202,7 +203,7 @@ final class AddNewBookViewController: UIViewController {
         
         genresNameLabel.text = "Жанр*"
         genresNameLabel.textAlignment = .left
-        genresNameLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        genresNameLabel.font = UIFont.systemFont(ofSize: titleSize, weight: .medium)
         scrollView.addSubview(genresNameLabel)
         
         addGenresDescriptionLabel.text = "Выберите из списка ниже жанр, который лучше всего описывают книгу - другим читателям будет проще найти ее."
@@ -210,7 +211,7 @@ final class AddNewBookViewController: UIViewController {
         addGenresDescriptionLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         addGenresDescriptionLabel.numberOfLines = 0
         scrollView.addSubview(addGenresDescriptionLabel)
-
+        
         genresToChoosePickerView.delegate = self
         genresToChoosePickerView.dataSource = self
         scrollView.addSubview(genresToChoosePickerView)
@@ -218,11 +219,11 @@ final class AddNewBookViewController: UIViewController {
         
         conditionLabel.text = "Состояние*"
         conditionLabel.textAlignment = .left
-        conditionLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        conditionLabel.font = UIFont.systemFont(ofSize: titleSize, weight: .medium)
         scrollView.addSubview(conditionLabel)
         
         self.conditionButtons = [self.conditionFirstButton, self.conditionSecondButton, self.conditionThirdButton, self.conditionFourthButton, self.conditionFifthButton]
-
+        
         for i in 0...4{
             conditionButtons[i].backgroundColor = .white
             conditionButtons[i].addTarget(self,
@@ -231,7 +232,7 @@ final class AddNewBookViewController: UIViewController {
             conditionButtons[i].setImage(conditionStarImage, for: .normal)
             scrollView.addSubview(conditionButtons[i])
         }
- 
+        
         
         conditionDescriptionLabel.text = "5 звезд \nКнига находится в идеальном состоянии\n\n4 звезды \nКнига была прочитана пару раз, использовалась аккуратно - нет заметных повреждений\n\n3 звезды\nКнига была прочитана несколько раз, допустимы небольшие повреждения(царапины на обложке, погнутые страницы и тп)\n\n2 звезды\nКнига была прочитана много раз, имеются повреждения(порванные или разрисованные страницы)\n\n1 звезда\nКнига находится в плохом состоянии, повреждения могут препятствовать чтению"
         conditionDescriptionLabel.textAlignment = .left
@@ -242,7 +243,7 @@ final class AddNewBookViewController: UIViewController {
         
         descriptionLabel.text = "Описание"
         descriptionLabel.textAlignment = .left
-        descriptionLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        descriptionLabel.font = UIFont.systemFont(ofSize: titleSize, weight: .medium)
         scrollView.addSubview(descriptionLabel)
         
         textViewDidBeginEditing(descriptionTextView)
@@ -256,7 +257,7 @@ final class AddNewBookViewController: UIViewController {
         
         languageLabel.text = "Язык*"
         languageLabel.textAlignment = .left
-        languageLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        languageLabel.font = UIFont.systemFont(ofSize: titleSize, weight: .medium)
         scrollView.addSubview(languageLabel)
         
         languageTextView.text = "Русский"
@@ -270,7 +271,7 @@ final class AddNewBookViewController: UIViewController {
         
         
         requiredLabel.text = "* - обозначены поля, обязательные для заполнения"
-      //  requiredLabel.textAlignment = .left
+        //  requiredLabel.textAlignment = .left
         requiredLabel.numberOfLines = 2
         requiredLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         scrollView.addSubview(requiredLabel)
@@ -288,13 +289,13 @@ final class AddNewBookViewController: UIViewController {
         
     }
     
-   
+    
     
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
- 
+        
         scrollView.pin
             .top(view.pin.safeArea)
             .bottom(view.pin.safeArea)
@@ -451,7 +452,7 @@ final class AddNewBookViewController: UIViewController {
             .left(view.frame.width / 2 - 65)
             .width(130)
             .height(40)
-
+        
     }
     
 }
@@ -485,18 +486,18 @@ extension AddNewBookViewController {
     }
     
     
-
+    
     @objc
     private func didTapCloseButton(_ sender: UIBarButtonItem) {
         
         let alert = UIAlertController(title: "Выйти?", message: "Данные не сохранятся.", preferredStyle: .alert)
-
-         alert.addAction(UIAlertAction(title: "Да", style: .destructive)
-                         {_ in self.dismiss(animated: true, completion: nil)})
-
-         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
-
-         present(alert, animated: true)
+        
+        alert.addAction(UIAlertAction(title: "Да", style: .destructive)
+                        {_ in self.dismiss(animated: true, completion: nil)})
+        
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        
+        present(alert, animated: true)
         
     }
     
@@ -506,6 +507,8 @@ extension AddNewBookViewController {
         let leftPhotoImageViewData = leftPhotoImageView.image?.jpegData(compressionQuality: 1.0)
         let centerPhotoImageViewData = centerPhotoImageView.image?.jpegData(compressionQuality: 1.0)
         let rightPhotoImageViewData = rightPhotoImageView.image?.jpegData(compressionQuality: 1.0)
+        
+        
         self.output.didTapAddButton(bookImages: [leftPhotoImageViewData, centerPhotoImageViewData, rightPhotoImageViewData],
                                     bookName: bookNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
                                     bookNameColor: bookNameTextView.textColor!,
@@ -517,7 +520,7 @@ extension AddNewBookViewController {
                                     bookLanguageColor: languageTextView.textColor!)
         
     }
-
+    
     @objc
     private func didTapConditionButton(_ sender: UIButton) {
         
@@ -544,7 +547,7 @@ extension AddNewBookViewController {
         if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
             addPhotoImagePicker.allowsEditing = false
             addPhotoImagePicker.sourceType = .savedPhotosAlbum
-                    
+            
             present(addPhotoImagePicker,
                     animated: true,
                     completion: nil)
@@ -568,7 +571,7 @@ extension AddNewBookViewController {
         if leftPhotoImageView.image != nil {
             addPhotoButton.isHidden = false
         }
-            
+        
         [leftPhotoImageView, centerPhotoImageView, rightPhotoImageView].forEach {
             if $0.image != nil {
                 $0.image = nil
@@ -601,7 +604,7 @@ extension AddNewBookViewController: UITextViewDelegate {
         }
         
     }
-
+    
     func textViewDidEndEditing(_ textView: UITextView, _ placeholder: String) {
         
         if textView.text.isEmpty {
@@ -610,7 +613,7 @@ extension AddNewBookViewController: UITextViewDelegate {
         }
         
     }
-     
+    
 }
 
 // to hide keyboard when tap
@@ -635,23 +638,20 @@ extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource 
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 1 + genres.count
+        return genres.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if row == 0 {
-            return "Не выбран"
-        } else {
-            return genres[row - 1].name
-        }
+        
+        return genres[row].name
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if row == 0 {
             //requiredFieldAlert()
-            output.newBook.bookGenres = .notSelected
+            output.newBook.bookGenres.type = .notSelected
         } else {
-            output.newBook.bookGenres = genres[row - 1].type
+            output.newBook.bookGenres.type = genres[row - 1].type
         }
         print("selected pick", output.newBook.bookGenres)
     }
@@ -671,11 +671,11 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
                 completion: nil)
         
         
-//        let successAddNewBookPresenter = SuccessAddNewBookPresenter()
-//        let successAddNewBookViewController = SuccessAddNewBookViewController(output: successAddNewBookPresenter)
-//        successAddNewBookPresenter.view = successAddNewBookViewController
-//        successAddNewBookViewController.modalPresentationStyle = .fullScreen
-//        present(successAddNewBookViewController, animated: true, completion: nil)
+        //        let successAddNewBookPresenter = SuccessAddNewBookPresenter()
+        //        let successAddNewBookViewController = SuccessAddNewBookViewController(output: successAddNewBookPresenter)
+        //        successAddNewBookPresenter.view = successAddNewBookViewController
+        //        successAddNewBookViewController.modalPresentationStyle = .fullScreen
+        //        present(successAddNewBookViewController, animated: true, completion: nil)
         
     }
     
@@ -688,7 +688,7 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
         alert.addAction(UIAlertAction(title: "Ок",
                                       style: .default,
                                       handler: nil))
-
+        
         self.present(alert, animated: true)
         
     }
@@ -763,7 +763,6 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     private func openAddNewBookAddedPhotoView(_ image : UIImage) {
         let addNewBookAddPhotoView = AddNewBookAddPhotoView(image)
         addNewBookAddPhotoView.modalPresentationStyle = .overFullScreen
-        addNewBookAddPhotoView.modalTransitionStyle = .crossDissolve
         present(addNewBookAddPhotoView,
                 animated: true,
                 completion: nil)
@@ -772,7 +771,7 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
 }
 
 extension AddNewBookViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             setImage(pickedImage)
@@ -784,7 +783,7 @@ extension AddNewBookViewController : UIImagePickerControllerDelegate, UINavigati
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
-
-        
+    
+    
 }
 
