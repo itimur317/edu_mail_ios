@@ -27,12 +27,13 @@ protocol AddNewBookPresenterProtocol: AnyObject {
  
 final class AddNewBookPresenter{
     var newBook: Book
+    var genres = Util.shared.genres
     
     init() {
         newBook = Book(bookImages: [],
                        bookName: "",
                        bookAuthor: "",
-                       bookGenres: .notSelected ,
+                       bookGenres:  genres[0],
                        bookCondition: 0,
                        bookDescription: nil,
                        bookLanguage: "Русский")
@@ -56,7 +57,7 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol {
         if (bookImages[1] == nil || bookName == "" ||  authorName == ""
             ||  bookLanguage == "" || bookNameColor == .gray
             || authorNameColor == .gray  || self.newBook.bookCondition == 0
-            || self.newBook.bookGenres == .notSelected) {
+            || self.newBook.bookGenres.type == genres[0].type) {
             
             self.view?.requiredFieldAlert()
             

@@ -12,7 +12,7 @@ struct Book {
     var bookImages: [Data] 
     var bookName: String
     var bookAuthor: String
-    var bookGenres: GenreType
+    var bookGenres: Genre
     var bookCondition: Int
     var bookDescription: String?
     var bookLanguage: String

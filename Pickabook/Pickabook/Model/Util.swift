@@ -13,6 +13,10 @@ class Util {
     
     let genres = [
         Genre(
+            type: .notSelected,
+            name: "Не выбран",
+            color : UIColor(red: 0.96, green: 0.75, blue: 0.82, alpha: 1.00)),
+        Genre(
             type: .bestsellers,
             name: "Бестселлеры",
             color : UIColor(red: 1.00, green: 0.89, blue: 0.37, alpha: 1.00)),
@@ -77,51 +81,50 @@ class Util {
             name: "Детские книги",
             color : UIColor(red: 0.96, green: 0.75, blue: 0.82, alpha: 1.00)),
     ]
-    
-    let books : [Book] =  [
-        Book(
-            bookImages: [.init()],
-            bookName: "Автостопом по галактике",
-            bookAuthor: "Дуглас Адамс",
-            bookGenres: .fantastic,
-            bookCondition: 3,
-            bookLanguage: "Русский"),
-        Book(
-            bookImages: [.init()],
-            bookName: "Детективное агенство Дирка Джентли",
-            bookAuthor: "Дуглас Адамс",
-            bookGenres:  .detectives,
-            bookCondition: 2,
-            bookLanguage: "Русский"),
-        Book(
-            bookImages: [.init()],
-            bookName: "Кровь, пот и пиксели",
-            bookAuthor: "Кто-то",
-            bookGenres: .art,
-            bookCondition: 3,
-            bookLanguage: "Русский"),
-        Book(
-            bookImages: [.init()],
-            bookName: "Я-Малала",
-            bookAuthor: "Малала Юсуфзай",
-            bookGenres: .biography,
-            bookCondition: 3,
-            bookLanguage: "Русский"),
-        Book(
-            bookImages: [.init()],
-            bookName: "Сборник стихов",
-            bookAuthor: "Анна Ахматова",
-            bookGenres: .poetry,
-            bookCondition: 3,
-            bookLanguage: "Русский"),
-        Book(
-            bookImages: [.init()],
-            bookName: "Эмоциональный интеллект" ,
-            bookAuthor: "Дэниел Гоулман",
-            bookGenres: .psychology,
-            bookCondition: 3,
-            bookLanguage: "Русский")
-    ]
-
-
 }
+
+let books : [Book] =  [
+    Book(
+        bookImages: [.init()],
+        bookName: "Автостопом по галактике",
+        bookAuthor: "Дуглас Адамс",
+        bookGenres: Util.shared.genres[6],
+        bookCondition: 3,
+        bookLanguage: "Русский"),
+    Book(
+        bookImages: [.init()],
+        bookName: "Детективное агенство Дирка Джентли",
+        bookAuthor: "Дуглас Адамс",
+        bookGenres: Util.shared.genres[5],
+        bookCondition: 2,
+        bookDescription : "Книга в хорошем состоянии, обменяю на другие книги данного автора.",
+        bookLanguage: "Русский"),
+    Book(
+        bookImages: [.init()],
+        bookName: "Кровь, пот и пиксели",
+        bookAuthor: "Кто-то",
+        bookGenres: Util.shared.genres[5],
+        bookCondition: 3,
+        bookLanguage: "Русский"),
+    Book(
+        bookImages: [.init()],
+        bookName: "Я-Малала",
+        bookAuthor: "Малала Юсуфзай",
+        bookGenres: Util.shared.genres[5],
+        bookCondition: 3,
+        bookLanguage: "Русский"),
+    Book(
+        bookImages: [.init()],
+        bookName: "Сборник стихов",
+        bookAuthor: "Анна Ахматова",
+        bookGenres: Util.shared.genres[5],
+        bookCondition: 3,
+        bookLanguage: "Русский"),
+    Book(
+        bookImages: [.init()],
+        bookName: "Эмоциональный интеллект" ,
+        bookAuthor: "Дэниел Гоулман",
+        bookGenres: Util.shared.genres[5],
+        bookCondition: 3,
+        bookLanguage: "Русский")
+]

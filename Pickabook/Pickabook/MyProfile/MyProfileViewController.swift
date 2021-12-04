@@ -33,7 +33,7 @@ class MyProfileViewController : UIViewController {
     //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
     
 
-    let profileBookList = Util.shared.books
+    let profileBookList = books
     //let profileAboutInfo = UITextView() //can be added
     //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
     //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
