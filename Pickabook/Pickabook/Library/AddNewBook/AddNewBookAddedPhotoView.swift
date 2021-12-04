@@ -44,7 +44,7 @@ final class AddNewBookAddPhotoView: UIViewController {
     
     @objc
     func didTapViewGestureRecognizer(tapGestureRecognizer: UITapGestureRecognizer) {
-        moveOut()
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc
@@ -58,12 +58,4 @@ final class AddNewBookAddPhotoView: UIViewController {
         }
     }
     
-    func moveOut() {
-        UIView.animate(withDuration: 0.24, animations: {
-            self.view.transform = CGAffineTransform(scaleX: 1.35, y: 1.35)
-            self.view.alpha = 0.0
-        }) { _ in
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
 }

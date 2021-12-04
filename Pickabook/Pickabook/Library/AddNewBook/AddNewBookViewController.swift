@@ -105,7 +105,6 @@ final class AddNewBookViewController: UIViewController {
         
         title = "Добавить книгу"
         
-        
         scrollView.contentSize = CGSize(width: view.frame.width, height: 1690)
         view.addSubview(scrollView)
     
@@ -507,8 +506,6 @@ extension AddNewBookViewController {
         let leftPhotoImageViewData = leftPhotoImageView.image?.jpegData(compressionQuality: 1.0)
         let centerPhotoImageViewData = centerPhotoImageView.image?.jpegData(compressionQuality: 1.0)
         let rightPhotoImageViewData = rightPhotoImageView.image?.jpegData(compressionQuality: 1.0)
-
-        
         self.output.didTapAddButton(bookImages: [leftPhotoImageViewData, centerPhotoImageViewData, rightPhotoImageViewData],
                                     bookName: bookNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
                                     bookNameColor: bookNameTextView.textColor!,
@@ -766,6 +763,7 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     private func openAddNewBookAddedPhotoView(_ image : UIImage) {
         let addNewBookAddPhotoView = AddNewBookAddPhotoView(image)
         addNewBookAddPhotoView.modalPresentationStyle = .overFullScreen
+        addNewBookAddPhotoView.modalTransitionStyle = .crossDissolve
         present(addNewBookAddPhotoView,
                 animated: true,
                 completion: nil)

@@ -32,6 +32,8 @@ final class LibraryViewController : UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        self.navigationController?.navigationBar.topItem?.title = "Книги на обмен"
+        
         addNewBookButton.setTitle("ADD BOOK",
                                   for: .normal)
         addNewBookButton.addTarget(self,
