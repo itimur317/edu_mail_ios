@@ -63,6 +63,7 @@ class BookProfileViewController: UIViewController {
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 15
         label.translatesAutoresizingMaskIntoConstraints = true
+        
         return label
     }()
     
@@ -118,7 +119,7 @@ class BookProfileViewController: UIViewController {
     
     func configureView(){
         //надо поменять высоту
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 700)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 1000)
         view.addSubview(scrollView)
         
         bookImageView.frame.size = CGSize(width: view.frame.width - 30, height: 250)
@@ -130,8 +131,9 @@ class BookProfileViewController: UIViewController {
         authorLabel.text = book.bookAuthor
         scrollView.addSubview(authorLabel)
         
-        
         genreLabel.text = book.bookGenres.name
+        genreLabel.sizeToFit()
+        genreLabel.textColor = .white
         genreLabel.backgroundColor = book.bookGenres.color
         scrollView.addSubview(genreLabel)
         
@@ -177,9 +179,9 @@ class BookProfileViewController: UIViewController {
         genreLabel.pin
             .below(of: authorLabel)
             .marginTop(5)
-            .horizontally(15)
-            .width(120)
-            .height(25)
+            .left(15)
+            .width(self.genreLabel.frame.width + 20)
+            .height(30)
         
         descriptionLabel.pin
             .below(of: genreLabel)
