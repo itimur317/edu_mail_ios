@@ -98,7 +98,7 @@ class MyProfileViewController : UIViewController {
         
         profileImage.pin
             //.below(of: myProfileTitle).marginTop(10)
-            .top(50+26)
+            .top(view.pin.safeArea.top + 26)
             .topCenter()
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
         profileName.pin
