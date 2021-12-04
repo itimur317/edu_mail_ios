@@ -61,6 +61,7 @@ class BookProfileViewController: UIViewController {
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 15
         label.translatesAutoresizingMaskIntoConstraints = true
+        
         return label
     }()
     
@@ -124,8 +125,9 @@ class BookProfileViewController: UIViewController {
         authorLabel.text = book.bookAuthor
         view.addSubview(authorLabel)
         
-        
         genreLabel.text = book.bookGenres.name
+        genreLabel.sizeToFit()
+        genreLabel.textColor = .white
         genreLabel.backgroundColor = UIColor(red: 1.00, green: 0.89, blue: 0.37, alpha: 1.00)
         view.addSubview(genreLabel)
         
@@ -166,8 +168,8 @@ class BookProfileViewController: UIViewController {
         genreLabel.pin
             .below(of: authorLabel)
             .marginTop(5)
-            .horizontally(15)
-            .width(120)
+            .left(15)
+            .width(self.genreLabel.frame.width + 20)
             .height(25)
         
         descriptionLabel.pin
