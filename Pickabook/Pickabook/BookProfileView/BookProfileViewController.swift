@@ -119,7 +119,7 @@ class BookProfileViewController: UIViewController {
     
     func configureView(){
         //надо поменять высоту
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 700)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 1000)
         view.addSubview(scrollView)
         
         bookImageView.frame.size = CGSize(width: view.frame.width - 30, height: 250)
@@ -181,7 +181,7 @@ class BookProfileViewController: UIViewController {
             .marginTop(5)
             .left(15)
             .width(self.genreLabel.frame.width + 20)
-            .height(25)
+            .height(30)
         
         descriptionLabel.pin
             .below(of: genreLabel)
