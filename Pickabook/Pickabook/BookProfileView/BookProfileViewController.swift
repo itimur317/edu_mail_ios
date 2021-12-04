@@ -23,6 +23,8 @@ class BookProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    let scrollView = UIScrollView()
+    
     let bookImageView : UIImageView = {
         let image = UIImage(named: "default")
         let imageView = UIImageView(image: image)
@@ -95,7 +97,7 @@ class BookProfileViewController: UIViewController {
     let takeBookButton : UIButton = {
         let button = UIButton()
         button.setTitle("Забрать", for: .normal)
-        
+        button.setTitleColor(UIColor.white, for: .normal)
         button.frame.size = CGSize(width: 200, height: 50)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 15
@@ -115,28 +117,32 @@ class BookProfileViewController: UIViewController {
     }
     
     func configureView(){
+        //надо поменять высоту
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 700)
+        view.addSubview(scrollView)
+        
         bookImageView.frame.size = CGSize(width: view.frame.width - 30, height: 250)
-        view.addSubview(bookImageView)
+        scrollView.addSubview(bookImageView)
         
         nameLabel.text = book.bookName
-        view.addSubview(nameLabel)
+        scrollView.addSubview(nameLabel)
         
         authorLabel.text = book.bookAuthor
-        view.addSubview(authorLabel)
+        scrollView.addSubview(authorLabel)
         
         
         genreLabel.text = book.bookGenres.name
-        genreLabel.backgroundColor = UIColor(red: 1.00, green: 0.89, blue: 0.37, alpha: 1.00)
-        view.addSubview(genreLabel)
+        genreLabel.backgroundColor = book.bookGenres.color
+        scrollView.addSubview(genreLabel)
         
         descriptionLabel.text = book.bookDescription
-        view.addSubview(descriptionLabel)
+        scrollView.addSubview(descriptionLabel)
         
-        view.addSubview(profileImage)
+        scrollView.addSubview(profileImage)
         
         // book.owner
         userLabel.text = "Имя пользователя"
-        view.addSubview(userLabel)
+        scrollView.addSubview(userLabel)
         
         view.addSubview(takeBookButton)
     }
@@ -148,8 +154,13 @@ class BookProfileViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        scrollView.pin
+            .topLeft()
+            .height(view.frame.height)
+            .width(view.frame.width)
+        
         bookImageView.pin
-            .top(70+26)
+            .top(15)
             .topCenter()
         
         nameLabel.pin

@@ -56,7 +56,7 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
         self.hideKeyboardWhenTappedAround()
         
         //take 1
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 574) // need changes
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 578) // need changes
         view.addSubview(scrollView)
        
         //take 2
@@ -115,14 +115,9 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
         //saveButton.titleLabel?.font = backButton.titleLabel?.font.withSize(10)
         saveButton.layer.cornerRadius = 14
         saveButton.layer.masksToBounds = true
-        saveButton.backgroundColor = UIColor (
-            red: 0.62,
-            green: 0.85,
-            blue: 0.82,
-            alpha: 1.00
-        )
+        saveButton.backgroundColor = UIColor(named: "buttonColor")
         saveButton.setTitle("Cохранить", for: .normal)
-        saveButton.setTitleColor(UIColor.black, for: .normal)
+        saveButton.setTitleColor(UIColor.white, for: .normal)
         scrollView.addSubview(saveButton)
         
     }
@@ -206,8 +201,9 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
         saveButton.pin
             .below(of: instagramLinkTextField).marginTop(18)
             //.bottom(12)
-            .horizontally(12)
-            .height(46)
+            .width(200)
+            .height(50)
+            .left(view.frame.width / 2 - 100)
 
     }
 }

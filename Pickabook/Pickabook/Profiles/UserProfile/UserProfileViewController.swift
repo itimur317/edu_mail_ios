@@ -29,7 +29,7 @@ class UserProfileViewController : UIViewController {
     let profilePhoneNumber = UILabel()
     let profileBookListTitle = UILabel()
     let profileBookListTableView = UITableView()
-    let profileBookList = Util.shared.books
+    let profileBookList = books
     //let profileAboutInfo = UITextView() //can be added
     let linksView = UIView()
     let profileTelegramLinkIcon = UIImage(named: "telegramIcon")
@@ -82,7 +82,7 @@ class UserProfileViewController : UIViewController {
         
         profileBookListTableView.dataSource = self
         profileBookListTableView.delegate = self
-        profileBookListTableView.register(BookListTableViewCell.self, forCellReuseIdentifier: "BookListTableViewCell")
+        profileBookListTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
         view.addSubview(profileBookListTableView)
         
         view.addSubview(linksView)
@@ -173,7 +173,7 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookListTableViewCell", for: indexPath) as? BookListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookTableCell", for: indexPath) as? BookTableCell else {
             return .init()
         }
         
@@ -183,7 +183,8 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
+        let book = profileBookList[indexPath.row]
+        output.didTapOpenBook(book: book)
     }
     
 }
@@ -197,4 +198,11 @@ extension UserProfileViewController: UserProfileViewControllerProtocol {
         changeProfileDataPresenter.view = changeProfileDataViewController
     }
     
+    func openBook(book: Book) {
+        let bookViewPresenter = BookViewPresenter()
+        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book)
+        navigationController?.pushViewController(bookProfileViewController, animated: true)
+        //bookViewPresenter.view = bookProfileViewController
+    }
+
 }

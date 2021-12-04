@@ -44,7 +44,7 @@ class BooksCollectionViewController: UICollectionViewController {
         self.collectionView.collectionViewLayout = layout
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
-        self.collectionView!.register(BookCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(BookCollectionCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     }
     
     func presentNextVC(selectedBook : Book){
@@ -68,7 +68,7 @@ extension BooksCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! BookCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! BookCollectionCell
         
         let book = sortedBooks[indexPath.row]
         cell.configure(with: book)

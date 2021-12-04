@@ -28,12 +28,10 @@ class MyProfileViewController : UIViewController {
     let profilePhoneNumber = UILabel()
     let profileBookListTitle = UILabel()
     let profileBookListTableView = UITableView()
+    let profileBookList = books
 
     //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
     //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
-    
-
-    let profileBookList = books
     //let profileAboutInfo = UITextView() //can be added
     //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
     //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
@@ -86,7 +84,7 @@ class MyProfileViewController : UIViewController {
         
         profileBookListTableView.dataSource = self
         profileBookListTableView.delegate = self
-        profileBookListTableView.register(BookListTableViewCell.self, forCellReuseIdentifier: "BookListTableViewCell")
+        profileBookListTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
         view.addSubview(profileBookListTableView)
         
     }
@@ -149,7 +147,7 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookListTableViewCell", for: indexPath) as? BookListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookTableCell", for: indexPath) as? BookTableCell else {
             return .init()
         }
         
@@ -159,7 +157,8 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
+        let book = profileBookList[indexPath.row]
+        output.didTapOpenBook(book: book)
     }
     
 }
@@ -171,6 +170,13 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
         let changeProfileDataViewController = ChangeProfileDataViewController(output: changeProfileDataPresenter)
         navigationController?.pushViewController(changeProfileDataViewController, animated: true)
         changeProfileDataPresenter.view = changeProfileDataViewController
+    }
+    
+    func openBook(book: Book) {
+        let bookViewPresenter = BookViewPresenter()
+        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book)
+        navigationController?.pushViewController(bookProfileViewController, animated: true)
+        //bookViewPresenter.view = bookProfileViewController
     }
     
 }
