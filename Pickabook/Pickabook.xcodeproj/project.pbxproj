@@ -130,9 +130,9 @@
 		39F7A508274827F2003E196B /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				E13E79DF274434E700BEE7EC /* AddNewBook */,
 				39F7A50927482825003E196B /* LibraryViewController.swift */,
 				39F7A50B27482836003E196B /* LibraryPresenter.swift */,
+				E13E79DF274434E700BEE7EC /* AddNewBook */,
 			);
 			path = Library;
 			sourceTree = "<group>";

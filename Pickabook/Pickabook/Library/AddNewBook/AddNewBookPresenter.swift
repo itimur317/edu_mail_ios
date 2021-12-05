@@ -7,6 +7,8 @@
  
 import Foundation
 import UIKit
+// added only for UIColor
+// убрать когда решим цвет фона какой будет
 
  
 protocol AddNewBookPresenterProtocol: AnyObject {
