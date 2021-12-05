@@ -15,10 +15,10 @@ protocol SuccessAddNewBookViewControllerProtocol : AnyObject {
 
 final class SuccessAddNewBookViewController : UIViewController {
     
-    var output: SuccessAddNewBookPresenterProtocol
+    var presenter: SuccessAddNewBookPresenterProtocol
     
-    init(output: SuccessAddNewBookPresenterProtocol){
-        self.output = output
+    init(presenter: SuccessAddNewBookPresenterProtocol){
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -83,7 +83,7 @@ final class SuccessAddNewBookViewController : UIViewController {
     
     @objc
     private func didTapOkButton(_ sender: UIButton) {
-        output.didTapOkButton()
+        presenter.didTapOkButton()
     }
     
 }

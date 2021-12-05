@@ -38,7 +38,7 @@ class MainViewController: UITabBarController {
         // LibraryViewController
         
         let libraryPresenter = LibraryPresenter()
-        let libraryViewController = LibraryViewController(output: libraryPresenter)
+        let libraryViewController = LibraryViewController(presenter: libraryPresenter)
         let libraryVC = UINavigationController(rootViewController: libraryViewController)
         libraryPresenter.view = libraryViewController
         libraryVC.tabBarItem.image = UIImage(named: "AddViewIcon")

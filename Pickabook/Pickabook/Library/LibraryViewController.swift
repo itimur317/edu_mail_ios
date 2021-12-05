@@ -15,10 +15,10 @@ protocol LibraryViewControllerProtocol : AnyObject {
 
 final class LibraryViewController : UIViewController {
     
-    var output: LibraryPresenterProtocol
+    var presenter: LibraryPresenterProtocol
     
-    init(output: LibraryPresenterProtocol){
-        self.output = output
+    init(presenter: LibraryPresenterProtocol){
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -27,6 +27,7 @@ final class LibraryViewController : UIViewController {
     }
 
     let addNewBookButton = UIButton()
+    let booksTableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,30 +35,45 @@ final class LibraryViewController : UIViewController {
         
         self.navigationController?.navigationBar.topItem?.title = "Книги на обмен"
         
-        addNewBookButton.setTitle("ADD BOOK",
+        booksTableView.dataSource = self
+        booksTableView.delegate = self
+        booksTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
+        booksTableView.separatorStyle = .none
+        booksTableView.allowsSelection = false
+        view.addSubview(booksTableView)
+        
+        addNewBookButton.setTitle("Добавить книгу",
                                   for: .normal)
+        addNewBookButton.setTitleColor(.white, for: .normal)
+        addNewBookButton.layer.cornerRadius = 20
         addNewBookButton.addTarget(self,
                                    action: #selector(didTapAddNewBookButton(_:)),
                                    for: .touchUpInside)
-        addNewBookButton.backgroundColor = .red
+        addNewBookButton.backgroundColor = UIColor(named: "buttonColor")
         view.addSubview(addNewBookButton)
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        booksTableView.pin
+            .top(view.pin.safeArea).marginTop(12)
+            .horizontally(12)
+            .bottom(view.pin.safeArea)
+        
         addNewBookButton.pin
-            .left(view.frame.width / 2 - 50)
-            .top(200)
-            .height(200)
-            .width(100)
+            .bottom(view.pin.safeArea).marginBottom(12)
+            .left(view.frame.width / 2 - 100)
+            .width(200)
+            .height(50)
     }
     
     @objc
     private func didTapAddNewBookButton(_ sender: UIButton) {
         
         let addNewBookPresenter = AddNewBookPresenter()
-        let addNewBookViewController = AddNewBookViewController(output: addNewBookPresenter)
+        let addNewBookViewController = AddNewBookViewController(presenter: addNewBookPresenter)
         let navigationController = UINavigationController(rootViewController: addNewBookViewController)
         addNewBookPresenter.view = addNewBookViewController
         navigationController.modalPresentationStyle = .fullScreen
@@ -73,4 +89,26 @@ extension LibraryViewController: LibraryViewControllerProtocol {
         dismiss(animated: true,
                 completion: nil)
     }
+}
+
+extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(books.count)
+        return books.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookTableCell", for: indexPath) as? BookTableCell else {
+            return .init()
+        }
+                
+        let book = books[indexPath.row]
+        cell.configure(with: book)
+        return cell
+    }
+    
 }

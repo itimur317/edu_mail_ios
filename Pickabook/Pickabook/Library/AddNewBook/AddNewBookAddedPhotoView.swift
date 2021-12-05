@@ -43,9 +43,10 @@ final class AddNewBookAddPhotoView: UIViewController {
     }
     
     @objc
-    func didTapViewGestureRecognizer(tapGestureRecognizer: UITapGestureRecognizer) {
+    private func didTapViewGestureRecognizer(tapGestureRecognizer: UITapGestureRecognizer) {
         self.dismiss(animated: true, completion: nil)
     }
+    
     
     @objc
     private func didPinchImageViewGestureRecognizer(pinchGestureRecognizer: UIPinchGestureRecognizer) {
@@ -53,7 +54,8 @@ final class AddNewBookAddPhotoView: UIViewController {
             self.view.bringSubviewToFront(currentPhotoImageView)
             pinchGestureRecognizer.view?.transform = (pinchGestureRecognizer.view?.transform)!.scaledBy(x: pinchGestureRecognizer.scale, y: pinchGestureRecognizer.scale)
             pinchGestureRecognizer.scale = 1.0
-        } else if pinchGestureRecognizer.state == .ended {
+        }
+        else if pinchGestureRecognizer.state == .ended {
             self.currentPhotoImageView.transform = CGAffineTransform.identity
         }
     }
