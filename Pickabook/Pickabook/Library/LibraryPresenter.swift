@@ -8,15 +8,28 @@
 import Foundation
 
 protocol LibraryPresenterProtocol : AnyObject {
-    
+    func dismissView()
+    func didTapOpenAddNewBook()
+    func didTapOpenBook(book: Book)
 }
 
 final class LibraryPresenter : LibraryPresenterProtocol {
     
     weak var view : LibraryViewControllerProtocol?
     
-    func dismissView(){
-        view?.dismissView()
+    func didTapOpenBook(book: Book) {
+        self.view?.didTapOpenBook(book: book)
     }
+    
+    
+    func dismissView() {
+        self.view?.dismissView()
+    }
+    
+    
+    func didTapOpenAddNewBook() {
+        self.view?.didTapOpenAddNewBook()
+    }
+
 
 }

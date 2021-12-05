@@ -11,6 +11,8 @@ import PinLayout
 
 protocol LibraryViewControllerProtocol : AnyObject {
     func dismissView()
+    func didTapOpenBook(book: Book)
+    func didTapOpenAddNewBook()
 }
 
 final class LibraryViewController : UIViewController {
@@ -25,21 +27,31 @@ final class LibraryViewController : UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     let addNewBookButton = UIButton()
     let booksTableView = UITableView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        self.navigationController?.navigationBar.tintColor = .black
+        
         self.navigationController?.navigationBar.topItem?.title = "Книги на обмен"
+        
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "search"), style: .plain, target: self, action: #selector(didTapEditBarButton(_: )))
+        
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "search"), style: .plain, target: self, action: #selector(didTapEditBarButton(_: )))
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(didTapEditBarButton(_ :)))
+        
         
         booksTableView.dataSource = self
         booksTableView.delegate = self
         booksTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
         booksTableView.separatorStyle = .none
-        booksTableView.allowsSelection = false
+//        booksTableView.allowsSelection = false
         view.addSubview(booksTableView)
         
         addNewBookButton.setTitle("Добавить книгу",
@@ -71,6 +83,36 @@ final class LibraryViewController : UIViewController {
     
     @objc
     private func didTapAddNewBookButton(_ sender: UIButton) {
+        presenter.didTapOpenAddNewBook()
+    }
+    
+    
+    @objc
+    private func didTapEditBarButton(_ sender: UIButton) {
+        print("editing")
+    }
+    
+    
+}
+
+extension LibraryViewController: LibraryViewControllerProtocol {
+    
+    func dismissView() {
+        dismiss(animated: true,
+                completion: nil)
+    }
+    
+    
+    func didTapOpenBook(book: Book) {
+        let bookViewPresenter = BookViewPresenter()
+        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book)
+        navigationController?.pushViewController(bookProfileViewController, animated: true)
+        navigationController?.navigationBar.tintColor = .black
+        //bookViewPresenter.view = bookProfileViewController
+    }
+    
+    
+    func didTapOpenAddNewBook() {
         
         let addNewBookPresenter = AddNewBookPresenter()
         let addNewBookViewController = AddNewBookViewController(presenter: addNewBookPresenter)
@@ -80,20 +122,11 @@ final class LibraryViewController : UIViewController {
         present(navigationController,
                 animated: true,
                 completion: nil)
-        
-    }
-}
-
-extension LibraryViewController: LibraryViewControllerProtocol {
-    func dismissView(){
-        dismiss(animated: true,
-                completion: nil)
     }
 }
 
 extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(books.count)
         return books.count
     }
     
@@ -105,10 +138,17 @@ extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookTableCell", for: indexPath) as? BookTableCell else {
             return .init()
         }
-                
+        
+        cell.selectionStyle = .none
         let book = books[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let book = books[indexPath.row]
+        presenter.didTapOpenBook(book: book)
+    }
+    
 }
+
