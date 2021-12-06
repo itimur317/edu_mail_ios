@@ -27,7 +27,7 @@ protocol AddNewBookPresenterProtocol: AnyObject {
 }
  
  
-final class AddNewBookPresenter{
+final class AddNewBookPresenter {
     var newBook: Book
     var genres = Util.shared.genres
     
@@ -122,13 +122,8 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
             BookManager.shared.create(book: newBook)
             BookManager.shared.observeBooks()
 
-//            self.view?.setDefault()
-//            self.view?.openAddDoneView()
             
         }
-                
-
-
     }
  
     func didTapConditionButton(_ addedCondition: Int) {
