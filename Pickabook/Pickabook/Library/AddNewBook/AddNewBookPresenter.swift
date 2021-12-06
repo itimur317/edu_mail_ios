@@ -43,8 +43,24 @@ final class AddNewBookPresenter{
     weak var view : AddNewBookViewControllerProtocol?
     
 }
+
+extension AddNewBookPresenter: BookManagerOutput {
+    func didRecieve(_ books: [Book]) {
+        // do nothing
+    }
     
-extension AddNewBookPresenter: AddNewBookPresenterProtocol {
+    func didCreate(_ book: Book) {
+        self.view?.successAddDoneView()
+    }
+    
+    func didFail(with error: Error) {
+        self.view?.failAddDoneView()
+    }
+    
+    
+}
+    
+extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
     
     func didTapAddButton(bookImages:[Data?],
                          bookName: String,
@@ -92,9 +108,11 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol {
             }
             self.newBook.bookLanguage = bookLanguage
             
+            BookManager.shared.output = self
             BookManager.shared.create(book: newBook)
-            self.view?.setDefault()
-            self.view?.openAddDoneView()
+
+//            self.view?.setDefault()
+//            self.view?.openAddDoneView()
             
         }
                 

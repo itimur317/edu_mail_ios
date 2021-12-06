@@ -8,6 +8,8 @@
 import Foundation
 
 protocol FailAddNewBookPresenterProtocol : AnyObject {
+    var book: Book { get set }
+
     func didTapTryAgainButton()
     func didTapQuitButton()
 }
@@ -16,8 +18,14 @@ final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol {
     
     weak var view : FailAddNewBookViewControllerProtocol?
     
+    var book: Book
+    
+    init(book: Book) {
+        self.book = book
+    }
+    
     func didTapTryAgainButton() {
-        // with data base
+        BookManager.shared.create(book: self.book)
     }
 
     func didTapQuitButton() {

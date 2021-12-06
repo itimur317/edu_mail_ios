@@ -11,7 +11,8 @@ import PinLayout
 
 protocol AddNewBookViewControllerProtocol: AnyObject {
     func changeCondition(_ addedCondition: Int)
-    func openAddDoneView()
+    func failAddDoneView()
+    func successAddDoneView()
     func requiredFieldAlert()
     func setDefault()
     func setImage(_ pickedImage: UIImage)
@@ -655,8 +656,8 @@ extension AddNewBookViewController:UIPickerViewDelegate, UIPickerViewDataSource 
 
 extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     
-    func openAddDoneView() {
-        let failAddNewBookPresenter = FailAddNewBookPresenter()
+    func failAddDoneView() {
+        let failAddNewBookPresenter = FailAddNewBookPresenter(book: self.presenter.newBook)
         let failAddNewBookViewController = FailAddNewBookViewController(presenter: failAddNewBookPresenter)
         failAddNewBookPresenter.view = failAddNewBookViewController
         failAddNewBookViewController.modalPresentationStyle = .fullScreen
@@ -665,11 +666,17 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
                 completion: nil)
         
         
-        //        let successAddNewBookPresenter = SuccessAddNewBookPresenter()
-        //        let successAddNewBookViewController = SuccessAddNewBookViewController(presenter: successAddNewBookPresenter)
-        //        successAddNewBookPresenter.view = successAddNewBookViewController
-        //        successAddNewBookViewController.modalPresentationStyle = .fullScreen
-        //        present(successAddNewBookViewController, animated: true, completion: nil)
+    }
+    
+    func successAddDoneView() {
+        
+        let successAddNewBookPresenter = SuccessAddNewBookPresenter()
+        let successAddNewBookViewController = SuccessAddNewBookViewController(presenter: successAddNewBookPresenter)
+        successAddNewBookPresenter.view = successAddNewBookViewController
+        successAddNewBookViewController.modalPresentationStyle = .fullScreen
+        present(successAddNewBookViewController,
+                animated: true,
+                completion: nil)
         
     }
     

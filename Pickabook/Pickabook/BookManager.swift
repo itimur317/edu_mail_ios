@@ -29,7 +29,7 @@ enum NetworkError : Error {
 
 
 final class BookManager : BookManagerProtocol {
-    static let shared: BookManagerProtocol = BookManager()
+    static var shared: BookManagerProtocol = BookManager()
 
     weak var output: BookManagerOutput?
 
@@ -57,15 +57,42 @@ final class BookManager : BookManagerProtocol {
 
 
     func create(book: Book) {
-        database.collection("Books").addDocument(data: bookConverter.dict(from: book)) { [weak self] error in
+        
+        var successUploadStatus = true
+        
+        // adding book without image
+        let ref = database.collection("Books").addDocument(data: bookConverter.dict(from: book, db: database)) { [weak self] error in
             if let error = error {
+                print("Error writing document: \(error)")
+                successUploadStatus = false
                 self?.output?.didFail(with: error)
             }
             else {
-                self?.output?.didCreate(book)
+                print("Document successfully written!")
             }
         }
+        
+        // adding images
+        ImageLoader.shared.uploadImage(imageData: book.bookImages[0]) { [weak self] url in
+            guard let url = url else { return }
+            
+            self?.database.collection("Books").document(ref.documentID).setData(["imageURLs": url], merge: true) { err in
+                if let err = err {
+                    successUploadStatus = false
+                    self?.output?.didFail(with: err)
+                    print("Error writing images: \(err)")
+                } else {
+                    self?.output?.didCreate(book)
+                    print("Images successfully written!")
+                }
+            }
+        }
+        
+
     }
+    
+    
+   
 
 }
 
@@ -108,14 +135,8 @@ private final class BookConverter {
 //    }
 
 
-    func dict(from book: Book) -> [String : Any] {
+    func dict(from book: Book, db: Firestore) -> [String : Any] {
         var dictBook : [String : Any]  = [:]
-        
-        ImageLoader.shared.uploadImage(imageData: book.bookImages[0]) { url in
-            guard let url = url else { return }
-            dictBook[Key.imageURLs.rawValue] = url
-        }
-        
         
         dictBook[Key.identifier.rawValue] = book.identifier
         dictBook[Key.name.rawValue] = book.bookName
@@ -124,7 +145,9 @@ private final class BookConverter {
         dictBook[Key.condition.rawValue] = book.bookCondition
         dictBook[Key.description.rawValue] = book.bookDescription
         dictBook[Key.language.rawValue] = book.bookLanguage
-
+        dictBook[Key.imageURLs.rawValue] = ""
+        
+      
         return dictBook
     }
 }
