@@ -35,6 +35,8 @@ final class LibraryViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.presenter.loadBooks()
+
         view.backgroundColor = .white
         
         self.navigationController?.navigationBar.tintColor = .black
@@ -132,7 +134,6 @@ extension LibraryViewController: LibraryViewControllerProtocol {
 extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return books.count
-        self.presenter.loadBooks()
         return self.presenter.currentBooks.count
     }
     

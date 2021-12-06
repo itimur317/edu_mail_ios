@@ -141,12 +141,8 @@ private final class BookConverter {
                         imagesData += [data]
                 }
             }
-            
-
-            
-          
-
-        // жанр и фото поправить 
+        
+        
         var currentBook = Book(identifier: identifier, bookImages: imagesData, bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
 
         if let index = Util.shared.genres.firstIndex(where: { $0.name == genre} ) {
