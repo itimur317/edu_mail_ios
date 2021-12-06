@@ -108,6 +108,16 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
             }
             self.newBook.bookLanguage = bookLanguage
             
+            
+            print(self.newBook.identifier)
+            print(self.newBook.bookImages)
+            print(self.newBook.bookName)
+            print(self.newBook.bookAuthor)
+            print(self.newBook.bookCondition)
+            print(self.newBook.bookGenres)
+            print(self.newBook.bookDescription)
+            print(self.newBook.bookLanguage)
+            
             BookManager.shared.output = self
             BookManager.shared.create(book: newBook)
 
@@ -117,14 +127,6 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
         }
                 
 
-        print(self.newBook.identifier)
-        print(self.newBook.bookImages)
-        print(self.newBook.bookName)
-        print(self.newBook.bookAuthor)
-        print(self.newBook.bookCondition)
-        print(self.newBook.bookGenres)
-        print(self.newBook.bookDescription)
-        print(self.newBook.bookLanguage)
 
     }
  

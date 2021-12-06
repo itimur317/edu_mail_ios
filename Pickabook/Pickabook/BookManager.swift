@@ -73,17 +73,28 @@ final class BookManager : BookManagerProtocol {
         }
         
         // adding images
-        ImageLoader.shared.uploadImage(imageData: book.bookImages[0]) { [weak self] url in
-            guard let url = url else { return }
-            
-            self?.database.collection("Books").document(ref.documentID).setData(["imageURLs": url], merge: true) { err in
-                if let err = err {
-                    successUploadStatus = false
-                    self?.output?.didFail(with: err)
-                    print("Error writing images: \(err)")
-                } else {
-                    self?.output?.didCreate(book)
-                    print("Images successfully written!")
+        
+        var imageURLs : [String] = []
+        
+        
+        for i in 0..<book.bookImages.count {
+            ImageLoader.shared.uploadImage(imageData: book.bookImages[i]) { [weak self] url in
+                guard let url = url else { return }
+                imageURLs += [url]
+                
+                self?.database.collection("Books").document(ref.documentID).setData(["imageURLs": imageURLs], merge: true) { err in
+                    if let err = err {
+                        print("Error writing images: \(err)")
+                        if i == book.bookImages.count - 1 {
+                            self?.output?.didFail(with: err)
+                        }
+                        successUploadStatus = false
+                    } else {
+                        print("Images successfully written!")
+                        if i == book.bookImages.count - 1 {
+                            self?.output?.didCreate(book)
+                        }
+                    }
                 }
             }
         }
@@ -145,8 +156,6 @@ private final class BookConverter {
         dictBook[Key.condition.rawValue] = book.bookCondition
         dictBook[Key.description.rawValue] = book.bookDescription
         dictBook[Key.language.rawValue] = book.bookLanguage
-        dictBook[Key.imageURLs.rawValue] = ""
-        
       
         return dictBook
     }
