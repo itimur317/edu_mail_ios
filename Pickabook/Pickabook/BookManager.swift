@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import UIKit
 
 protocol BookManagerProtocol {
     var output: BookManagerOutput? { get set }
@@ -50,21 +51,18 @@ final class BookManager : BookManagerProtocol {
                 return
             }
 
-//            let book = documents.compactMap { self?.bookConverter.book(from: $0) }
-//            self?.output?.didRecieve(book)
+            let books = documents.compactMap { self?.bookConverter.book(from: $0) }
+            self?.output?.didRecieve(books)
         }
     }
 
 
     func create(book: Book) {
         
-        var successUploadStatus = true
-        
         // adding book without image
         let ref = database.collection("Books").addDocument(data: bookConverter.dict(from: book, db: database)) { [weak self] error in
             if let error = error {
                 print("Error writing document: \(error)")
-                successUploadStatus = false
                 self?.output?.didFail(with: error)
             }
             else {
@@ -75,7 +73,6 @@ final class BookManager : BookManagerProtocol {
         // adding images
         
         var imageURLs : [String] = []
-        
         
         for i in 0..<book.bookImages.count {
             ImageLoader.shared.uploadImage(imageData: book.bookImages[i]) { [weak self] url in
@@ -88,7 +85,6 @@ final class BookManager : BookManagerProtocol {
                         if i == book.bookImages.count - 1 {
                             self?.output?.didFail(with: err)
                         }
-                        successUploadStatus = false
                     } else {
                         print("Images successfully written!")
                         if i == book.bookImages.count - 1 {
@@ -120,30 +116,50 @@ private final class BookConverter {
         case imageURLs
     }
 
-//
-//    func book(from document: DocumentSnapshot) -> Book? {
-//        guard let dict = document.data(),
-//              let identifier = dict[Key.identifier.rawValue] as? String,
-//              let imageURLs = dict[Key.imageURLs.rawValue] as? [String?],
-//              let name = dict[Key.name.rawValue] as? String,
-//              let author = dict[Key.author.rawValue] as? String,
-//              let genre = dict[Key.genre.rawValue] as? String,
-//              let condition = dict[Key.condition.rawValue] as? Int,
-//              let description = dict[Key.description.rawValue] as? String?,
-//              let language = dict[Key.language.rawValue] as? String else {
-//                  return nil
-//              }
-//
-//
-//        var currentBook = Book(identifier: identifier, bookImages: imageURLs, bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
-//
-//        if let index = Util.shared.genres.firstIndex(where: { $0.name == genre} ) {
-//            currentBook.bookGenres = Util.shared.genres[index]
-//        }
-//
-//        print(currentBook)
-//        return currentBook
-//    }
+
+    func book(from document: DocumentSnapshot) -> Book? {
+        guard let dict = document.data(),
+              let identifier = dict[Key.identifier.rawValue] as? String,
+              let imageURLs = dict[Key.imageURLs.rawValue] as? [String],
+              let name = dict[Key.name.rawValue] as? String,
+              let author = dict[Key.author.rawValue] as? String,
+              let genre = dict[Key.genre.rawValue] as? String,
+              let condition = dict[Key.condition.rawValue] as? Int,
+              let description = dict[Key.description.rawValue] as? String?,
+              let language = dict[Key.language.rawValue] as? String else {
+                  return nil
+              }
+        
+        
+        var imagesData : [Data] = []
+        
+        for i in 0..<imageURLs.count {
+            guard let url = URL(string: imageURLs[i]) else { return nil }
+                
+            // create task
+            let dataTask = URLSession.shared.dataTask(with: url) { data, _ , _ in
+                guard let data = data else { return }
+                   DispatchQueue.main.async {
+                       imagesData += [data]
+                   }
+            }
+            
+            // start task
+            dataTask.resume()
+        }
+            
+          
+
+        // жанр и фото поправить 
+        var currentBook = Book(identifier: identifier, bookImages: imagesData, bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
+
+        if let index = Util.shared.genres.firstIndex(where: { $0.name == genre} ) {
+            currentBook.bookGenres = Util.shared.genres[index]
+        }
+
+        print("вытащил \(currentBook)")
+        return currentBook
+    }
 
 
     func dict(from book: Book, db: Firestore) -> [String : Any] {

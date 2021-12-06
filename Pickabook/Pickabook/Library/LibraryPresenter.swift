@@ -31,5 +31,15 @@ final class LibraryPresenter : LibraryPresenterProtocol {
         self.view?.didTapOpenAddNewBook()
     }
 
+    // deleting row :
+    
+//    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+//        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (rowAction: UITableViewRowAction, indexPath: IndexPath) -> Void in
+//            print("Deleted")
+//            self.catNames.remove(at: indexPath.row)
+//            self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+//            self.tableView.reloadData()
+//        }
+//    }
 
 }
