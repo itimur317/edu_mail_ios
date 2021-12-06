@@ -35,7 +35,7 @@ final class AddNewBookPresenter{
         newBook = Book(bookImages: [],
                        bookName: "",
                        bookAuthor: "",
-                       bookGenres:  genres[0],
+                       bookGenres: genres[0],
                        bookCondition: 0,
                        bookDescription: nil,
                        bookLanguage: "Русский")
@@ -92,11 +92,14 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol {
             }
             self.newBook.bookLanguage = bookLanguage
             
+            BookManager.shared.create(book: newBook)
             self.view?.setDefault()
             self.view?.openAddDoneView()
             
         }
-        
+                
+
+        print(self.newBook.identifier)
         print(self.newBook.bookImages)
         print(self.newBook.bookName)
         print(self.newBook.bookAuthor)
