@@ -136,17 +136,13 @@ private final class BookConverter {
         for i in 0..<imageURLs.count {
             guard let url = URL(string: imageURLs[i]) else { return nil }
                 
-            // create task
-            let dataTask = URLSession.shared.dataTask(with: url) { data, _ , _ in
-                guard let data = data else { return }
-                   DispatchQueue.main.async {
-                       imagesData += [data]
-                   }
+            // как-то надо распараллелить
+                if let data = try? Data(contentsOf: url) {
+                        imagesData += [data]
+                }
             }
             
-            // start task
-            dataTask.resume()
-        }
+
             
           
 
