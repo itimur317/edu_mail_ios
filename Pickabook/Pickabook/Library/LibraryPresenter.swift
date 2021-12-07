@@ -12,7 +12,7 @@ protocol LibraryPresenterProtocol : AnyObject {
     func dismissView()
     func didTapOpenAddNewBook()
     func didTapOpenBook(book: Book)
-    func loadBooks()
+    func observeBooks()
 }
 
 final class LibraryPresenter : LibraryPresenterProtocol {
@@ -34,7 +34,7 @@ final class LibraryPresenter : LibraryPresenterProtocol {
         self.view?.didTapOpenAddNewBook()
     }
     
-    func loadBooks() {
+    func observeBooks() {
         BookManager.shared.output = self
         BookManager.shared.observeBooks()
     }

@@ -35,7 +35,7 @@ final class LibraryViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.presenter.loadBooks()
+        self.presenter.observeBooks()
 
         view.backgroundColor = .white
         
@@ -68,6 +68,13 @@ final class LibraryViewController : UIViewController {
         view.addSubview(addNewBookButton)
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.presenter.observeBooks()
+
+    }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -128,6 +135,7 @@ extension LibraryViewController: LibraryViewControllerProtocol {
         present(navigationController,
                 animated: true,
                 completion: nil)
+        
     }
 }
 
