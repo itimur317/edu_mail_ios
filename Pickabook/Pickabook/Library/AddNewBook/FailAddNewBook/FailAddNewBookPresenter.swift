@@ -14,7 +14,21 @@ protocol FailAddNewBookPresenterProtocol : AnyObject {
     func didTapQuitButton()
 }
 
-final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol {
+final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol, BookManagerOutput {
+    func didRecieve(_ books: [Book]) {
+        // 
+    }
+    
+    func didCreate(_ book: Book) {
+        // MARK : проверить, что если получилось восстановить доступ к изображениям, то вьюха будет закрываться
+        
+        self.view?.dismissView()
+    }
+    
+    func didFail(with error: Error) {
+        //
+    }
+    
     
     weak var view : FailAddNewBookViewControllerProtocol?
     
@@ -26,6 +40,7 @@ final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol {
     
     func didTapTryAgainButton() {
       // тут нужен презентер аутпут делать
+        BookManager.shared.output = self
         BookManager.shared.create(book: self.book)
     }
 

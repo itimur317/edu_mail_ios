@@ -100,7 +100,7 @@ final class FailAddNewBookViewController : UIViewController {
     private func didTapTryAgainButton(_ sender: UIButton) {
         presenter.didTapTryAgainButton()
         // MARK : add load view
-        dismiss(animated: true, completion: nil)
+       // dismiss(animated: true, completion: nil)
     }
     
     
