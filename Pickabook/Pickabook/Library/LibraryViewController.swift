@@ -35,6 +35,7 @@ final class LibraryViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("viewDidLoad")
         self.presenter.observeBooks()
 
         view.backgroundColor = .white
@@ -71,8 +72,8 @@ final class LibraryViewController : UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.presenter.observeBooks()
-
+        print("viewWillAppear")
+//        self.presenter.observeBooks()
     }
     
     

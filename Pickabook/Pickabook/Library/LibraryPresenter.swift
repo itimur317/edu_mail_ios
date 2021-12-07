@@ -31,7 +31,9 @@ final class LibraryPresenter : LibraryPresenterProtocol {
     
     
     func didTapOpenAddNewBook() {
+        print("opened AddNewBook")
         self.view?.didTapOpenAddNewBook()
+        
     }
     
     func observeBooks() {
@@ -61,11 +63,11 @@ extension LibraryPresenter : BookManagerOutput {
     }
     
     func didCreate(_ book: Book) {
-        //
+        print("plohoCreate")
     }
     
     func didFail(with error: Error) {
-        //
+        print("plohoFail")
     }
     
     

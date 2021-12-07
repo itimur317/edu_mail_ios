@@ -46,7 +46,7 @@ final class AddNewBookPresenter {
 
 extension AddNewBookPresenter: BookManagerOutput {
     func didRecieve(_ books: [Book]) {
-        print(books)
+        print("didRecive vizvan")
     }
     
     func didCreate(_ book: Book) {
@@ -120,7 +120,7 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
             
             BookManager.shared.output = self
             BookManager.shared.create(book: newBook)
-            BookManager.shared.observeBooks()
+          //  BookManager.shared.observeBooks()
 
             
         }

@@ -39,21 +39,28 @@ final class BookManager : BookManagerProtocol {
     private let bookConverter = BookConverter()
 
     func observeBooks() {
-        database.collection("Books").addSnapshotListener { [weak self] querySnapshot, error in
+        DispatchQueue.global().async {
+            self.database.collection("Books").addSnapshotListener { [weak self] querySnapshot, error in
 
-            if let error = error {
-                self?.output?.didFail(with: error)
-                return
+                if let error = error {
+                    self?.output?.didFail(with: error)
+                    return
+                }
+
+                guard let documents = querySnapshot?.documents else {
+                    self?.output?.didFail(with: NetworkError.unexpected)
+                    return
+                }
+
+                let books = documents.compactMap {
+    //                DispatchQueue.global().async {
+                        self?.bookConverter.book(from: $0)
+    //                }
+                }
+                self?.output?.didRecieve(books)
             }
-
-            guard let documents = querySnapshot?.documents else {
-                self?.output?.didFail(with: NetworkError.unexpected)
-                return
-            }
-
-            let books = documents.compactMap { self?.bookConverter.book(from: $0) }
-            self?.output?.didRecieve(books)
         }
+        
     }
 
 
@@ -94,13 +101,8 @@ final class BookManager : BookManagerProtocol {
                 }
             }
         }
-        
-
     }
     
-    
-   
-
 }
 
 
