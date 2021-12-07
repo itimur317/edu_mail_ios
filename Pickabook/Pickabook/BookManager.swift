@@ -24,6 +24,10 @@ protocol BookManagerOutput : AnyObject {
     
 }
 
+enum DBError : Error {
+    case unexpected
+}
+
 enum NetworkError : Error {
     case unexpected
 }
@@ -83,7 +87,17 @@ final class BookManager : BookManagerProtocol {
         
         for i in 0..<book.bookImages.count {
             ImageLoader.shared.uploadImage(imageData: book.bookImages[i]) { [weak self] url in
-                guard let url = url else { return }
+                guard let url = url else {
+                    self?.output?.didFail(with: DBError.unexpected)
+                    self?.database.collection("Books").document(ref.documentID).delete() {err in 
+                        if let err = err {
+                                print("Error removing document: \(err)")
+                            } else {
+                                print("Document successfully removed!")
+                            }
+                    }
+                    return }
+                
                 imageURLs += [url]
                 
                 self?.database.collection("Books").document(ref.documentID).setData(["imageURLs": imageURLs], merge: true) { err in

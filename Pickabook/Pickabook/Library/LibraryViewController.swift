@@ -13,7 +13,7 @@ protocol LibraryViewControllerProtocol : AnyObject {
     func dismissView()
     func didTapOpenBook(book: Book)
     func didTapOpenAddNewBook()
-    func reloadTable()
+//    func reloadTable()
 }
 
 final class LibraryViewController : UIViewController {
@@ -36,7 +36,7 @@ final class LibraryViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad")
-        self.presenter.observeBooks()
+//        self.presenter.observeBooks()
 
         view.backgroundColor = .white
         
@@ -122,9 +122,9 @@ extension LibraryViewController: LibraryViewControllerProtocol {
         //bookViewPresenter.view = bookProfileViewController
     }
     
-    func reloadTable() {
-        self.booksTableView.reloadData()
-    }
+//    func reloadTable() {
+//        self.booksTableView.reloadData()
+//    }
     
     func didTapOpenAddNewBook() {
         
@@ -142,8 +142,8 @@ extension LibraryViewController: LibraryViewControllerProtocol {
 
 extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return books.count
-        return self.presenter.currentBooks.count
+        return books.count
+//        return self.presenter.currentBooks.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -156,15 +156,15 @@ extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.selectionStyle = .none
-//        let book = books[indexPath.row]
-        let book = self.presenter.currentBooks[indexPath.row]
+        let book = books[indexPath.row]
+//        let book = self.presenter.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let book = books[indexPath.row]
-        let book = self.presenter.currentBooks[indexPath.row]
+        let book = books[indexPath.row]
+//        let book = self.presenter.currentBooks[indexPath.row]
         presenter.didTapOpenBook(book: book)
     }
     

@@ -498,9 +498,10 @@ extension AddNewBookViewController {
     @objc
     private func didTapAddButton(_ sender: UIButton) {
         
-        let leftPhotoImageViewData = leftPhotoImageView.image?.jpegData(compressionQuality: 1.0)
-        let centerPhotoImageViewData = centerPhotoImageView.image?.jpegData(compressionQuality: 1.0)
-        let rightPhotoImageViewData = rightPhotoImageView.image?.jpegData(compressionQuality: 1.0)
+        // MARK : change from 0.1 to 1.0 or smth
+        let leftPhotoImageViewData = leftPhotoImageView.image?.jpegData(compressionQuality: 0.1)
+        let centerPhotoImageViewData = centerPhotoImageView.image?.jpegData(compressionQuality: 0.1)
+        let rightPhotoImageViewData = rightPhotoImageView.image?.jpegData(compressionQuality: 0.1)
         
         
         self.presenter.didTapAddButton(bookImages: [leftPhotoImageViewData, centerPhotoImageViewData, rightPhotoImageViewData],
