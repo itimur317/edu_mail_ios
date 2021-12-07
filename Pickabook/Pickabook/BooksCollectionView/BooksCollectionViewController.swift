@@ -27,7 +27,7 @@ class BooksCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.presenter.observeBooks()
+        self.presenter.observeBooks(genre: self.genre)
         
         setCollectionView()
         

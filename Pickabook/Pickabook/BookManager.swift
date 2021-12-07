@@ -12,7 +12,7 @@ import UIKit
 protocol BookManagerProtocol {
     var output: BookManagerOutput? { get set }
 
-    func observeBooks()
+    func observeBooks(genreName : String)
     func create(book: Book)
 }
 
@@ -42,9 +42,9 @@ final class BookManager : BookManagerProtocol {
 
     private let bookConverter = BookConverter()
 
-    func observeBooks() {
+    func observeBooks(genreName : String) {
         DispatchQueue.global().async {
-            self.database.collection("Books").addSnapshotListener { [weak self] querySnapshot, error in
+            self.database.collection("Books").whereField("genre", isEqualTo: genreName).addSnapshotListener { [weak self] querySnapshot, error in
 
                 if let error = error {
                     self?.output?.didFail(with: error)
@@ -63,6 +63,8 @@ final class BookManager : BookManagerProtocol {
                 }
                 self?.output?.didRecieve(books)
             }
+            
+            
         }
         
     }
@@ -71,6 +73,7 @@ final class BookManager : BookManagerProtocol {
     func create(book: Book) {
         
         // adding book without image
+        
         let ref = database.collection("Books").addDocument(data: bookConverter.dict(from: book, db: database)) { [weak self] error in
             if let error = error {
                 print("Error writing document: \(error)")
@@ -81,6 +84,9 @@ final class BookManager : BookManagerProtocol {
             }
         }
         
+        
+        
+        
         // adding images
         
         var imageURLs : [String] = []
@@ -89,7 +95,7 @@ final class BookManager : BookManagerProtocol {
             ImageLoader.shared.uploadImage(imageData: book.bookImages[i]) { [weak self] url in
                 guard let url = url else {
                     self?.output?.didFail(with: DBError.unexpected)
-                    self?.database.collection("Books").document(ref.documentID).delete() {err in 
+                    self?.database.collection("Books").document(ref.documentID).delete() {err in
                         if let err = err {
                                 print("Error removing document: \(err)")
                             } else {

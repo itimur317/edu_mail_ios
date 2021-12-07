@@ -12,7 +12,8 @@ protocol BooksCollectionViewPresenterProtocol: AnyObject {
     func loadBooks(genre: Genre) -> [Book]
     func chosedBook(book: Book)
     var currentBooks : [Book] { get set }
-    func observeBooks()
+    func observeBooks(genre: Genre)
+    
 }
 
 final class BooksCollectionViewPresenter: BooksCollectionViewPresenterProtocol {
@@ -24,9 +25,9 @@ final class BooksCollectionViewPresenter: BooksCollectionViewPresenterProtocol {
         self.delegate = delegate
     }
     
-    func observeBooks() {
+    func observeBooks(genre: Genre) {
         BookManager.shared.output = self
-        BookManager.shared.observeBooks()
+        BookManager.shared.observeBooks(genreName: genre.name)
     }
     
     func chosedBook(book: Book) {
