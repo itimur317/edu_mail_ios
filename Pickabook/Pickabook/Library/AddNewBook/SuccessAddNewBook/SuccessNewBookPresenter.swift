@@ -18,6 +18,4 @@ final class SuccessAddNewBookPresenter : SuccessAddNewBookPresenterProtocol {
     func didTapOkButton() {
         view?.dismissView()
     }
-
-
 }

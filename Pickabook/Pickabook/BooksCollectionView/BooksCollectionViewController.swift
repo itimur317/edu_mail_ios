@@ -27,11 +27,16 @@ class BooksCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.presenter.observeBooks(genre: self.genre)
         
         setCollectionView()
         
         presenter.setViewDelegate(delegate: self)
         sortedBooks = presenter.loadBooks(genre: genre)
+    }
+    
+    func reloadCollection() {
+        collectionView.reloadData()
     }
     
     func setCollectionView(){
@@ -57,6 +62,8 @@ class BooksCollectionViewController: UICollectionViewController {
     }
 }
 
+
+
 extension BooksCollectionViewController {
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -64,19 +71,21 @@ extension BooksCollectionViewController {
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sortedBooks.count
+//        return sortedBooks.count
+        return self.presenter.currentBooks.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! BookCollectionCell
         
-        let book = sortedBooks[indexPath.row]
+//        let book = sortedBooks[indexPath.row]
+        let book = self.presenter.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-           let book = sortedBooks[indexPath.row]
+           let book = self.presenter.currentBooks[indexPath.row]
            presenter.chosedBook(book: book)
        }
 }

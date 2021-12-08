@@ -15,10 +15,10 @@ protocol FailAddNewBookViewControllerProtocol : AnyObject {
 
 final class FailAddNewBookViewController : UIViewController {
     
-    var output: FailAddNewBookPresenterProtocol
+    var presenter: FailAddNewBookPresenterProtocol
     
-    init(output: FailAddNewBookPresenterProtocol){
-        self.output = output
+    init(presenter: FailAddNewBookPresenterProtocol){
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -66,14 +66,6 @@ final class FailAddNewBookViewController : UIViewController {
         view.addSubview(quitButton)
     }
     
-    @objc
-    private func didTapTryAgainButton(_ sender: UIButton) {
-    }
-    
-    @objc
-    private func didTapQuitButton(_ sender: UIButton) {
-        output.didTapQuitButton()
-    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -103,6 +95,19 @@ final class FailAddNewBookViewController : UIViewController {
 
     }
     
+    
+    @objc
+    private func didTapTryAgainButton(_ sender: UIButton) {
+        presenter.didTapTryAgainButton()
+        // MARK : add load view
+       // dismiss(animated: true, completion: nil)
+    }
+    
+    
+    @objc
+    private func didTapQuitButton(_ sender: UIButton) {
+        presenter.didTapQuitButton()
+    }
 }
 
 extension FailAddNewBookViewController: FailAddNewBookViewControllerProtocol {

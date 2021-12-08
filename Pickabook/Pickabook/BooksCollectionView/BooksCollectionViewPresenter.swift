@@ -11,13 +11,23 @@ import UIKit
 protocol BooksCollectionViewPresenterProtocol: AnyObject {
     func loadBooks(genre: Genre) -> [Book]
     func chosedBook(book: Book)
+    var currentBooks : [Book] { get set }
+    func observeBooks(genre: Genre)
+    
 }
 
 final class BooksCollectionViewPresenter: BooksCollectionViewPresenterProtocol {
     weak var delegate : BooksCollectionViewController?
+    var currentBooks : [Book] = []
+
     
     public func setViewDelegate(delegate: BooksCollectionViewController) {
         self.delegate = delegate
+    }
+    
+    func observeBooks(genre: Genre) {
+        BookManager.shared.output = self
+        BookManager.shared.observeBooks(genreName: genre.name)
     }
     
     func chosedBook(book: Book) {
@@ -31,4 +41,22 @@ final class BooksCollectionViewPresenter: BooksCollectionViewPresenterProtocol {
         let sortedBooks = books.filter({ $0.bookGenres.type == genre.type })
         return sortedBooks
     }
+}
+
+
+extension BooksCollectionViewPresenter :BookManagerOutput {
+    func didRecieve(_ books: [Book]) {
+        currentBooks = books
+        self.delegate?.reloadCollection()
+    }
+    
+    func didCreate(_ book: Book) {
+        print("plohoCreate")
+    }
+    
+    func didFail(with error: Error) {
+        print("plohoFail")
+    }
+    
+    
 }
