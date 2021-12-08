@@ -8,16 +8,40 @@
 import Foundation
 
 protocol FailAddNewBookPresenterProtocol : AnyObject {
+    var book: Book { get set }
+
     func didTapTryAgainButton()
     func didTapQuitButton()
 }
 
-final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol {
+final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol, BookManagerOutput {
+    func didRecieve(_ books: [Book]) {
+        // 
+    }
+    
+    func didCreate(_ book: Book) {
+        // MARK : проверить, что если получилось восстановить доступ к изображениям, то вьюха будет закрываться
+        
+        self.view?.dismissView()
+    }
+    
+    func didFail(with error: Error) {
+        //
+    }
+    
     
     weak var view : FailAddNewBookViewControllerProtocol?
     
+    var book: Book
+    
+    init(book: Book) {
+        self.book = book
+    }
+    
     func didTapTryAgainButton() {
-        // with data base
+      // тут нужен презентер аутпут делать
+        BookManager.shared.output = self
+        BookManager.shared.create(book: self.book)
     }
 
     func didTapQuitButton() {
