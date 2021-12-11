@@ -16,6 +16,8 @@ protocol AddNewBookViewControllerProtocol: AnyObject {
     func requiredFieldAlert()
     func setDefault()
     func setImage(_ pickedImage: UIImage)
+    func presentLoadingAlert()
+    func dismissLoadingAlert()
 }
 
 
@@ -793,6 +795,20 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
                 completion: nil)
     }
     
+    func presentLoadingAlert() {
+        let alert = UIAlertController(title: nil, message: "Загружаем книгу...", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.startAnimating()
+        
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func dismissLoadingAlert() {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension AddNewBookViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {

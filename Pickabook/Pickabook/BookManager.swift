@@ -79,24 +79,17 @@ final class BookManager : BookManagerProtocol {
                 
                 var dictForDatabase : [String : Any]
                 
-                if book.bookDescription == nil {
-                    dictForDatabase = ["identifier" : book.identifier!,
-                                       "imageURLs" : imageURLs,
-                                       "name" : book.bookName,
-                                       "author" : book.bookAuthor,
-                                       "genre" : book.bookGenres.name,
-                                       "condition" : book.bookCondition,
-                                       "language" : book.bookLanguage]
-                } else {
-                    dictForDatabase = ["identifier" : book.identifier!,
-                                       "imageURLs" : imageURLs,
-                                       "name" : book.bookName,
-                                       "author" : book.bookAuthor,
-                                       "genre" : book.bookGenres.name,
-                                       "condition" : book.bookCondition,
-                                       "description" : book.bookDescription!,
-                                       "language" : book.bookLanguage]
-                }
+                dictForDatabase = ["identifier" : book.identifier!,
+                                   "imageURLs" : imageURLs,
+                                   "name" : book.bookName,
+                                   "author" : book.bookAuthor,
+                                   "genre" : book.bookGenres.name,
+                                   "condition" : book.bookCondition,
+                                   "language" : book.bookLanguage]
+                
+                if book.bookDescription != nil {
+                    dictForDatabase["description"] = book.bookDescription!
+                } 
                 
                 self?.database.collection("Books").addDocument(data: dictForDatabase) { [weak self] error in
                     if let error = error {
@@ -163,19 +156,4 @@ private final class BookConverter {
         return currentBook
     }
 
-
-    func dict(imageURLs: [String], from book: Book, db: Firestore) -> [String : Any] {
-        var dictBook : [String : Any]  = [:]
-
-        dictBook[Key.identifier.rawValue] = UUID().uuidString
-        dictBook[Key.imageURLs.rawValue] = imageURLs
-        dictBook[Key.name.rawValue] = book.bookName
-        dictBook[Key.author.rawValue] = book.bookAuthor
-        dictBook[Key.genre.rawValue] = book.bookGenres.name
-        dictBook[Key.condition.rawValue] = book.bookCondition
-        dictBook[Key.description.rawValue] = book.bookDescription
-        dictBook[Key.language.rawValue] = book.bookLanguage
-
-        return dictBook
-    }
 }

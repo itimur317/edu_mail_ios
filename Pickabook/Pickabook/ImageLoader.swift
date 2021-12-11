@@ -10,7 +10,6 @@ import FirebaseStorage
 
 protocol ImageLoaderProtocol: AnyObject {
     func uploadImage(imageData: [Data], completion: @escaping (_ imageURLs: [String?]) -> Void)
-    
 }
 
 
@@ -57,4 +56,12 @@ final class ImageLoader: ImageLoaderProtocol {
         }
         
     }
+}
+
+protocol ImageDeleterProtocol : AnyObject {
+//    
+}
+
+final class ImageDeleter: ImageDeleterProtocol {
+//
 }
