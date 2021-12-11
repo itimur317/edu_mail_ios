@@ -81,6 +81,7 @@ final class BookManager : BookManagerProtocol {
             }
             else {
                 print("Document successfully written!")
+                
             }
         }
         
@@ -106,7 +107,9 @@ final class BookManager : BookManagerProtocol {
                 
                 imageURLs += [url]
                 
-                self?.database.collection("Books").document(ref.documentID).setData(["imageURLs": imageURLs], merge: true) { err in
+                self?.database.collection("Books").document(ref.documentID).setData(["imageURLs":imageURLs,
+                     "identifier" : ref.documentID],
+                      merge: true) { err in
                     if let err = err {
                         print("Error writing images: \(err)")
                         if i == book.bookImages.count - 1 {
@@ -179,7 +182,7 @@ private final class BookConverter {
     func dict(from book: Book, db: Firestore) -> [String : Any] {
         var dictBook : [String : Any]  = [:]
         
-        dictBook[Key.identifier.rawValue] = book.identifier
+        
         dictBook[Key.name.rawValue] = book.bookName
         dictBook[Key.author.rawValue] = book.bookAuthor
         dictBook[Key.genre.rawValue] = book.bookGenres.name
