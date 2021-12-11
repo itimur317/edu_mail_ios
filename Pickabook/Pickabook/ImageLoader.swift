@@ -9,7 +9,7 @@ import Foundation
 import FirebaseStorage
 
 protocol ImageLoaderProtocol: AnyObject {
-    func uploadImage(imageData: Data, completion: @escaping (_ url: String?) -> Void)
+    func uploadImage(imageData: [Data], completion: @escaping (_ imageURLs: [String?]) -> Void)
     
 }
 
@@ -22,24 +22,33 @@ final class ImageLoader: ImageLoaderProtocol {
     
     private init() {}
     
-    func uploadImage(imageData: Data, completion: @escaping (_ url: String?) -> Void) {
+    func uploadImage(imageData: [Data], completion: @escaping (_ imageURLs: [String?]) -> Void) {
         
+        var imageURLs : [String?] = []
 
-        let imageName = UUID().uuidString
-        
-        let storageRef = storageReference.child("\(imageName).jpeg")
-        storageRef.putData(imageData, metadata: nil) { (metadata, error)  in
-            if let _ = error {
-                print("error putData")
-                completion(nil)
-            }
-            else {
-                storageRef.downloadURL { (url, error) in
-                    print(url?.absoluteString)
-                    completion(url?.absoluteString)
+        for i in 0..<imageData.count {
+            
+            let imageName = UUID().uuidString
+            
+            let storageRef = storageReference.child("\(imageName).jpeg")
+            storageRef.putData(imageData[i], metadata: nil) { (metadata, error)  in
+                if let _ = error {
+                    print("error putData")
+                    completion([nil])
+                }
+                else {
+                    storageRef.downloadURL { (url, error) in
+                        print(url?.absoluteString)
+                        imageURLs += [url?.absoluteString]
+                        if imageData.count == imageURLs.count {
+                            completion(imageURLs)
+                        }
+                    }
                 }
             }
+            
         }
+        
         
         
         

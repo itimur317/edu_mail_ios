@@ -8,7 +8,7 @@ import Foundation
 import UIKit
 
 struct Book {
-    var identifier : String? = nil
+    var identifier : String? = UUID().uuidString
     var bookImages: [Data] 
     var bookName: String
     var bookAuthor: String
