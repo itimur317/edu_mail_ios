@@ -16,41 +16,45 @@ protocol ImageLoaderProtocol: AnyObject {
 
 final class ImageLoader: ImageLoaderProtocol {
     
-    static let shared: ImageLoaderProtocol = ImageLoader()
+//    static let shared: ImageLoaderProtocol = ImageLoader()
     
     private let storageReference = Storage.storage().reference()
     
-    private init() {}
+    init() {}
     
     func uploadImage(imageData: [Data], completion: @escaping (_ imageURLs: [String?]) -> Void) {
         
-        var imageURLs : [String?] = []
-
+        var imageURLs = [String?](repeating: nil, count: imageData.count)
+        var imageNames = [String?](repeating: nil, count: imageData.count)
+        
         for i in 0..<imageData.count {
             
             let imageName = UUID().uuidString
             
+            print(imageData)
             let storageRef = storageReference.child("\(imageName).jpeg")
             storageRef.putData(imageData[i], metadata: nil) { (metadata, error)  in
-                if let _ = error {
+                if let error = error {
                     print("error putData")
-                    completion([nil])
+                    imageURLs = [String?](repeating: nil, count: imageData.count)
+                    BookManager.shared.output?.didFail(with: error)
+                    return
                 }
                 else {
                     storageRef.downloadURL { (url, error) in
-                        print(url?.absoluteString)
-                        imageURLs += [url?.absoluteString]
-                        if imageData.count == imageURLs.count {
+                        print("url",i,"     ",  url?.absoluteString)
+                        if url == nil {
+                            return
+                        }
+                        imageNames[i] = imageName
+                        imageURLs[i] = url?.absoluteString
+                        if !imageURLs.contains(nil) {
                             completion(imageURLs)
                         }
                     }
                 }
             }
-            
         }
-        
-        
-        
         
     }
 }

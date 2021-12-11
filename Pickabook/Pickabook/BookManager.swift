@@ -71,66 +71,46 @@ final class BookManager : BookManagerProtocol {
 
 
     func create(book: Book) {
-        
-        // adding book without image
-        
-        
-        
-        
-        
-        
-        // adding images
-        
 
+        let imageLoader: ImageLoaderProtocol = ImageLoader()
         
-        
-            ImageLoader.shared.uploadImage(imageData: book.bookImages) { [weak self] imageURLs in
-                   
-                if imageURLs != [nil] && book.bookImages.count == imageURLs.count {
-                            
-                            var dictForDatabase : [String : Any]
-                            
-                            if book.bookDescription == nil {
-                                dictForDatabase = ["identifier" : book.identifier!,
-                                                   "imageURLs" : imageURLs,
-                                                   "name" : book.bookName,
-                                                   "author" : book.bookAuthor,
-                                                   "genre" : book.bookGenres.name,
-                                                   "condition" : book.bookCondition,
-                                                   "language" : book.bookLanguage]
-                            } else {
-                                dictForDatabase = ["identifier" : book.identifier!,
-                                                   "imageURLs" : imageURLs,
-                                                   "name" : book.bookName,
-                                                   "author" : book.bookAuthor,
-                                                   "genre" : book.bookGenres.name,
-                                                   "condition" : book.bookCondition,
-                                                   "description" : book.bookDescription!,
-                                                   "language" : book.bookLanguage]
-                            }
-                    
-                            self?.database.collection("Books").addDocument(data: dictForDatabase) { [weak self] error in
-                                if let error = error {
-                                    print("Error writing document: \(error)")
-                                    
-                                    self?.output?.didFail(with: error)
-                                }
-                                else {
-                                    print("Document successfully written!")
-                                    self?.output?.didCreate(book)
-                                }
-                            }
-                } else {
-                    self?.output?.didFail(with: DBError.unexpected)
-                    return
-                }
-                                  
-            
+        imageLoader.uploadImage(imageData: book.bookImages) { [weak self] imageURLs in
+            if book.bookImages.count == imageURLs.count {
                 
-            
+                var dictForDatabase : [String : Any]
+                
+                if book.bookDescription == nil {
+                    dictForDatabase = ["identifier" : book.identifier!,
+                                       "imageURLs" : imageURLs,
+                                       "name" : book.bookName,
+                                       "author" : book.bookAuthor,
+                                       "genre" : book.bookGenres.name,
+                                       "condition" : book.bookCondition,
+                                       "language" : book.bookLanguage]
+                } else {
+                    dictForDatabase = ["identifier" : book.identifier!,
+                                       "imageURLs" : imageURLs,
+                                       "name" : book.bookName,
+                                       "author" : book.bookAuthor,
+                                       "genre" : book.bookGenres.name,
+                                       "condition" : book.bookCondition,
+                                       "description" : book.bookDescription!,
+                                       "language" : book.bookLanguage]
+                }
+                
+                self?.database.collection("Books").addDocument(data: dictForDatabase) { [weak self] error in
+                    if let error = error {
+                        print("Error writing document: \(error)")
+                        self?.output?.didFail(with: error)
+                    }
+                    else {
+                        print("Document successfully written!")
+                        self?.output?.didCreate(book)
+                    }
+                }
+            } else { return }
         }
     }
-    
 }
 
 

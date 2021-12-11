@@ -11,6 +11,7 @@ import PinLayout
 
 protocol FailAddNewBookViewControllerProtocol : AnyObject {
     func dismissView()
+    func loadingAlert()
 }
 
 final class FailAddNewBookViewController : UIViewController {
@@ -115,4 +116,20 @@ extension FailAddNewBookViewController: FailAddNewBookViewControllerProtocol {
         dismiss(animated: true, completion: nil)
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
+    
+    func loadingAlert() {
+        let alert = UIAlertController(title: nil, message: "Загружаем книгу...", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { _ in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.startAnimating()
+        
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+    }
+
 }

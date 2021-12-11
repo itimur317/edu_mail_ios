@@ -39,7 +39,8 @@ final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol, BookManag
     }
     
     func didTapTryAgainButton() {
-      // тут нужен презентер аутпут делать
+        view?.loadingAlert()
+      
         BookManager.shared.output = self
         BookManager.shared.create(book: self.book)
     }
