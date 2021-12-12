@@ -50,10 +50,12 @@ extension AddNewBookPresenter: BookManagerOutput {
     }
     
     func didCreate(_ book: Book) {
+        self.view?.dismissLoadingAlert()
         self.view?.successAddDoneView()
     }
     
     func didFail(with error: Error) {
+        self.view?.dismissLoadingAlert()
         self.view?.failAddDoneView()
     }
     
@@ -71,6 +73,8 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
                          bookDescriptionColor : UIColor,
                          bookLanguage: String,
                          bookLanguageColor: UIColor) {
+        
+        view?.presentLoadingAlert()
         
         if (bookImages[1] == nil || bookName == "" ||  authorName == ""
             ||  bookLanguage == "" || bookNameColor == .gray
@@ -120,9 +124,7 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
             
             BookManager.shared.output = self
             BookManager.shared.create(book: newBook)
-          //  BookManager.shared.observeBooks()
 
-            
         }
     }
  

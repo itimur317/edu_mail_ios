@@ -47,19 +47,19 @@ final class BookManager : BookManagerProtocol {
             self.database.collection("Books").whereField("genre", isEqualTo: genreName).addSnapshotListener { [weak self] querySnapshot, error in
 
                 if let error = error {
+                    print("error in observe")
                     self?.output?.didFail(with: error)
                     return
                 }
 
                 guard let documents = querySnapshot?.documents else {
+                    print("query")
                     self?.output?.didFail(with: NetworkError.unexpected)
                     return
                 }
 
                 let books = documents.compactMap {
-    //                DispatchQueue.global().async {
                         self?.bookConverter.book(from: $0)
-    //                }
                 }
                 self?.output?.didRecieve(books)
             }
@@ -71,58 +71,39 @@ final class BookManager : BookManagerProtocol {
 
 
     func create(book: Book) {
+
+        let imageLoader: ImageLoaderProtocol = ImageLoader()
         
-        // adding book without image
-        
-        let ref = database.collection("Books").addDocument(data: bookConverter.dict(from: book, db: database)) { [weak self] error in
-            if let error = error {
-                print("Error writing document: \(error)")
-                self?.output?.didFail(with: error)
-            }
-            else {
-                print("Document successfully written!")
-            }
-        }
-        
-        
-        
-        
-        // adding images
-        
-        var imageURLs : [String] = []
-        
-        for i in 0..<book.bookImages.count {
-            ImageLoader.shared.uploadImage(imageData: book.bookImages[i]) { [weak self] url in
-                guard let url = url else {
-                    self?.output?.didFail(with: DBError.unexpected)
-                    self?.database.collection("Books").document(ref.documentID).delete() {err in
-                        if let err = err {
-                                print("Error removing document: \(err)")
-                            } else {
-                                print("Document successfully removed!")
-                            }
+        imageLoader.uploadImage(imageData: book.bookImages) { [weak self] imageURLs in
+            if book.bookImages.count == imageURLs.count {
+                
+                var dictForDatabase : [String : Any]
+                
+                dictForDatabase = ["identifier" : book.identifier!,
+                                   "imageURLs" : imageURLs,
+                                   "name" : book.bookName,
+                                   "author" : book.bookAuthor,
+                                   "genre" : book.bookGenres.name,
+                                   "condition" : book.bookCondition,
+                                   "language" : book.bookLanguage]
+                
+                if book.bookDescription != nil {
+                    dictForDatabase["description"] = book.bookDescription!
+                } 
+                
+                self?.database.collection("Books").addDocument(data: dictForDatabase) { [weak self] error in
+                    if let error = error {
+                        print("Error writing document: \(error)")
+                        self?.output?.didFail(with: error)
                     }
-                    return }
-                
-                imageURLs += [url]
-                
-                self?.database.collection("Books").document(ref.documentID).setData(["imageURLs": imageURLs], merge: true) { err in
-                    if let err = err {
-                        print("Error writing images: \(err)")
-                        if i == book.bookImages.count - 1 {
-                            self?.output?.didFail(with: err)
-                        }
-                    } else {
-                        print("Images successfully written!")
-                        if i == book.bookImages.count - 1 {
-                            self?.output?.didCreate(book)
-                        }
+                    else {
+                        print("Document successfully written!")
+                        self?.output?.didCreate(book)
                     }
                 }
-            }
+            } else { return }
         }
     }
-    
 }
 
 
@@ -158,7 +139,6 @@ private final class BookConverter {
         for i in 0..<imageURLs.count {
             guard let url = URL(string: imageURLs[i]) else { return nil }
                 
-            // как-то надо распараллелить
                 if let data = try? Data(contentsOf: url) {
                         imagesData += [data]
                 }
@@ -175,18 +155,4 @@ private final class BookConverter {
         return currentBook
     }
 
-
-    func dict(from book: Book, db: Firestore) -> [String : Any] {
-        var dictBook : [String : Any]  = [:]
-        
-        dictBook[Key.identifier.rawValue] = book.identifier
-        dictBook[Key.name.rawValue] = book.bookName
-        dictBook[Key.author.rawValue] = book.bookAuthor
-        dictBook[Key.genre.rawValue] = book.bookGenres.name
-        dictBook[Key.condition.rawValue] = book.bookCondition
-        dictBook[Key.description.rawValue] = book.bookDescription
-        dictBook[Key.language.rawValue] = book.bookLanguage
-      
-        return dictBook
-    }
 }
