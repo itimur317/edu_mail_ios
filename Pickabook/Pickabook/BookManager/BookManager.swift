@@ -75,12 +75,13 @@ final class BookManager : BookManagerProtocol {
 
         let imageLoader: ImageLoaderProtocol = ImageLoader()
         
-        imageLoader.uploadImage(imageData: book.bookImages) { [weak self] imageURLs in
+        imageLoader.uploadImage(imageData: book.bookImages) { [weak self] imageURLs, imageNames in
             if book.bookImages.count == imageURLs.count {
                 
                 var dictForDatabase : [String : Any]
                 
                 dictForDatabase = ["identifier" : book.identifier!,
+                                   "imageNames" : imageNames,
                                    "imageURLs" : imageURLs,
                                    "name" : book.bookName,
                                    "author" : book.bookAuthor,
@@ -147,6 +148,7 @@ private final class BookConverter {
         case condition
         case description
         case language
+        case imageNames
         case imageURLs
     }
 
@@ -155,6 +157,7 @@ private final class BookConverter {
         guard let dict = document.data(),
               let identifier = dict[Key.identifier.rawValue] as? String,
               let imageURLs = dict[Key.imageURLs.rawValue] as? [String],
+              let imageNames = dict[Key.imageNames.rawValue] as? [String],
               let name = dict[Key.name.rawValue] as? String,
               let author = dict[Key.author.rawValue] as? String,
               let genre = dict[Key.genre.rawValue] as? String,
@@ -178,7 +181,7 @@ private final class BookConverter {
         }
         
         
-        var currentBook = Book(identifier: identifier, bookImages: imagesData, bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
+        var currentBook = Book(identifier: identifier, bookImagesUrl: imageNames, bookImages: imagesData, bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
 
         if let index = Util.shared.genres.firstIndex(where: { $0.name == genre} ) {
             currentBook.bookGenres = Util.shared.genres[index]
