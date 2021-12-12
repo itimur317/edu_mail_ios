@@ -153,6 +153,7 @@
 		A52ABB7727455F7D00EA87D8 /* Profiles */ = {
 			isa = PBXGroup;
 			children = (
+				E13E79D82744345700BEE7EC /* ChangeProfileData */,
 				E13E79F7274435A100BEE7EC /* MyProfile */,
 				A52ABB7227455F2400EA87D8 /* UserProfile */,
 			);
@@ -220,7 +221,6 @@
 				39F7A508274827F2003E196B /* Library */,
 				A52ABB782745602200EA87D8 /* RegAndAuth */,
 				A52ABB7727455F7D00EA87D8 /* Profiles */,
-				E13E79D82744345700BEE7EC /* ChangeProfileData */,
 				E13E79CF2744341F00BEE7EC /* GenreCollectionView */,
 				E13E79F22744352200BEE7EC /* Model */,
 				E13E79EE2744351800BEE7EC /* BooksCollectionView */,

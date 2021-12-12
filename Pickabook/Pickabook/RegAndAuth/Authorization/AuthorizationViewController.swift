@@ -7,6 +7,7 @@
 
 import UIKit
 import PinLayout
+import FirebaseAuth
 
 class AuthorizationViewController : UIViewController {
 
@@ -31,7 +32,7 @@ class AuthorizationViewController : UIViewController {
 //
     let scrollView = UIScrollView()
     
-    let appIconImage = UIImage(named: "logo") //грузится в низком разрешении, надо править
+    let appIconImage = UIImage(named: "logo")
     let appIconImageView = UIImageView()
     
     let loginLabel = UILabel()
@@ -48,10 +49,14 @@ class AuthorizationViewController : UIViewController {
         view.backgroundColor = .white
         navigationItem.title = "Авторизация"
         
+        //back button
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.navigationBar.tintColor = .black
+        
         self.hideKeyboardWhenTappedAround()
         
         //take 1
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 446) // need changes
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 446 /*+ 500*/) // need changes
         view.addSubview(scrollView)
         
 //          image
@@ -60,7 +65,7 @@ class AuthorizationViewController : UIViewController {
         scrollView.addSubview(appIconImageView)
         
 //          labels
-        loginLabel.text = "Логин"
+        loginLabel.text = "Электронная почта"
         passwordLabel.text = "Пароль"
         [loginLabel, passwordLabel].forEach { label in
             label.font = UIFont.systemFont(ofSize: CGFloat(lableFontSize))
@@ -85,9 +90,14 @@ class AuthorizationViewController : UIViewController {
         
         authButton.setTitle("Войти", for: .normal)
         regButton.setTitle("Регистрация", for: .normal)
+        
+        authButton.addTarget(self,
+                             action: #selector(didTapAuthButton(_:)),
+                             for: .touchUpInside)
         regButton.addTarget(self,
-                                   action: #selector(didTapRegButton(_:)),
-                                   for: .touchUpInside)
+                            action: #selector(didTapRegButton(_:)),
+                            for: .touchUpInside)
+        
         [authButton, regButton].forEach() { button in
             button.layer.cornerRadius = 14
             button.layer.masksToBounds = true
@@ -108,17 +118,13 @@ class AuthorizationViewController : UIViewController {
         
     }
     
-    @objc func didTapRegButton(_ sender: UIButton) {
-        self.output.didTapRegButton()
-    }
-    
     override func viewDidLayoutSubviews() {
         super .viewDidLayoutSubviews()
                 
         scrollView.pin
-            .topLeft()
-            .height(view.frame.height)
+            .top(view.pin.safeArea.top)
             .width(view.frame.width)
+            .bottom(view.pin.safeArea.bottom)
               
 //         image
         appIconImageView.pin
@@ -188,7 +194,42 @@ extension AuthorizationViewController: AuthorizationViewControllerProtocol {
         let regViewController = RegistrationViewController(output: regPresenter)
         navigationController?.pushViewController(regViewController, animated: true)
     }
+    
+    @objc func didTapRegButton(_ sender: UIButton) {
+        self.output.didTapRegButton()
+    }
 }
+
+extension AuthorizationViewController {
+    @objc
+    private func didTapAuthButton(_ sender: UIButton) {
+        guard let email = loginTextField.text
+        else {
+            return
+        }
+       
+        guard let password = passwordTextField.text
+        else {
+            return
+        }
+        
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            print("[DEBUG] \(result) \(error)")
+        }
+        //надо перенаправить на главный экран с таббаром
+    }
+}
+
+//extension AuthorizationViewController: AuthorizationViewControllerProtocol {
+//    func redirectToMain() {
+//        let mainViewController = MainViewController
+//        navigationController?.pushViewController(mainViewController, animated: true)
+//    }
+//    
+//    @objc func loginRedirect() {
+//        self.output.loginRedirect()
+//    }
+//}
 
     //в мейн вью контроллере
 //let authorizationPresenter = AuthorizationPresenter()

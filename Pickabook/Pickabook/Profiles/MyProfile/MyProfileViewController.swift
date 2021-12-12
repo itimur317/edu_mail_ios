@@ -92,18 +92,15 @@ class MyProfileViewController : UIViewController {
         
     }
     
-    @objc func didTapChangeProfileDataButton(_ sender: UIButton) {
-        self.output.didTapChangeProfileDataButton()
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         profileImage.pin
             //.below(of: myProfileTitle).marginTop(10)
-            .top(view.pin.safeArea.top + 26)
+            .top(view.pin.safeArea.top + 12)
             .topCenter()
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
+        
         profileName.pin
             .below(of: profileImage).marginTop(10)
             .horizontally(12)
@@ -183,6 +180,10 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
         let changeProfileDataViewController = ChangeProfileDataViewController(output: changeProfileDataPresenter)
         navigationController?.pushViewController(changeProfileDataViewController, animated: true)
         changeProfileDataPresenter.view = changeProfileDataViewController
+    }
+    
+    @objc func didTapChangeProfileDataButton(_ sender: UIButton) {
+        self.output.didTapChangeProfileDataButton()
     }
     
     func openBook(book: Book) {

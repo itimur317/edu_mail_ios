@@ -142,6 +142,9 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
         )
         endRegistrationButton.setTitle("Cохранить", for: .normal)
         endRegistrationButton.setTitleColor(UIColor.black, for: .normal)
+        endRegistrationButton.addTarget(self,
+                            action: #selector(didTapSaveButton(_:)),
+                            for: .touchUpInside)
         scrollView.addSubview(endRegistrationButton)
         
     }
@@ -294,6 +297,26 @@ extension RegistrationViewController {
     }
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+extension RegistrationViewController {
+    @objc
+    private func didTapSaveButton(_ sender: UIButton) {
+        guard let email = emailAdressTextField.text
+        else {
+            return
+        }
+       
+        guard let password = newPasswordFirstTextField.text
+        else {
+            return
+        }
+        
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            print("[DEBUG] \(result) \(error)")
+        }
+        //надо перенаправить на главный экран с таббаром
     }
 }
 
