@@ -13,7 +13,7 @@ protocol LibraryViewControllerProtocol : AnyObject {
     func dismissView()
     func didTapOpenBook(book: Book)
     func didTapOpenAddNewBook()
-//    func reloadTable()
+    func reloadTable()
 }
 
 final class LibraryViewController : UIViewController {
@@ -36,19 +36,13 @@ final class LibraryViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad")
-//        self.presenter.observeBooks()
 
         view.backgroundColor = .white
         
         self.navigationController?.navigationBar.tintColor = .black
         
         self.navigationController?.navigationBar.topItem?.title = "Книги на обмен"
-        
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "search"), style: .plain, target: self, action: #selector(didTapEditBarButton(_: )))
-        
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "search"), style: .plain, target: self, action: #selector(didTapEditBarButton(_: )))
-        
-        
+             
         booksTableView.dataSource = self
         booksTableView.delegate = self
         booksTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
@@ -71,7 +65,9 @@ final class LibraryViewController : UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("viewWillAppear")
-//        self.presenter.observeBooks()
+
+        self.presenter.observeBooks(genre: Util.shared.genres[3])
+
     }
     
     
@@ -113,9 +109,9 @@ extension LibraryViewController: LibraryViewControllerProtocol {
         //bookViewPresenter.view = bookProfileViewController
     }
     
-//    func reloadTable() {
-//        self.booksTableView.reloadData()
-//    }
+    func reloadTable() {
+        self.booksTableView.reloadData()
+    }
     
     func didTapOpenAddNewBook() {
         
@@ -133,8 +129,8 @@ extension LibraryViewController: LibraryViewControllerProtocol {
 
 extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return books.count
-//        return self.presenter.currentBooks.count
+//        return books.count
+        return self.presenter.currentBooks.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -147,15 +143,15 @@ extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.selectionStyle = .none
-        let book = books[indexPath.row]
-//        let book = self.presenter.currentBooks[indexPath.row]
+//        let book = books[indexPath.row]
+        let book = self.presenter.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let book = books[indexPath.row]
-//        let book = self.presenter.currentBooks[indexPath.row]
+//        let book = books[indexPath.row]
+        let book = self.presenter.currentBooks[indexPath.row]
         presenter.didTapOpenBook(book: book)
     }
     

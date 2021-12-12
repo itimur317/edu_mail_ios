@@ -59,14 +59,11 @@ final class BookManager : BookManagerProtocol {
                 }
 
                 let books = documents.compactMap {
-                        self?.bookConverter.book(from: $0)
+                    self?.bookConverter.book(from: $0)
                 }
                 self?.output?.didRecieve(books)
             }
-            
-            
         }
-        
     }
 
 
@@ -138,11 +135,13 @@ private final class BookConverter {
         
         for i in 0..<imageURLs.count {
             guard let url = URL(string: imageURLs[i]) else { return nil }
-                
+            // если будет плохо, убрать async
+            DispatchQueue.global().async {
                 if let data = try? Data(contentsOf: url) {
                         imagesData += [data]
                 }
             }
+        }
         
         
         var currentBook = Book(identifier: identifier, bookImages: imagesData, bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)

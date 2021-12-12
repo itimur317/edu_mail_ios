@@ -8,17 +8,17 @@
 import Foundation
 
 protocol LibraryPresenterProtocol : AnyObject {
-//    var currentBooks : [Book] { get set }
+    var currentBooks : [Book] { get set }
     func dismissView()
     func didTapOpenAddNewBook()
     func didTapOpenBook(book: Book)
-//    func observeBooks()
+    func observeBooks(genre: Genre)
 }
 
 final class LibraryPresenter : LibraryPresenterProtocol {
     
     weak var view : LibraryViewControllerProtocol?
-//    var currentBooks : [Book] = []
+    var currentBooks : [Book] = []
     
     func didTapOpenBook(book: Book) {
         self.view?.didTapOpenBook(book: book)
@@ -36,10 +36,10 @@ final class LibraryPresenter : LibraryPresenterProtocol {
         
     }
     
-//    func observeBooks() {
-//        BookManager.shared.output = self
-//        BookManager.shared.observeBooks()
-//    }
+    func observeBooks(genre: Genre) {
+        BookManager.shared.output = self
+        BookManager.shared.observeBooks(genreName: "Фэнтези")
+    }
 
 
     // deleting row :
@@ -59,8 +59,8 @@ final class LibraryPresenter : LibraryPresenterProtocol {
 extension LibraryPresenter : BookManagerOutput {
     func didRecieve(_ books: [Book]) {
         print("didRecieve in AddNewBook")
-//        currentBooks = books
-//        self.view?.reloadTable()
+        currentBooks = books
+        self.view?.reloadTable()
     }
     
     func didCreate(_ book: Book) {

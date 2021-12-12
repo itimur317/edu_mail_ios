@@ -46,7 +46,7 @@ final class BooksCollectionViewPresenter: BooksCollectionViewPresenterProtocol {
 
 extension BooksCollectionViewPresenter :BookManagerOutput {
     func didRecieve(_ books: [Book]) {
-        currentBooks = books
+        currentBooks = books.sorted(by: { $0.bookName < $1.bookName })
         self.delegate?.reloadCollection()
     }
     
