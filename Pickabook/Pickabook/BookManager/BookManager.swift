@@ -121,6 +121,7 @@ final class BookManager : BookManagerProtocol {
                 print("didn't find book\(error)")
             }
             else {
+                let imageDeleter : ImageDeleterProtocol = ImageDeleter()
                 for document in snapshot!.documents{
                     document.reference.delete { err in
                         if let err = err {
@@ -128,8 +129,18 @@ final class BookManager : BookManagerProtocol {
                             print("didn't delete\(err)")
                         }
                         else {
-                            self.output?.didDelete(book)
-                            print("book deleted in manager")
+                            guard let images = book.bookImagesNamesDB else {
+                                self.output?.didFail(with: DBError.unexpected)
+                                return
+                            }
+                            if imageDeleter.deleteImages(imageNames: images) {
+                                self.output?.didDelete(book)
+                                print("book deleted in manager")
+                            }
+                            else {
+                                self.output?.didFail(with: DBError.unexpected)
+                                print("didn't deleted")
+                            }
                         }
                     }
                 }
@@ -181,7 +192,7 @@ private final class BookConverter {
         }
         
         
-        var currentBook = Book(identifier: identifier, bookImagesUrl: imageNames, bookImages: imagesData, bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
+        var currentBook = Book(identifier: identifier, bookImagesNamesDB: imageNames, bookImages: imagesData, bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
 
         if let index = Util.shared.genres.firstIndex(where: { $0.name == genre} ) {
             currentBook.bookGenres = Util.shared.genres[index]
