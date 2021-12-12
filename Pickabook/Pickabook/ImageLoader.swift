@@ -59,13 +59,21 @@ final class ImageLoader: ImageLoaderProtocol {
 }
 
 protocol ImageDeleterProtocol : AnyObject {
-    func deleteImage(url: String)
+    func deleteImages(URLs: [String])
 }
 
 final class ImageDeleter: ImageDeleterProtocol {
-    func deleteImage(url: String) {
-//        <#code#>
+    
+    private let storageReference = Storage.storage().reference()
+
+    init() {}
+    
+    
+    func deleteImages(URLs: [String]) {
+        
+        for url in URLs {
+            
+        }
+        
     }
-    
-    
 }

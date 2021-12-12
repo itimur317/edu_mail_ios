@@ -50,7 +50,7 @@ extension AddNewBookPresenter: BookManagerOutput {
     }
     
     func didRecieve(_ books: [Book]) {
-        print("didRecive vizvan")
+        print("error didRecive in AddNewBookPresenter")
     }
     
     func didCreate(_ book: Book) {

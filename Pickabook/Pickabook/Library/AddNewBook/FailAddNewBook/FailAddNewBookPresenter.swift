@@ -20,7 +20,7 @@ final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol, BookManag
     }
     
     func didRecieve(_ books: [Book]) {
-        // 
+        print("error didRecieve in FailAddNewBookPresenter")
     }
     
     func didCreate(_ book: Book) {
@@ -30,7 +30,7 @@ final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol, BookManag
     }
     
     func didFail(with error: Error) {
-        //
+        print("error didFail in FailAddNewBookPresenter")
     }
     
     

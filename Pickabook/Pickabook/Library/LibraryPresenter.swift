@@ -38,9 +38,11 @@ final class LibraryPresenter : LibraryPresenterProtocol {
     }
     
     func observeBooks(genre: Genre) {
-        BookManager.shared.output = self
-        // сделать обсерв по профилю
-        BookManager.shared.observeGenreBooks(genreName: "Фэнтези")
+        DispatchQueue.global().async {
+            BookManager.shared.output = self
+            // сделать обсерв по профилю
+            BookManager.shared.observeGenreBooks(genreName: "Фэнтези")
+        }
     }
     
     func deleteBook(book: Book, index: Int) {
@@ -48,13 +50,12 @@ final class LibraryPresenter : LibraryPresenterProtocol {
         BookManager.shared.output = self
         BookManager.shared.delete(book: book)
     }
-
 }
 
 
 extension LibraryPresenter : BookManagerOutput {
     func didDelete(_ book: Book) {
-        print("URA RABOTAEM")
+        self.view?.successDeleteAlert()
     }
     
     func didRecieve(_ books: [Book]) {
@@ -64,13 +65,10 @@ extension LibraryPresenter : BookManagerOutput {
     }
     
     func didCreate(_ book: Book) {
-        print("plohoCreate")
+        print("error didCreate in LibraryPresenter")
     }
     
     func didFail(with error: Error) {
-        print("plohoFail")
+        self.view?.errorAlert()
     }
-    
-    
-    
 }

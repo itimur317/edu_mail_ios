@@ -14,6 +14,8 @@ protocol LibraryViewControllerProtocol : AnyObject {
     func didTapOpenBook(book: Book)
     func didTapOpenAddNewBook()
     func reloadTable()
+    func errorAlert()
+    func successDeleteAlert()
 }
 
 final class LibraryViewController : UIViewController {
@@ -125,6 +127,20 @@ extension LibraryViewController: LibraryViewControllerProtocol {
                 completion: nil)
         
     }
+    
+    func errorAlert() {
+        let alert = UIAlertController(title: "Ошибка!", message: "Произошла ошибка.\nПовторите позднее.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+    func successDeleteAlert() {
+        let alert = UIAlertController(title: "Успешно!", message: "Книга удалена.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Супер!", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+ 
 }
 
 extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
@@ -172,11 +188,7 @@ extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
             alert.addAction(UIAlertAction(title: "Удалить",
                                           style: .destructive,
                                           handler: { _ in
-                // delete from data source
-                // books.remove(at: indexPath.row)
-                // MARK : доделать когда норм подгрузка будет
                 
-//                self.presenter.currentBooks.remove(at: indexPath.row)
                 self.presenter.deleteBook(book: self.presenter.currentBooks[indexPath.row], index: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 
