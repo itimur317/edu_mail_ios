@@ -12,8 +12,9 @@ import UIKit
 protocol BookManagerProtocol {
     var output: BookManagerOutput? { get set }
 
-    func observeBooks(genreName : String)
+    func observeGenreBooks(genreName : String)
     func create(book: Book)
+    func delete(book: Book)
 }
 
 
@@ -21,7 +22,7 @@ protocol BookManagerOutput : AnyObject {
     func didRecieve(_ books: [Book])
     func didCreate(_ book: Book)
     func didFail(with error: Error)
-    
+    func didDelete(_ book: Book)
 }
 
 enum DBError : Error {
@@ -42,7 +43,7 @@ final class BookManager : BookManagerProtocol {
 
     private let bookConverter = BookConverter()
 
-    func observeBooks(genreName : String) {
+    func observeGenreBooks(genreName : String) {
         DispatchQueue.global().async {
             self.database.collection("Books").whereField("genre", isEqualTo: genreName).addSnapshotListener { [weak self] querySnapshot, error in
 
@@ -65,6 +66,9 @@ final class BookManager : BookManagerProtocol {
             }
         }
     }
+    
+    
+    
 
 
     func create(book: Book) {
@@ -99,6 +103,36 @@ final class BookManager : BookManagerProtocol {
                     }
                 }
             } else { return }
+        }
+    }
+    
+    
+    func delete(book: Book) {
+        
+        guard let id = book.identifier else {
+            self.output?.didFail(with: DBError.unexpected)
+            print("big error")
+            return
+        }
+        self.database.collection("Books").whereField("identifier", isEqualTo: id).getDocuments { (snapshot, error) in
+            if let error = error {
+                self.output?.didFail(with: error)
+                print("didn't find book\(error)")
+            }
+            else {
+                for document in snapshot!.documents{
+                    document.reference.delete { err in
+                        if let err = err {
+                            self.output?.didFail(with: err)
+                            print("didn't delete\(err)")
+                        }
+                        else {
+                            self.output?.didDelete(book)
+                            print("book deleted in manager")
+                        }
+                    }
+                }
+            }
         }
     }
 }

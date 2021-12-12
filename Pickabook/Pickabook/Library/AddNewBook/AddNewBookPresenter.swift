@@ -45,6 +45,10 @@ final class AddNewBookPresenter {
 }
 
 extension AddNewBookPresenter: BookManagerOutput {
+    func didDelete(_ book: Book) {
+        print("error didDelete in AddNewBookPresenter")
+    }
+    
     func didRecieve(_ books: [Book]) {
         print("didRecive vizvan")
     }

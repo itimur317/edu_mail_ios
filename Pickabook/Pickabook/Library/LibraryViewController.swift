@@ -155,5 +155,39 @@ extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
         presenter.didTapOpenBook(book: book)
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // for deleting
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+       
+        if editingStyle == .delete {
+            let alert = UIAlertController(title: "Удалить?", message: "Удаленную книгу не получится восстановить.", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Отмена",
+                                          style: .cancel,
+                                          handler: nil))
+            
+            alert.addAction(UIAlertAction(title: "Удалить",
+                                          style: .destructive,
+                                          handler: { _ in
+                // delete from data source
+                // books.remove(at: indexPath.row)
+                // MARK : доделать когда норм подгрузка будет
+                
+//                self.presenter.currentBooks.remove(at: indexPath.row)
+                self.presenter.deleteBook(book: self.presenter.currentBooks[indexPath.row], index: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                
+                print("book deleted")
+                
+            }))
+            present(alert, animated: true, completion: nil)
+            
+        }
+        
+    }
+    
 }
 

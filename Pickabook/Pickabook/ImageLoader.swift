@@ -59,9 +59,13 @@ final class ImageLoader: ImageLoaderProtocol {
 }
 
 protocol ImageDeleterProtocol : AnyObject {
-//    
+    func deleteImage(url: String)
 }
 
 final class ImageDeleter: ImageDeleterProtocol {
-//
+    func deleteImage(url: String) {
+//        <#code#>
+    }
+    
+    
 }

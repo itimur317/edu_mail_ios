@@ -27,7 +27,7 @@ final class BooksCollectionViewPresenter: BooksCollectionViewPresenterProtocol {
     
     func observeBooks(genre: Genre) {
         BookManager.shared.output = self
-        BookManager.shared.observeBooks(genreName: genre.name)
+        BookManager.shared.observeGenreBooks(genreName: genre.name)
     }
     
     func chosedBook(book: Book) {
@@ -45,6 +45,10 @@ final class BooksCollectionViewPresenter: BooksCollectionViewPresenterProtocol {
 
 
 extension BooksCollectionViewPresenter :BookManagerOutput {
+    func didDelete(_ book: Book) {
+        print("error")
+    }
+    
     func didRecieve(_ books: [Book]) {
         currentBooks = books.sorted(by: { $0.bookName < $1.bookName })
         self.delegate?.reloadCollection()

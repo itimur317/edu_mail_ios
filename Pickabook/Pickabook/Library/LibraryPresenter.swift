@@ -13,6 +13,7 @@ protocol LibraryPresenterProtocol : AnyObject {
     func didTapOpenAddNewBook()
     func didTapOpenBook(book: Book)
     func observeBooks(genre: Genre)
+    func deleteBook(book: Book, index: Int)
 }
 
 final class LibraryPresenter : LibraryPresenterProtocol {
@@ -38,25 +39,24 @@ final class LibraryPresenter : LibraryPresenterProtocol {
     
     func observeBooks(genre: Genre) {
         BookManager.shared.output = self
-        BookManager.shared.observeBooks(genreName: "Фэнтези")
+        // сделать обсерв по профилю
+        BookManager.shared.observeGenreBooks(genreName: "Фэнтези")
     }
-
-
-    // deleting row :
     
-//    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-//        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (rowAction: UITableViewRowAction, indexPath: IndexPath) -> Void in
-//            print("Deleted")
-//            self.catNames.remove(at: indexPath.row)
-//            self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
-//            self.tableView.reloadData()
-//        }
-//    }
+    func deleteBook(book: Book, index: Int) {
+        self.currentBooks.remove(at: index)
+        BookManager.shared.output = self
+        BookManager.shared.delete(book: book)
+    }
 
 }
 
 
 extension LibraryPresenter : BookManagerOutput {
+    func didDelete(_ book: Book) {
+        print("URA RABOTAEM")
+    }
+    
     func didRecieve(_ books: [Book]) {
         print("didRecieve in AddNewBook")
         currentBooks = books
@@ -70,6 +70,7 @@ extension LibraryPresenter : BookManagerOutput {
     func didFail(with error: Error) {
         print("plohoFail")
     }
+    
     
     
 }

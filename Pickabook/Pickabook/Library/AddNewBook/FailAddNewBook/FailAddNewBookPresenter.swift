@@ -15,6 +15,10 @@ protocol FailAddNewBookPresenterProtocol : AnyObject {
 }
 
 final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol, BookManagerOutput {
+    func didDelete(_ book: Book) {
+        print("error in FailAddNewBookPresenter")
+    }
+    
     func didRecieve(_ books: [Book]) {
         // 
     }
