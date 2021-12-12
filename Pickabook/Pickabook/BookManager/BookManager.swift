@@ -183,12 +183,9 @@ private final class BookConverter {
         
         for i in 0..<imageURLs.count {
             guard let url = URL(string: imageURLs[i]) else { return nil }
-            // если будет плохо, убрать async
-            DispatchQueue.global().async {
                 if let data = try? Data(contentsOf: url) {
                         imagesData += [data]
-                }
-            }
+                } 
         }
         
         
