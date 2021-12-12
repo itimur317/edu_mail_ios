@@ -12,8 +12,9 @@ import UIKit
 protocol BookManagerProtocol {
     var output: BookManagerOutput? { get set }
 
-    func observeBooks(genreName : String)
+    func observeGenreBooks(genreName : String)
     func create(book: Book)
+    func delete(book: Book)
 }
 
 
@@ -21,7 +22,7 @@ protocol BookManagerOutput : AnyObject {
     func didRecieve(_ books: [Book])
     func didCreate(_ book: Book)
     func didFail(with error: Error)
-    
+    func didDelete(_ book: Book)
 }
 
 enum DBError : Error {
@@ -42,7 +43,7 @@ final class BookManager : BookManagerProtocol {
 
     private let bookConverter = BookConverter()
 
-    func observeBooks(genreName : String) {
+    func observeGenreBooks(genreName : String) {
         DispatchQueue.global().async {
             self.database.collection("Books").whereField("genre", isEqualTo: genreName).addSnapshotListener { [weak self] querySnapshot, error in
 
@@ -59,27 +60,28 @@ final class BookManager : BookManagerProtocol {
                 }
 
                 let books = documents.compactMap {
-                        self?.bookConverter.book(from: $0)
+                    self?.bookConverter.book(from: $0)
                 }
                 self?.output?.didRecieve(books)
             }
-            
-            
         }
-        
     }
+    
+    
+    
 
 
     func create(book: Book) {
 
         let imageLoader: ImageLoaderProtocol = ImageLoader()
         
-        imageLoader.uploadImage(imageData: book.bookImages) { [weak self] imageURLs in
+        imageLoader.uploadImage(imageData: book.bookImages) { [weak self] imageURLs, imageNames in
             if book.bookImages.count == imageURLs.count {
                 
                 var dictForDatabase : [String : Any]
                 
                 dictForDatabase = ["identifier" : book.identifier!,
+                                   "imageNames" : imageNames,
                                    "imageURLs" : imageURLs,
                                    "name" : book.bookName,
                                    "author" : book.bookAuthor,
@@ -104,6 +106,36 @@ final class BookManager : BookManagerProtocol {
             } else { return }
         }
     }
+    
+    
+    func delete(book: Book) {
+        
+        guard let id = book.identifier else {
+            self.output?.didFail(with: DBError.unexpected)
+            print("big error")
+            return
+        }
+        self.database.collection("Books").whereField("identifier", isEqualTo: id).getDocuments { (snapshot, error) in
+            if let error = error {
+                self.output?.didFail(with: error)
+                print("didn't find book\(error)")
+            }
+            else {
+                for document in snapshot!.documents{
+                    document.reference.delete { err in
+                        if let err = err {
+                            self.output?.didFail(with: err)
+                            print("didn't delete\(err)")
+                        }
+                        else {
+                            self.output?.didDelete(book)
+                            print("book deleted in manager")
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 
@@ -116,6 +148,7 @@ private final class BookConverter {
         case condition
         case description
         case language
+        case imageNames
         case imageURLs
     }
 
@@ -124,6 +157,7 @@ private final class BookConverter {
         guard let dict = document.data(),
               let identifier = dict[Key.identifier.rawValue] as? String,
               let imageURLs = dict[Key.imageURLs.rawValue] as? [String],
+              let imageNames = dict[Key.imageNames.rawValue] as? [String],
               let name = dict[Key.name.rawValue] as? String,
               let author = dict[Key.author.rawValue] as? String,
               let genre = dict[Key.genre.rawValue] as? String,
@@ -138,14 +172,16 @@ private final class BookConverter {
         
         for i in 0..<imageURLs.count {
             guard let url = URL(string: imageURLs[i]) else { return nil }
-                
+            // если будет плохо, убрать async
+            DispatchQueue.global().async {
                 if let data = try? Data(contentsOf: url) {
                         imagesData += [data]
                 }
             }
+        }
         
         
-        var currentBook = Book(identifier: identifier, bookImages: imagesData, bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
+        var currentBook = Book(identifier: identifier, bookImagesUrl: imageNames, bookImages: imagesData, bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
 
         if let index = Util.shared.genres.firstIndex(where: { $0.name == genre} ) {
             currentBook.bookGenres = Util.shared.genres[index]

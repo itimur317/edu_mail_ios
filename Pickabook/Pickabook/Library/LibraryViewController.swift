@@ -13,7 +13,9 @@ protocol LibraryViewControllerProtocol : AnyObject {
     func dismissView()
     func didTapOpenBook(book: Book)
     func didTapOpenAddNewBook()
-//    func reloadTable()
+    func reloadTable()
+    func errorAlert()
+    func successDeleteAlert()
 }
 
 final class LibraryViewController : UIViewController {
@@ -36,19 +38,13 @@ final class LibraryViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad")
-//        self.presenter.observeBooks()
 
         view.backgroundColor = .white
         
         self.navigationController?.navigationBar.tintColor = .black
         
         self.navigationController?.navigationBar.topItem?.title = "Книги на обмен"
-        
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "search"), style: .plain, target: self, action: #selector(didTapEditBarButton(_: )))
-        
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "search"), style: .plain, target: self, action: #selector(didTapEditBarButton(_: )))
-        
-        
+             
         booksTableView.dataSource = self
         booksTableView.delegate = self
         booksTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
@@ -71,7 +67,9 @@ final class LibraryViewController : UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("viewWillAppear")
-//        self.presenter.observeBooks()
+
+        self.presenter.observeBooks(genre: Util.shared.genres[3])
+
     }
     
     
@@ -113,9 +111,9 @@ extension LibraryViewController: LibraryViewControllerProtocol {
         //bookViewPresenter.view = bookProfileViewController
     }
     
-//    func reloadTable() {
-//        self.booksTableView.reloadData()
-//    }
+    func reloadTable() {
+        self.booksTableView.reloadData()
+    }
     
     func didTapOpenAddNewBook() {
         
@@ -129,12 +127,26 @@ extension LibraryViewController: LibraryViewControllerProtocol {
                 completion: nil)
         
     }
+    
+    func errorAlert() {
+        let alert = UIAlertController(title: "Ошибка!", message: "Произошла ошибка.\nПовторите позднее.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+    func successDeleteAlert() {
+        let alert = UIAlertController(title: "Успешно!", message: "Книга удалена.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Супер!", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+ 
 }
 
 extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return books.count
-//        return self.presenter.currentBooks.count
+//        return books.count
+        return self.presenter.currentBooks.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -147,16 +159,46 @@ extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.selectionStyle = .none
-        let book = books[indexPath.row]
-//        let book = self.presenter.currentBooks[indexPath.row]
+//        let book = books[indexPath.row]
+        let book = self.presenter.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let book = books[indexPath.row]
-//        let book = self.presenter.currentBooks[indexPath.row]
+//        let book = books[indexPath.row]
+        let book = self.presenter.currentBooks[indexPath.row]
         presenter.didTapOpenBook(book: book)
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // for deleting
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+       
+        if editingStyle == .delete {
+            let alert = UIAlertController(title: "Удалить?", message: "Удаленную книгу не получится восстановить.", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Отмена",
+                                          style: .cancel,
+                                          handler: nil))
+            
+            alert.addAction(UIAlertAction(title: "Удалить",
+                                          style: .destructive,
+                                          handler: { _ in
+                
+                self.presenter.deleteBook(book: self.presenter.currentBooks[indexPath.row], index: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                
+                print("book deleted")
+                
+            }))
+            present(alert, animated: true, completion: nil)
+            
+        }
+        
     }
     
 }
