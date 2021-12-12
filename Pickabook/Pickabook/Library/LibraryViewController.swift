@@ -48,8 +48,6 @@ final class LibraryViewController : UIViewController {
         
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "search"), style: .plain, target: self, action: #selector(didTapEditBarButton(_: )))
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(didTapEditBarButton(_ :)))
-        
         
         booksTableView.dataSource = self
         booksTableView.delegate = self
@@ -96,13 +94,6 @@ final class LibraryViewController : UIViewController {
     private func didTapAddNewBookButton(_ sender: UIButton) {
         presenter.didTapOpenAddNewBook()
     }
-    
-    
-    @objc
-    private func didTapEditBarButton(_ sender: UIButton) {
-        print("editing")
-    }
-    
     
 }
 
