@@ -47,19 +47,19 @@ final class BookManager : BookManagerProtocol {
             self.database.collection("Books").whereField("genre", isEqualTo: genreName).addSnapshotListener { [weak self] querySnapshot, error in
 
                 if let error = error {
+                    print("error in observe")
                     self?.output?.didFail(with: error)
                     return
                 }
 
                 guard let documents = querySnapshot?.documents else {
+                    print("query")
                     self?.output?.didFail(with: NetworkError.unexpected)
                     return
                 }
 
                 let books = documents.compactMap {
-    //                DispatchQueue.global().async {
                         self?.bookConverter.book(from: $0)
-    //                }
                 }
                 self?.output?.didRecieve(books)
             }
@@ -139,7 +139,6 @@ private final class BookConverter {
         for i in 0..<imageURLs.count {
             guard let url = URL(string: imageURLs[i]) else { return nil }
                 
-            // как-то надо распараллелить
                 if let data = try? Data(contentsOf: url) {
                         imagesData += [data]
                 }
