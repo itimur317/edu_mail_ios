@@ -8,18 +8,11 @@
 import Foundation
 //output
 protocol AuthorizationViewControllerProtocol: AnyObject {
-    //func presentProfile(profiles: [Profile])
-    //func presentAlert(title: String, message: String)
-    //var bookList: [Book]? { get }
-    /*  func setBookAuthor(author: String)
-    func setBookGenres(genres: [Int])
-    func setBookCondition(condition: Int)
-    func setBookDescription(description: String?)
-    func setBookLanguage(language: String)*/
+    func regTapped()
 }
  
 protocol AuthorizationPresenterProtocol: AnyObject {
-    func didTapAddButton()
+    func didTapRegButton()
 }
  
  
@@ -27,14 +20,9 @@ final class AuthorizationPresenter: AuthorizationPresenterProtocol {
     
     weak var view: AuthorizationViewControllerProtocol?
     
-//    //var bookList: [Book]?
-//    public func getProfiles() {
-//        //
-//    }
- 
-    func didTapAddButton() {
-        //
+    func didTapRegButton() {
+        self.view?.regTapped()
     }
- 
+    
 }
 

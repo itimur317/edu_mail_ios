@@ -8,7 +8,7 @@
 import UIKit
 import PinLayout
 
-class AuthorizationViewController : UIViewController, AuthorizationViewControllerProtocol {
+class AuthorizationViewController : UIViewController {
 
     var output: AuthorizationPresenterProtocol
     init(output: AuthorizationPresenterProtocol){
@@ -85,6 +85,9 @@ class AuthorizationViewController : UIViewController, AuthorizationViewControlle
         
         authButton.setTitle("Войти", for: .normal)
         regButton.setTitle("Регистрация", for: .normal)
+        regButton.addTarget(self,
+                                   action: #selector(didTapRegButton(_:)),
+                                   for: .touchUpInside)
         [authButton, regButton].forEach() { button in
             button.layer.cornerRadius = 14
             button.layer.masksToBounds = true
@@ -103,6 +106,10 @@ class AuthorizationViewController : UIViewController, AuthorizationViewControlle
         orLabel.textAlignment = .center
         scrollView.addSubview(orLabel)
         
+    }
+    
+    @objc func didTapRegButton(_ sender: UIButton) {
+        self.output.didTapRegButton()
     }
     
     override func viewDidLayoutSubviews() {
@@ -175,13 +182,21 @@ extension AuthorizationViewController {
     }
 }
 
+extension AuthorizationViewController: AuthorizationViewControllerProtocol {
+    func regTapped() {
+        let regPresenter = RegistrationPresenter()
+        let regViewController = RegistrationViewController(output: regPresenter)
+        navigationController?.pushViewController(regViewController, animated: true)
+    }
+}
+
     //в мейн вью контроллере
 //let authorizationPresenter = AuthorizationPresenter()
 //let authorizationViewController = AuthorizationViewController(output: authorizationPresenter)
 //let authorizationVC = UINavigationController(rootViewController: authorizationViewController)
 //authorizationPresenter.view = authorizationViewController
-//authorizationVC.tabBarItem.image = UIImage(named: "AuthorizationViewIcon")
+//authorizationVC.tabBarItem.image = UIImage(named: "AddViewIcon")
 //authorizationVC.title = ""
 
     //там же поправить
-//self.setViewControllers([genresVC, authorizationVC, addVC, myProfileVC], animated: false)
+//self.setViewControllers([authorizationVC, genresVC, libraryVC, myProfileVC], animated: false)

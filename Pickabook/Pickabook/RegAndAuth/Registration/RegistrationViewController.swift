@@ -7,9 +7,13 @@
 
 import UIKit
 import PinLayout
+import Firebase
 
 class RegistrationViewController : UIViewController, RegistrationViewControllerProtocol {
 
+//    var ref: DatabaseReference! //под вопросом
+//    private var profileData: Profile! //под вопросом
+    
     var output: RegistrationPresenterProtocol
     init(output: RegistrationPresenterProtocol){
         self.output = output
@@ -258,6 +262,28 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
             .height(46)
 
     }
+//
+//
+//    func createProfile(profile: Profile, password: String) {
+//            Auth.auth().createUser(withEmail: profile.email, password: password, completion: {(result, error) in
+//                guard error == nil else {
+//                    print("error registration: \(error!)")
+//                    return
+//                }
+//                print("You have signed in")
+//                self.createProfileData(profile: profile)
+//            })
+//        }
+//
+//    func createProfileData(profile: Profile){
+//            //guard let currentProfile = Auth.auth().currentUser else { return }
+//            //self.profile = Profile(profile: currentProfile)
+//            ref = Database.database().reference(withPath: "profiles")
+//            self.profileData = profile
+//            //imageUpload(image: userData.profileImage!, title: "profile image")
+//        }
+//
+//
 }
 
 extension RegistrationViewController {

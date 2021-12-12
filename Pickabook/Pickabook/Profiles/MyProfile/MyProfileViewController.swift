@@ -6,6 +6,7 @@
 //
 import UIKit
 import PinLayout
+import Firebase
 
 class MyProfileViewController : UIViewController {
     
@@ -22,6 +23,8 @@ class MyProfileViewController : UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    var handle: AuthStateDidChangeListenerHandle?
+
     let profileImage = UILabel() //let profileImage = UIImage() //need fix
     let profileName = UILabel()
     let profileMailAdress = UILabel()
@@ -132,6 +135,16 @@ class MyProfileViewController : UIViewController {
             .bottom(12)
         
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        handle = Auth.auth().addStateDidChangeListener { auth, user in
+//          // ...
+//        }
+//    }
+//
+//    override func viewWillDisappear(_ animated: Bool) {
+//        Auth.auth().removeStateDidChangeListener(handle!)
+//    }
 
 }
 
