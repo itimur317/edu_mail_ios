@@ -78,7 +78,6 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
                          bookLanguage: String,
                          bookLanguageColor: UIColor) {
         
-        view?.presentLoadingAlert()
         
         if (bookImages[1] == nil || bookName == "" ||  authorName == ""
             ||  bookLanguage == "" || bookNameColor == .gray
@@ -88,6 +87,8 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
             self.view?.requiredFieldAlert()
             
         } else {
+            
+            view?.presentLoadingAlert()
             
             // when added just centerImage
             if bookImages[2] == nil {

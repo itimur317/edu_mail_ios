@@ -59,7 +59,7 @@ extension LibraryPresenter : BookManagerOutput {
     }
     
     func didRecieve(_ books: [Book]) {
-        print("didRecieve in AddNewBook")
+        print("didRecieve in LibraryPresenter")
         currentBooks = books
         self.view?.reloadTable()
     }

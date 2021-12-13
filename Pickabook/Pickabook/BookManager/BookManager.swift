@@ -185,7 +185,7 @@ private final class BookConverter {
             guard let url = URL(string: imageURLs[i]) else { return nil }
                 if let data = try? Data(contentsOf: url) {
                         imagesData += [data]
-                } 
+                }
         }
         
         
