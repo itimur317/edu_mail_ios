@@ -86,7 +86,35 @@ class BookProfileViewController: UIViewController {
         return label
     }()
     
-    let conditionButton : UIButton = {
+    let conditionButton1 : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "conditionStarImage"), for: .normal)
+        
+        return button
+    }()
+    
+    let conditionButton2 : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "conditionStarImage"), for: .normal)
+        
+        return button
+    }()
+    
+    let conditionButton3 : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "conditionStarImage"), for: .normal)
+        
+        return button
+    }()
+    
+    let conditionButton4 : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "conditionStarImage"), for: .normal)
+        
+        return button
+    }()
+    
+    let conditionButton5 : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "conditionStarImage"), for: .normal)
         
@@ -160,11 +188,12 @@ class BookProfileViewController: UIViewController {
         scrollView.addSubview(genreLabel)
         
         descriptionLabel.text = book.bookDescription
+        descriptionLabel.sizeToFit()
         scrollView.addSubview(descriptionLabel)
         
         scrollView.addSubview(conditionLabel)
         
-        stars  = [conditionButton, conditionButton, conditionButton, conditionButton,  conditionButton]
+        stars  = [conditionButton1, conditionButton2, conditionButton3, conditionButton4,  conditionButton5]
         for i in 0...book.bookCondition{
             stars[i].setImage(UIImage(named: "conditionPaintedStarImage"), for: .normal)
         }
@@ -235,13 +264,13 @@ class BookProfileViewController: UIViewController {
         
         descriptionLabel.pin
             .below(of: genreLabel)
-            .marginTop(6)
+            .marginTop(10)
             .horizontally(15)
-            .height(70)
+            .height(52)
         
         conditionLabel.pin
             .below(of: descriptionLabel)
-            .marginTop(6)
+            .marginTop(10)
             .left(15)
             .width(100)
             .height(23)
@@ -251,7 +280,39 @@ class BookProfileViewController: UIViewController {
             .after(of: conditionLabel)
             .marginLeft(3)
             .below(of: descriptionLabel)
-            .marginTop(2)
+            .marginTop(5)
+            .height(32)
+        
+        stars[1].pin
+            .width(32)
+            .after(of: stars[0])
+            .marginLeft(3)
+            .below(of: descriptionLabel)
+            .marginTop(5)
+            .height(32)
+        
+        stars[2].pin
+            .width(32)
+            .after(of: stars[1])
+            .marginLeft(3)
+            .below(of: descriptionLabel)
+            .marginTop(5)
+            .height(32)
+        
+        stars[3].pin
+            .width(32)
+            .after(of: stars[2])
+            .marginLeft(3)
+            .below(of: descriptionLabel)
+            .marginTop(5)
+            .height(32)
+        
+        stars[4].pin
+            .width(32)
+            .after(of: stars[3])
+            .marginLeft(3)
+            .below(of: descriptionLabel)
+            .marginTop(5)
             .height(32)
         
         profileImage.pin
