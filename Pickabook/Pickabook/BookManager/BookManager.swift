@@ -11,7 +11,7 @@ import UIKit
 
 protocol BookManagerProtocol {
     var output: BookManagerOutput? { get set }
-
+    
     func observeGenreBooks(genreName : String)
     func create(book: Book)
     func delete(book: Book)
@@ -36,29 +36,29 @@ enum NetworkError : Error {
 
 final class BookManager : BookManagerProtocol {
     static var shared: BookManagerProtocol = BookManager()
-
+    
     weak var output: BookManagerOutput?
-
+    
     private let database = Firestore.firestore()
-
+    
     private let bookConverter = BookConverter()
-
+    
     func observeGenreBooks(genreName : String) {
         DispatchQueue.global().async {
             self.database.collection("Books").whereField("genre", isEqualTo: genreName).addSnapshotListener { [weak self] querySnapshot, error in
-
+                
                 if let error = error {
                     print("error in observe")
                     self?.output?.didFail(with: error)
                     return
                 }
-
+                
                 guard let documents = querySnapshot?.documents else {
                     print("query")
                     self?.output?.didFail(with: NetworkError.unexpected)
                     return
                 }
-
+                
                 let books = documents.compactMap {
                     self?.bookConverter.book(from: $0)
                 }
@@ -67,12 +67,8 @@ final class BookManager : BookManagerProtocol {
         }
     }
     
-    
-    
-
-
     func create(book: Book) {
-
+        
         let imageLoader: ImageLoaderProtocol = ImageLoader()
         
         imageLoader.uploadImage(imageData: book.bookImages) { [weak self] imageURLs, imageNames in
@@ -91,7 +87,7 @@ final class BookManager : BookManagerProtocol {
                 
                 if book.bookDescription != nil {
                     dictForDatabase["description"] = book.bookDescription!
-                } 
+                }
                 
                 self?.database.collection("Books").addDocument(data: dictForDatabase) { [weak self] error in
                     if let error = error {
@@ -106,7 +102,6 @@ final class BookManager : BookManagerProtocol {
             } else { return }
         }
     }
-    
     
     func delete(book: Book) {
         
@@ -151,8 +146,8 @@ private final class BookConverter {
         case imageNames
         case imageURLs
     }
-
-
+    
+    
     func book(from document: DocumentSnapshot) -> Book? {
         guard let dict = document.data(),
               let identifier = dict[Key.identifier.rawValue] as? String,
@@ -172,23 +167,20 @@ private final class BookConverter {
         
         for i in 0..<imageURLs.count {
             guard let url = URL(string: imageURLs[i]) else { return nil }
-            // если будет плохо, убрать async
-            DispatchQueue.global().async {
-                if let data = try? Data(contentsOf: url) {
-                        imagesData += [data]
-                }
+            
+            if let data = try? Data(contentsOf: url) {
+                imagesData += [data]
             }
         }
         
-        
         var currentBook = Book(identifier: identifier, bookImagesUrl: imageNames, bookImages: imagesData, bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
-
+        
         if let index = Util.shared.genres.firstIndex(where: { $0.name == genre} ) {
             currentBook.bookGenres = Util.shared.genres[index]
         }
-
+        
         print("вытащил \(currentBook)")
         return currentBook
     }
-
+    
 }

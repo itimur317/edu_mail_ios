@@ -10,8 +10,6 @@ import UIKit
 class BookCollectionCell: UICollectionViewCell {
     let bookImageView : UIImageView = {
         let bookImageView = UIImageView()
-        bookImageView.frame.size = CGSize(width: 70, height: 70)
-        bookImageView.image = UIImage(named: "default")
         bookImageView.layer.cornerRadius = 15
         bookImageView.layer.masksToBounds = true
         
@@ -50,6 +48,8 @@ class BookCollectionCell: UICollectionViewCell {
     }
     
     func configure(with book: Book) {
+        bookImageView.contentMode = UIView.ContentMode.scaleAspectFill
+        bookImageView.image = UIImage(data: book.bookImages[0])
         bookNameLabel.text = book.bookName
         bookAuthorLabel.text = book.bookAuthor
     }
@@ -66,7 +66,8 @@ class BookCollectionCell: UICollectionViewCell {
         bookImageView.pin
             .top(10)
             .left(5)
-            .size(80)
+            .width(80)
+            .height(80)
         
         bookNameLabel.pin
             .top(26)
