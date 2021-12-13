@@ -20,7 +20,7 @@ class BookTableCell: UITableViewCell {
     //    var bookDescription: String?
     //    var bookLanguage: String
     
-    let bookImage = UILabel() //= UIImage() //need fix
+    let bookImage = UIImageView() //= UIImage() //need fix
     let bookNameLabel = UILabel()
     let bookAuthorLabel = UILabel()
 
@@ -29,10 +29,17 @@ class BookTableCell: UITableViewCell {
 //    let bookConditionIcon  = UILabel() //= UIImage() //need fix
         
     func configure(with book: Book) {
-        //bookImage = book.bookImages[0] //need fix
+        // Картинка книги
+        bookImage.contentMode = UIView.ContentMode.scaleAspectFill
+        // Если картинки нет или она не грузится, то ставим картинку по умолчанию
+        if (book.bookImages.count == 0){
+            bookImage.image = UIImage(named: "default")
+        } else {
+            bookImage.image = UIImage(data: book.bookImages[0])
+        }
+        
         bookNameLabel.text = book.bookName
         bookAuthorLabel.text = book.bookAuthor
-        //bookConditionLabel.text = String(book.bookCondition)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
