@@ -11,7 +11,7 @@ import UIKit
 
 protocol BookManagerProtocol {
     var output: BookManagerOutput? { get set }
-
+    
     func observeGenreBooks(genreName : String)
     func create(book: Book)
     func delete(book: Book)
@@ -36,12 +36,13 @@ enum NetworkError : Error {
 
 final class BookManager : BookManagerProtocol {
     static var shared: BookManagerProtocol = BookManager()
-
+    
     weak var output: BookManagerOutput?
-
+    
     private let database = Firestore.firestore()
-
+    
     private let bookConverter = BookConverter()
+
 
     private var books : [Book] = []
     
@@ -84,18 +85,15 @@ final class BookManager : BookManagerProtocol {
                             print(error)
                         }
                     }
+
                 }
             }
   
         }
     }
     
-    
-    
-
-
     func create(book: Book) {
-
+        
         let imageLoader: ImageLoaderProtocol = ImageLoader()
         
         imageLoader.uploadImage(imageData: book.bookImages) { [weak self] imageURLs, imageNames in
@@ -129,7 +127,6 @@ final class BookManager : BookManagerProtocol {
             } else { return }
         }
     }
-    
     
     func delete(book: Book) {
         
@@ -186,9 +183,11 @@ private final class BookConverter {
         case imageURLs
     }
 
+
 //    let imageLoader: ImageLoaderProtocol = ImageLoader()
     
 //    var imagesData: [Data] = []
+
 
 
     func book(from document: DocumentSnapshot) -> Book? {
@@ -208,6 +207,7 @@ private final class BookConverter {
         
         
         
+
 //       
         
 //        for i in 0..<imageURLs.count {
@@ -222,12 +222,13 @@ private final class BookConverter {
         
         var currentBook = Book(identifier: identifier, bookImagesNamesDB: imageNames, bookImages: [], bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
 
+
         if let index = Util.shared.genres.firstIndex(where: { $0.name == genre} ) {
             currentBook.bookGenres = Util.shared.genres[index]
         }
-
+        
         print("вытащил \(currentBook)")
         return currentBook
     }
-
+    
 }

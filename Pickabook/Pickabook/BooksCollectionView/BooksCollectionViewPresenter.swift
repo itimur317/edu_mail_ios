@@ -19,7 +19,6 @@ protocol BooksCollectionViewPresenterProtocol: AnyObject {
 final class BooksCollectionViewPresenter: BooksCollectionViewPresenterProtocol {
     weak var delegate : BooksCollectionViewController?
     var currentBooks : [Book] = []
-
     
     public func setViewDelegate(delegate: BooksCollectionViewController) {
         self.delegate = delegate
@@ -44,7 +43,7 @@ final class BooksCollectionViewPresenter: BooksCollectionViewPresenterProtocol {
 }
 
 
-extension BooksCollectionViewPresenter :BookManagerOutput {
+extension BooksCollectionViewPresenter : BookManagerOutput {
     func didDelete(_ book: Book) {
         print("error")
     }

@@ -24,6 +24,7 @@ class BookProfileViewController: UIViewController {
     }
     
     let scrollView = UIScrollView()
+    var stars : [UIButton] = [UIButton]()
     
     let bookImageView : UIImageView = {
         let image = UIImage(named: "default")
@@ -77,6 +78,21 @@ class BookProfileViewController: UIViewController {
         return label
     }()
     
+    let conditionLabel : UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        label.text = "Состояние:"
+        label.translatesAutoresizingMaskIntoConstraints = true
+        return label
+    }()
+    
+    let conditionButton : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "conditionStarImage"), for: .normal)
+        
+        return button
+    }()
+    
     let profileImage : UIImageView = {
         let image = UIImage(named: "default")
         let imageView = UIImageView(image: image)
@@ -112,9 +128,13 @@ class BookProfileViewController: UIViewController {
         
         view.backgroundColor = .white
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(didTapHeartButton(_ :)))
         
+        setPresenter()
         configureView()
+    }
+    
+    func setPresenter(){
+        presenter.setViewDelegate(delegate: self)
     }
     
     func configureView(){
@@ -122,7 +142,9 @@ class BookProfileViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: 1000)
         view.addSubview(scrollView)
         
-        bookImageView.frame.size = CGSize(width: view.frame.width - 30, height: 250)
+        bookImageView.frame.size = CGSize(width: view.frame.width - 30, height: view.frame.width - 30)
+        bookImageView.contentMode = UIView.ContentMode.scaleAspectFill
+        bookImageView.image = UIImage(data: book.bookImages[0]) ?? UIImage(named: "default")
         scrollView.addSubview(bookImageView)
         
         nameLabel.text = book.bookName
@@ -140,17 +162,43 @@ class BookProfileViewController: UIViewController {
         descriptionLabel.text = book.bookDescription
         scrollView.addSubview(descriptionLabel)
         
-        scrollView.addSubview(profileImage)
+        scrollView.addSubview(conditionLabel)
         
+        stars  = [conditionButton, conditionButton, conditionButton, conditionButton,  conditionButton]
+        for i in 0...book.bookCondition{
+            stars[i].setImage(UIImage(named: "conditionPaintedStarImage"), for: .normal)
+        }
+        
+        for i in 0...4{
+            print("ssss")
+            scrollView.addSubview(stars[i])
+        }
+        
+        scrollView.addSubview(profileImage)
         // book.owner
         userLabel.text = "Имя пользователя"
         scrollView.addSubview(userLabel)
         
+        takeBookButton.addTarget(self,
+                                  action: #selector(didTapTakeButton(_:)),
+                                  for: .touchUpInside)
         view.addSubview(takeBookButton)
     }
     
-    @objc func didTapHeartButton(_ sender: UIButton) {
-        self.presenter.heartButtonAction()
+    @objc
+    private func didTapTakeButton(_ sender: UIButton) {
+        presenter.takeBookButtonAction()
+    }
+    
+    func presentNextVC(){
+        let presenterB = UserProfilePresenter()
+        let vc = UserProfileViewController(output: presenterB)
+        self.navigationController?.pushViewController(vc, animated: true)
+       
+        vc.navigationController?.navigationBar.tintColor = .black
+        vc.title = "Обмен с пользователем"
+        vc.profileName.text = "Владелец"
+        vc.modalPresentationStyle = .fullScreen
     }
     
     override func viewDidLayoutSubviews() {
@@ -167,35 +215,54 @@ class BookProfileViewController: UIViewController {
         
         nameLabel.pin
             .below(of: bookImageView)
+            .marginTop(3)
             .left(15)
             .right(15)
             .height(25)
         
         authorLabel.pin
             .below(of: nameLabel)
+            .marginTop(3)
             .horizontally(15)
             .height(20)
         
         genreLabel.pin
             .below(of: authorLabel)
-            .marginTop(5)
+            .marginTop(10)
             .left(15)
             .width(self.genreLabel.frame.width + 20)
             .height(30)
         
         descriptionLabel.pin
             .below(of: genreLabel)
+            .marginTop(6)
             .horizontally(15)
             .height(70)
         
-        profileImage.pin
+        conditionLabel.pin
             .below(of: descriptionLabel)
+            .marginTop(6)
+            .left(15)
+            .width(100)
+            .height(23)
+    
+        stars[0].pin
+            .width(32)
+            .after(of: conditionLabel)
+            .marginLeft(3)
+            .below(of: descriptionLabel)
+            .marginTop(2)
+            .height(32)
+        
+        profileImage.pin
+            .below(of: stars[4])
+            .marginTop(15)
             .left(15)
         
         userLabel.pin
-            .below(of: descriptionLabel)
+            .below(of: stars[4])
             .right(of: profileImage)
-            .marginTop(10)
+            .marginTop(20)
             .marginLeft(10)
             .width(self.view.frame.width - 80)
             .height(30)

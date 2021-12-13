@@ -105,9 +105,6 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
                 self.newBook.bookImages = [bookImages[2]!, bookImages[1]! , bookImages[0]!]
             }
             
-           
-           
-            
             self.newBook.bookName = bookName
             self.newBook.bookAuthor = authorName
             if bookDescription == "" || bookDescriptionColor == .gray{
