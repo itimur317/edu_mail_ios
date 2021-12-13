@@ -8,17 +8,18 @@
 import Foundation
 
 protocol LibraryPresenterProtocol : AnyObject {
-//    var currentBooks : [Book] { get set }
+    var currentBooks : [Book] { get set }
     func dismissView()
     func didTapOpenAddNewBook()
     func didTapOpenBook(book: Book)
-//    func observeBooks()
+    func observeBooks(genre: Genre)
+    func deleteBook(book: Book, index: Int)
 }
 
 final class LibraryPresenter : LibraryPresenterProtocol {
     
     weak var view : LibraryViewControllerProtocol?
-//    var currentBooks : [Book] = []
+    var currentBooks : [Book] = []
     
     func didTapOpenBook(book: Book) {
         self.view?.didTapOpenBook(book: book)
@@ -36,40 +37,38 @@ final class LibraryPresenter : LibraryPresenterProtocol {
         
     }
     
-//    func observeBooks() {
-//        BookManager.shared.output = self
-//        BookManager.shared.observeBooks()
-//    }
-
-
-    // deleting row :
+    func observeBooks(genre: Genre) {
+        DispatchQueue.global().async {
+            BookManager.shared.output = self
+            // сделать обсерв по профилю
+            BookManager.shared.observeGenreBooks(genreName: "Фэнтези")
+        }
+    }
     
-//    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-//        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (rowAction: UITableViewRowAction, indexPath: IndexPath) -> Void in
-//            print("Deleted")
-//            self.catNames.remove(at: indexPath.row)
-//            self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
-//            self.tableView.reloadData()
-//        }
-//    }
-
+    func deleteBook(book: Book, index: Int) {
+        self.currentBooks.remove(at: index)
+        BookManager.shared.output = self
+        BookManager.shared.delete(book: book)
+    }
 }
 
 
 extension LibraryPresenter : BookManagerOutput {
+    func didDelete(_ book: Book) {
+        self.view?.successDeleteAlert()
+    }
+    
     func didRecieve(_ books: [Book]) {
         print("didRecieve in AddNewBook")
-//        currentBooks = books
-//        self.view?.reloadTable()
+        currentBooks = books
+        self.view?.reloadTable()
     }
     
     func didCreate(_ book: Book) {
-        print("plohoCreate")
+        print("error didCreate in LibraryPresenter")
     }
     
     func didFail(with error: Error) {
-        print("plohoFail")
+        self.view?.errorAlert()
     }
-    
-    
 }

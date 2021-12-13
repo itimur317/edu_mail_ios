@@ -8,17 +8,20 @@
 import Foundation
 
 protocol BookViewPresenterProtocol: AnyObject {
-    func heartButtonAction()
     func takeBookButtonAction()
+    func setViewDelegate(delegate: BookProfileViewController)
 }
 
 final class BookViewPresenter: BookViewPresenterProtocol {
     let genres = Util.shared.genres
-    func heartButtonAction(){
-        // добавление книги в избранное
+    weak var delegate : BookProfileViewController?
+    
+    public func setViewDelegate(delegate: BookProfileViewController) {
+        self.delegate = delegate
     }
     
     func takeBookButtonAction(){
-        // бронирование книги
+        print("нажата кнопка presenter")
+        delegate?.presentNextVC()
     }
 }

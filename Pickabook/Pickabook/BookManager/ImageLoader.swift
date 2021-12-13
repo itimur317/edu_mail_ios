@@ -9,7 +9,9 @@ import Foundation
 import FirebaseStorage
 
 protocol ImageLoaderProtocol: AnyObject {
-    func uploadImage(imageData: [Data], completion: @escaping (_ imageURLs: [String?]) -> Void)
+    func uploadImage(imageData: [Data], completion: @escaping (_ imageURLs: [String?],
+                                                               _ imageNames: [String?]) -> Void)
+    
 }
 
 
@@ -21,7 +23,8 @@ final class ImageLoader: ImageLoaderProtocol {
     
     init() {}
     
-    func uploadImage(imageData: [Data], completion: @escaping (_ imageURLs: [String?]) -> Void) {
+    func uploadImage(imageData: [Data], completion: @escaping (_ imageURLs: [String?],
+                                                               _ imageNames: [String?]) -> Void) {
         
         var imageURLs = [String?](repeating: nil, count: imageData.count)
         var imageNames = [String?](repeating: nil, count: imageData.count)
@@ -29,6 +32,7 @@ final class ImageLoader: ImageLoaderProtocol {
         for i in 0..<imageData.count {
             
             let imageName = UUID().uuidString
+            imageNames[i] = imageName
             
             print(imageData)
             let storageRef = storageReference.child("\(imageName).jpeg")
@@ -48,7 +52,7 @@ final class ImageLoader: ImageLoaderProtocol {
                         imageNames[i] = imageName
                         imageURLs[i] = url?.absoluteString
                         if !imageURLs.contains(nil) {
-                            completion(imageURLs)
+                            completion(imageURLs, imageNames)
                         }
                     }
                 }
@@ -58,10 +62,3 @@ final class ImageLoader: ImageLoaderProtocol {
     }
 }
 
-protocol ImageDeleterProtocol : AnyObject {
-//    
-}
-
-final class ImageDeleter: ImageDeleterProtocol {
-//
-}

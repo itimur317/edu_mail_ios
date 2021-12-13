@@ -45,8 +45,12 @@ final class AddNewBookPresenter {
 }
 
 extension AddNewBookPresenter: BookManagerOutput {
+    func didDelete(_ book: Book) {
+        print("error didDelete in AddNewBookPresenter")
+    }
+    
     func didRecieve(_ books: [Book]) {
-        print("didRecive vizvan")
+        print("error didRecive in AddNewBookPresenter")
     }
     
     func didCreate(_ book: Book) {
@@ -99,9 +103,6 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
             else {
                 self.newBook.bookImages = [bookImages[2]!, bookImages[1]! , bookImages[0]!]
             }
-            
-           
-           
             
             self.newBook.bookName = bookName
             self.newBook.bookAuthor = authorName
