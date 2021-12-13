@@ -7,11 +7,12 @@
 
 import Foundation
 import FirebaseStorage
+import UIKit
 
 protocol ImageLoaderProtocol: AnyObject {
     func uploadImage(imageData: [Data], completion: @escaping (_ imageURLs: [String?],
                                                                _ imageNames: [String?]) -> Void)
-    
+    func getImage(with name: String, completion: @escaping (Result<Data, Error>) -> Void)
 }
 
 
@@ -20,6 +21,8 @@ final class ImageLoader: ImageLoaderProtocol {
 //    static let shared: ImageLoaderProtocol = ImageLoader()
     
     private let storageReference = Storage.storage().reference()
+    
+    private var imageCache: [String:Data] = [:]
     
     init() {}
     
@@ -59,6 +62,27 @@ final class ImageLoader: ImageLoaderProtocol {
             }
         }
         
+    }
+    
+    
+    func getImage(with name: String, completion: @escaping (Result<Data, Error>) -> Void) {
+        let name = "\(name).jpeg"
+        
+        if let data = imageCache[name] {
+            completion(.success(data))
+            return
+        }
+        
+        storageReference.child(name).getData(maxSize: 15 * 1024 * 1024) { [weak self] (data, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else if let data = data {
+                self?.imageCache[name] = data
+                completion(.success(data))
+            } else {
+                completion(.failure(NetworkError.unexpected))
+            }
+        }
     }
 }
 

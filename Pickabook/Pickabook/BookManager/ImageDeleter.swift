@@ -10,25 +10,25 @@ import FirebaseStorage
 
 
 protocol ImageDeleterProtocol : AnyObject {
-    func deleteImages(URLs: [String]) -> Bool
+    func deleteImages(imageNames : [String]) -> Bool
+    
 }
 
 final class ImageDeleter: ImageDeleterProtocol {
     
-    private let storage = Storage.storage()
+    private let storageReference = Storage.storage().reference()
 
     init() {}
     
-    func deleteImages(URLs: [String]) -> Bool {
+    func deleteImages(imageNames : [String]) -> Bool {
         
         var count = 0
         
-        for url in URLs {
-            let storageRef = storage.reference(forURL: url)
-            
-            storageRef.delete { error in
+        for name in imageNames {
+            storageReference.child("\(name).jpeg").delete { error in
                 if let error = error {
-                    print("images didn't deleted from DB\(error)")
+                    BookManager.shared.output?.didFail(with: error)
+                    print("error in deleting images\(error)")
                 }
                 else {
                     count += 1
@@ -36,12 +36,6 @@ final class ImageDeleter: ImageDeleterProtocol {
                 }
             }
         }
-        
-        if count == URLs.count {
-            return true
-        }
-        else {
-            return false
-        }
+        return true
     }
 }
