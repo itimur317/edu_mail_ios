@@ -314,10 +314,15 @@ extension RegistrationViewController {
         }
         
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            print("[DEBUG] \(result) \(error)")
+            //print("[DEBUG] \(result) \(error)")
         }
-        //надо перенаправить на главный экран с таббаром
+        //перенаправление на главный экран с таббаром
+        Coordinator.rootVC( vc: MainViewController() )
+        //navigationController?.pushViewController(MainViewController(), animated: true)
     }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        self.navigationController?.isNavigationBarHidden = true
+//    }
 }
 
 // mainVC

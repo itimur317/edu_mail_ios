@@ -197,6 +197,7 @@ extension AuthorizationViewController: AuthorizationViewControllerProtocol {
     
     @objc func didTapRegButton(_ sender: UIButton) {
         self.output.didTapRegButton()
+        print ("boom")
     }
 }
 
@@ -214,10 +215,19 @@ extension AuthorizationViewController {
         }
         
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
-            print("[DEBUG] \(result) \(error)")
+            //print("[DEBUG] \(result) \(error)")
         }
-        //надо перенаправить на главный экран с таббаром
+        
+        //перенаправление на главный экран с таббаром
+        Coordinator.rootVC(vc: MainViewController() )
+        //navigationController?.pushViewController(mainViewController, animated: true)
     }
+    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        if Auth.auth().currentUser?.isAnonymous != nil {
+//                self.navigationController?.isNavigationBarHidden = true
+//        }
+//    }
 }
 
 //extension AuthorizationViewController: AuthorizationViewControllerProtocol {
