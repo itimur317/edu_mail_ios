@@ -11,7 +11,7 @@ import FirebaseAuth
 struct Profile {
     let id: String // let id: String = UUID().uuidString
     let name: String
-    let photo: URL?
+    let photoName: String?//URL?
     //let about: String?
     let phoneNumber: Int? //should be changed
     let email: String?
@@ -23,12 +23,12 @@ struct Profile {
     //let adress
     //let metroStation
     
-    init(id: Int, name: String, photo: URL?, phoneNumber: Int?, email: String?, telegramLink: URL?, instagramLink: URL? /*, bookList: [Book]?*/) {
+    init(id: String, name: String, photoName: String?, phoneNumber: Int?, email: String?, telegramLink: URL?, instagramLink: URL? /*, bookList: [Book]?*/) {
         
         //self.id = FIRAuth.auth()!.currentUser!.uid
         self.id = Auth.auth().currentUser!.uid
         self.name = ""
-        self.photo = nil
+        self.photoName = nil
         self.phoneNumber = 0
         self.email = ""
         self.telegramLink = nil

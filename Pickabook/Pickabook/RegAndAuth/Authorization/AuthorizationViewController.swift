@@ -74,7 +74,8 @@ class AuthorizationViewController : UIViewController {
         
 //          textFields
         loginTextField.text = "login"
-        passwordTextField.text = "parol"
+        passwordTextField.text = ""
+        passwordTextField.isSecureTextEntry = true
         [loginTextField, passwordTextField].forEach { textField in
             textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
             textField.leftViewMode = .always
@@ -204,15 +205,10 @@ extension AuthorizationViewController: AuthorizationViewControllerProtocol {
 extension AuthorizationViewController {
     @objc
     private func didTapAuthButton(_ sender: UIButton) {
-        guard let email = loginTextField.text
-        else {
-            return
-        }
        
-        guard let password = passwordTextField.text
-        else {
-            return
-        }
+        guard let email = loginTextField.text,
+              let password = passwordTextField.text
+        else { return }
         
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             //print("[DEBUG] \(result) \(error)")

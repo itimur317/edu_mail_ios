@@ -7,7 +7,8 @@
 
 import UIKit
 import PinLayout
-import Firebase
+import FirebaseAuth
+import FirebaseFirestore
 
 class RegistrationViewController : UIViewController, RegistrationViewControllerProtocol {
 
@@ -109,6 +110,9 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
         phoneNumberTextField.text = "+4 44 44"
         telegramLinkTextField.text = "https://t.me/"
         instagramLinkTextField.text = "https://www.instagram.com/"
+        
+        newPasswordFirstTextField.isSecureTextEntry = true
+        newPasswordSecondTextField.isSecureTextEntry = true
         
         [emailAdressTextField, newPasswordFirstTextField, newPasswordSecondTextField, nameTextField, phoneNumberTextField, telegramLinkTextField, instagramLinkTextField].forEach { textField in
             textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
@@ -303,19 +307,14 @@ extension RegistrationViewController {
 extension RegistrationViewController {
     @objc
     private func didTapSaveButton(_ sender: UIButton) {
-        guard let email = emailAdressTextField.text
-        else {
-            return
-        }
-       
-        guard let password = newPasswordFirstTextField.text
-        else {
-            return
-        }
+        guard let email = emailAdressTextField.text,
+              let password = newPasswordFirstTextField.text
+        else { return }
         
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             //print("[DEBUG] \(result) \(error)")
         }
+        //let user = Profile.init(id: <#T##Int#>, name: <#T##String#>, photo: <#T##URL?#>, phoneNumber: <#T##Int?#>, email: <#T##String?#>, telegramLink: <#T##URL?#>, instagramLink: <#T##URL?#>)
         //перенаправление на главный экран с таббаром
         Coordinator.rootVC( vc: MainViewController() )
         //navigationController?.pushViewController(MainViewController(), animated: true)

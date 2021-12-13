@@ -174,7 +174,7 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension MyProfileViewController: MyProfileViewControllerProtocol {
-    
+   
     func changeProfileDataView() {
         let changeProfileDataPresenter = ChangeProfileDataPresenter()
         let changeProfileDataViewController = ChangeProfileDataViewController(output: changeProfileDataPresenter)
@@ -193,4 +193,7 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
         //bookViewPresenter.view = bookProfileViewController
     }
     
+//    func loadProfileData(profileData: Profile) {
+//        <#code#>
+//    }
 }

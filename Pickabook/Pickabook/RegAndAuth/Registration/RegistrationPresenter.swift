@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 //output
 protocol RegistrationViewControllerProtocol: AnyObject {
     //
@@ -17,6 +18,8 @@ protocol RegistrationPresenterProtocol: AnyObject {
  
  
 final class RegistrationPresenter: RegistrationPresenterProtocol {
+    
+    private let database = Firestore.firestore()
     
     weak var view: RegistrationViewControllerProtocol?
  
