@@ -7,6 +7,7 @@
 
 import UIKit
 import PinLayout
+import FirebaseAuth
 
 class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewControllerProtocol {
 
@@ -51,7 +52,8 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        navigationItem.title = "Редактировать профиль"
+        navigationItem.title = "Изменить профиль"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Выйти", style: .plain, target: self, action: #selector(didTapLogoutButton(_ :)))
         //self.navigationController.navigationBar.titleTextAttributes = NSFontAttributeName[UIFont.Weight()] // пытался поменять толщину  заголовка, но уже не хочу
         self.hideKeyboardWhenTappedAround()
         
@@ -217,4 +219,20 @@ extension ChangeProfileDataViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+}
+
+extension ChangeProfileDataViewController {
+    @objc private func didTapLogoutButton(_ sender: UIButton) {
+        //разлогинься
+        try? Auth.auth().signOut()
+        //перенаправление на экран авторизации
+        let authorizationPresenter = AuthorizationPresenter()
+        let authorizationViewController = AuthorizationViewController(output: authorizationPresenter)
+        Coordinator.rootVC(vc: authorizationViewController)
+        //navigationController?.pushViewController(authorizationViewController, animated: true)
+    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        self.navigationController?.isNavigationBarHidden = true
+//        self.tabBarController?.tabBar.isHidden = true
+//    }
 }

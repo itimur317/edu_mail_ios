@@ -6,6 +6,7 @@
 //
 import UIKit
 import PinLayout
+import Firebase
 
 class MyProfileViewController : UIViewController {
     
@@ -22,6 +23,8 @@ class MyProfileViewController : UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    var handle: AuthStateDidChangeListenerHandle?
+
     let profileImage = UILabel() //let profileImage = UIImage() //need fix
     let profileName = UILabel()
     let profileMailAdress = UILabel()
@@ -89,18 +92,15 @@ class MyProfileViewController : UIViewController {
         
     }
     
-    @objc func didTapChangeProfileDataButton(_ sender: UIButton) {
-        self.output.didTapChangeProfileDataButton()
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         profileImage.pin
             //.below(of: myProfileTitle).marginTop(10)
-            .top(view.pin.safeArea.top + 26)
+            .top(view.pin.safeArea.top + 12)
             .topCenter()
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
+        
         profileName.pin
             .below(of: profileImage).marginTop(10)
             .horizontally(12)
@@ -132,6 +132,16 @@ class MyProfileViewController : UIViewController {
             .bottom(12)
         
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        handle = Auth.auth().addStateDidChangeListener { auth, user in
+//          // ...
+//        }
+//    }
+//
+//    override func viewWillDisappear(_ animated: Bool) {
+//        Auth.auth().removeStateDidChangeListener(handle!)
+//    }
 
 }
 
@@ -164,12 +174,16 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension MyProfileViewController: MyProfileViewControllerProtocol {
-    
+   
     func changeProfileDataView() {
         let changeProfileDataPresenter = ChangeProfileDataPresenter()
         let changeProfileDataViewController = ChangeProfileDataViewController(output: changeProfileDataPresenter)
         navigationController?.pushViewController(changeProfileDataViewController, animated: true)
         changeProfileDataPresenter.view = changeProfileDataViewController
+    }
+    
+    @objc func didTapChangeProfileDataButton(_ sender: UIButton) {
+        self.output.didTapChangeProfileDataButton()
     }
     
     func openBook(book: Book) {
@@ -179,4 +193,7 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
         //bookViewPresenter.view = bookProfileViewController
     }
     
+//    func loadProfileData(profileData: Profile) {
+//        <#code#>
+//    }
 }

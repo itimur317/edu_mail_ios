@@ -7,9 +7,14 @@
 
 import UIKit
 import PinLayout
+import FirebaseAuth
+import FirebaseFirestore
 
 class RegistrationViewController : UIViewController, RegistrationViewControllerProtocol {
 
+//    var ref: DatabaseReference! //под вопросом
+//    private var profileData: Profile! //под вопросом
+    
     var output: RegistrationPresenterProtocol
     init(output: RegistrationPresenterProtocol){
         self.output = output
@@ -106,6 +111,9 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
         telegramLinkTextField.text = "https://t.me/"
         instagramLinkTextField.text = "https://www.instagram.com/"
         
+        newPasswordFirstTextField.isSecureTextEntry = true
+        newPasswordSecondTextField.isSecureTextEntry = true
+        
         [emailAdressTextField, newPasswordFirstTextField, newPasswordSecondTextField, nameTextField, phoneNumberTextField, telegramLinkTextField, instagramLinkTextField].forEach { textField in
             textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
             textField.leftViewMode = .always
@@ -138,6 +146,9 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
         )
         endRegistrationButton.setTitle("Cохранить", for: .normal)
         endRegistrationButton.setTitleColor(UIColor.black, for: .normal)
+        endRegistrationButton.addTarget(self,
+                            action: #selector(didTapSaveButton(_:)),
+                            for: .touchUpInside)
         scrollView.addSubview(endRegistrationButton)
         
     }
@@ -258,6 +269,28 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
             .height(46)
 
     }
+//
+//
+//    func createProfile(profile: Profile, password: String) {
+//            Auth.auth().createUser(withEmail: profile.email, password: password, completion: {(result, error) in
+//                guard error == nil else {
+//                    print("error registration: \(error!)")
+//                    return
+//                }
+//                print("You have signed in")
+//                self.createProfileData(profile: profile)
+//            })
+//        }
+//
+//    func createProfileData(profile: Profile){
+//            //guard let currentProfile = Auth.auth().currentUser else { return }
+//            //self.profile = Profile(profile: currentProfile)
+//            ref = Database.database().reference(withPath: "profiles")
+//            self.profileData = profile
+//            //imageUpload(image: userData.profileImage!, title: "profile image")
+//        }
+//
+//
 }
 
 extension RegistrationViewController {
@@ -269,6 +302,26 @@ extension RegistrationViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+}
+
+extension RegistrationViewController {
+    @objc
+    private func didTapSaveButton(_ sender: UIButton) {
+        guard let email = emailAdressTextField.text,
+              let password = newPasswordFirstTextField.text
+        else { return }
+        
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            //print("[DEBUG] \(result) \(error)")
+        }
+        //let user = Profile.init(id: <#T##Int#>, name: <#T##String#>, photo: <#T##URL?#>, phoneNumber: <#T##Int?#>, email: <#T##String?#>, telegramLink: <#T##URL?#>, instagramLink: <#T##URL?#>)
+        //перенаправление на главный экран с таббаром
+        Coordinator.rootVC( vc: MainViewController() )
+        //navigationController?.pushViewController(MainViewController(), animated: true)
+    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        self.navigationController?.isNavigationBarHidden = true
+//    }
 }
 
 // mainVC
