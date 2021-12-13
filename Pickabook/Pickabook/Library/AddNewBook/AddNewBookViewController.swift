@@ -18,6 +18,7 @@ protocol AddNewBookViewControllerProtocol: AnyObject {
     func setImage(_ pickedImage: UIImage)
     func presentLoadingAlert()
     func dismissLoadingAlert()
+    func openSavedPhotosAlbum()
 }
 
 
@@ -543,25 +544,7 @@ extension AddNewBookViewController {
     @objc
     private func didTapAddPhotoButton(_ sender: UIButton) {
         
-        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
-            addPhotoImagePicker.allowsEditing = false
-            addPhotoImagePicker.sourceType = .savedPhotosAlbum
-            
-            present(addPhotoImagePicker,
-                    animated: true,
-                    completion: nil)
-        } else {
-            let alert = UIAlertController(title: "Нет доступа!",
-                                          message: "У Pickabook нет доступа к вашим фото.\nЧтобы предоставить доступ, перейдите в Настройки и включите Фото.",
-                                          preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "Ок",
-                                          style: .default,
-                                          handler: nil))
-            
-            present(alert, animated: true)
-        }
-        
+        self.presenter.didTapAddPhotoButton()
     }
     
     
@@ -808,6 +791,27 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     
     func dismissLoadingAlert() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func openSavedPhotosAlbum() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            addPhotoImagePicker.allowsEditing = false
+            addPhotoImagePicker.sourceType = .savedPhotosAlbum
+            
+            present(addPhotoImagePicker,
+                    animated: true,
+                    completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Нет доступа!",
+                                          message: "У Pickabook нет доступа к вашим фото.\nЧтобы предоставить доступ, перейдите в Настройки и включите Фото.",
+                                          preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Ок",
+                                          style: .default,
+                                          handler: nil))
+            
+            present(alert, animated: true)
+        }
     }
 }
 
