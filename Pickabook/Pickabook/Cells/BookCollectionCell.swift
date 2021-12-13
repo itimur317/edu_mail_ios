@@ -51,9 +51,10 @@ class BookCollectionCell: UICollectionViewCell {
         // Картинка книги
         bookImageView.contentMode = UIView.ContentMode.scaleAspectFill
         // Если картинки нет или она не грузится, то ставим картинку по умолчанию
-        bookImageView.image = UIImage(named: "default")
-        if let image = UIImage(data: book.bookImages[0]) {
-            bookImageView.image = image
+        if (book.bookImages.count == 0){
+            bookImageView.image = UIImage(named: "default")
+        } else {
+            bookImageView.image = UIImage(data: book.bookImages[0])
         }
         
         // Название и автор книги
@@ -66,10 +67,10 @@ class BookCollectionCell: UICollectionViewCell {
         addSubview(bookAuthorLabel)
         addSubview(bookImageView)
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         bookImageView.pin
             .top(10)
             .left(5)
