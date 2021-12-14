@@ -31,9 +31,6 @@ class BookCollectionCell: UICollectionViewCell {
         label.textAlignment = .left
         label.textColor = .black
         
-//        label.numberOfLines = 0
-//        label.lineBreakMode = .byWordWrapping
-        
         return label
     }()
     
@@ -47,9 +44,20 @@ class BookCollectionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /*
+     Заполняем ячекйу списка данными книги.
+     */
     func configure(with book: Book) {
+        // Картинка книги
         bookImageView.contentMode = UIView.ContentMode.scaleAspectFill
-        bookImageView.image = UIImage(data: book.bookImages[0])
+        // Если картинки нет или она не грузится, то ставим картинку по умолчанию
+        if (book.bookImages.count == 0){
+            bookImageView.image = UIImage(named: "default")
+        } else {
+            bookImageView.image = UIImage(data: book.bookImages[0])
+        }
+        
+        // Название и автор книги
         bookNameLabel.text = book.bookName
         bookAuthorLabel.text = book.bookAuthor
     }
@@ -59,10 +67,10 @@ class BookCollectionCell: UICollectionViewCell {
         addSubview(bookAuthorLabel)
         addSubview(bookImageView)
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         bookImageView.pin
             .top(10)
             .left(5)
