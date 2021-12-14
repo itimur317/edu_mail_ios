@@ -9,6 +9,7 @@ import UIKit
 
 struct Book {
     var identifier : String? = UUID().uuidString
+    var ownerId : String?
     var bookImagesNamesDB : [String]?
     var bookImages: [Data] 
     var bookName: String
