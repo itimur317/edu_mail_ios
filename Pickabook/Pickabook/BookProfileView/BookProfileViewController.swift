@@ -26,16 +26,7 @@ class BookProfileViewController: UIViewController {
     let scrollView = UIScrollView()
     var stars : [UIButton] = [UIButton]()
     
-    let bookImageView : UIImageView = {
-        let image = UIImage(named: "default")
-        let imageView = UIImageView(image: image)
-        
-        imageView.layer.cornerRadius = 15
-        imageView.layer.masksToBounds = true
-        
-        return imageView
-    }()
-    
+    let imagesCorousel = UIScrollView()
     
     let nameLabel : UILabel = {
         let label = UILabel()
@@ -166,14 +157,42 @@ class BookProfileViewController: UIViewController {
     }
     
     func configureView(){
-        //надо поменять высоту
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 1000)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 800)
         view.addSubview(scrollView)
         
-        bookImageView.frame.size = CGSize(width: view.frame.width - 30, height: view.frame.width - 30)
-        bookImageView.contentMode = UIView.ContentMode.scaleAspectFill
-        bookImageView.image = UIImage(data: book.bookImages[0]) ?? UIImage(named: "default")
-        scrollView.addSubview(bookImageView)
+        // картинки
+        imagesCorousel.isPagingEnabled = true
+        imagesCorousel.layer.cornerRadius = 15
+        imagesCorousel.layer.masksToBounds = true
+        
+        if (book.bookImages.count == 0) {
+            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width - 30, height: view.frame.width - 30))
+            
+            imageView.image = UIImage(named: "default")
+            imageView.layer.cornerRadius = 15
+            imageView.layer.masksToBounds = true
+            
+            imagesCorousel.addSubview(imageView)
+        } else {
+            for i in 0...book.bookImages.count - 1 {
+                let offset = i == 0 ? 0 : (CGFloat(i) * view.bounds.width)
+                
+                let imageView = UIImageView(frame: CGRect(x: offset, y: 0, width: view.frame.width - 30, height: view.frame.width - 30))
+                
+                imageView.layer.cornerRadius = 15
+                imageView.layer.masksToBounds = true
+                imageView.contentMode = UIView.ContentMode.scaleAspectFill
+                imageView.clipsToBounds = true
+                imageView.contentMode = .scaleAspectFill
+                
+                imageView.image = UIImage(data: book.bookImages[i])
+                
+                imagesCorousel.addSubview(imageView)
+            }
+        }
+        
+        imagesCorousel.contentSize = CGSize(width: CGFloat(book.bookImages.count) * view.frame.width - 30, height: view.frame.width - 30)
+        scrollView.addSubview(imagesCorousel)
         
         nameLabel.text = book.bookName
         scrollView.addSubview(nameLabel)
@@ -194,10 +213,11 @@ class BookProfileViewController: UIViewController {
         scrollView.addSubview(conditionLabel)
         
         stars  = [conditionButton1, conditionButton2, conditionButton3, conditionButton4,  conditionButton5]
-        for i in 0...book.bookCondition{
+        
+        for i in 0...book.bookCondition - 1{
             stars[i].setImage(UIImage(named: "conditionPaintedStarImage"), for: .normal)
         }
-        
+    
         for i in 0...4{
             print("ssss")
             scrollView.addSubview(stars[i])
@@ -209,8 +229,8 @@ class BookProfileViewController: UIViewController {
         scrollView.addSubview(userLabel)
         
         takeBookButton.addTarget(self,
-                                  action: #selector(didTapTakeButton(_:)),
-                                  for: .touchUpInside)
+                                 action: #selector(didTapTakeButton(_:)),
+                                 for: .touchUpInside)
         view.addSubview(takeBookButton)
     }
     
@@ -223,7 +243,7 @@ class BookProfileViewController: UIViewController {
         let presenterB = UserProfilePresenter()
         let vc = UserProfileViewController(output: presenterB)
         self.navigationController?.pushViewController(vc, animated: true)
-       
+        
         vc.navigationController?.navigationBar.tintColor = .black
         vc.title = "Обмен с пользователем"
         vc.profileName.text = "Владелец"
@@ -238,12 +258,14 @@ class BookProfileViewController: UIViewController {
             .height(view.frame.height)
             .width(view.frame.width)
         
-        bookImageView.pin
+        imagesCorousel.pin
             .top(15)
             .topCenter()
+            .height(view.frame.width - 30)
+            .width(view.frame.width - 30)
         
         nameLabel.pin
-            .below(of: bookImageView)
+            .below(of: imagesCorousel)
             .marginTop(3)
             .left(15)
             .right(15)
@@ -274,7 +296,7 @@ class BookProfileViewController: UIViewController {
             .left(15)
             .width(100)
             .height(23)
-    
+        
         stars[0].pin
             .width(32)
             .after(of: conditionLabel)
@@ -317,7 +339,7 @@ class BookProfileViewController: UIViewController {
         
         profileImage.pin
             .below(of: stars[4])
-            .marginTop(15)
+            .marginTop(10)
             .left(15)
         
         userLabel.pin
