@@ -9,12 +9,13 @@ import Foundation
 //import FirebaseFirestore
 //output
 protocol RegistrationViewControllerProtocol: AnyObject {
-
+    func openSavedPhotosAlbum()
 }
  
 protocol RegistrationPresenterProtocol: AnyObject {
 //    func didTapAddButton()
-
+    func setViewDelegate(delegate: RegistrationViewControllerProtocol)
+    func didTapAddPhotoButton()
 }
  
  
@@ -23,6 +24,14 @@ final class RegistrationPresenter: RegistrationPresenterProtocol {
     //private let database = Firestore.firestore()
     
     weak var view: RegistrationViewControllerProtocol?
+    
+    public func setViewDelegate(delegate: RegistrationViewControllerProtocol) {
+        self.view = delegate
+    }
+    
+    func didTapAddPhotoButton() {
+        self.view?.openSavedPhotosAlbum()
+    }
  
 //    func didTapAddButton() {
 //        //

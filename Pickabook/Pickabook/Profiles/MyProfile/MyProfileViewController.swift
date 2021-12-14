@@ -25,7 +25,8 @@ class MyProfileViewController : UIViewController {
     
 //    var handle: AuthStateDidChangeListenerHandle?
 
-    let profileImage = UILabel() //let profileImage = UIImage() //need fix
+    let profileImageView = UIImageView()
+    
     let profileName = UILabel()
     let profileMailAdress = UILabel()
     let profilePhoneNumber = UILabel()
@@ -38,11 +39,14 @@ class MyProfileViewController : UIViewController {
     //let profileAboutInfo = UITextView() //can be added
     //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
     //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
-     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         
+        // presenter delegate
+        output.setViewDelegate(delegate: self)
+        
+        view.backgroundColor = .white
 //        back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .black
@@ -51,16 +55,10 @@ class MyProfileViewController : UIViewController {
         navigationItem.title = "Мой профиль"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(didTapChangeProfileDataButton(_ :))) //old: changeProfileDataButton.addTarget(self, action: #selector(didTapChangeProfileDataButton(_ :)), for: .touchUpInside)
         
-        //profileImage.imageWithoutBaseline()
-        profileImage.layer.cornerRadius = 60
-        profileImage.layer.masksToBounds = true
-        profileImage.backgroundColor = UIColor (
-            red: 0.62,
-            green: 0.85,
-            blue: 0.82,
-            alpha: 1.00
-        )
-        view.addSubview(profileImage)
+        profileImageView.image = UIImage(named: "default")
+        profileImageView.layer.cornerRadius = 60
+        profileImageView.layer.masksToBounds = true
+        view.addSubview(profileImageView)
         
         profileName.text = "Попуг Олежа"
         profileName.textAlignment = .center
@@ -95,14 +93,14 @@ class MyProfileViewController : UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        profileImage.pin
+        profileImageView.pin
             //.below(of: myProfileTitle).marginTop(10)
             .top(view.pin.safeArea.top + 12)
             .topCenter()
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
         
         profileName.pin
-            .below(of: profileImage).marginTop(10)
+            .below(of: profileImageView).marginTop(10)
             .horizontally(12)
             .height(28)
         

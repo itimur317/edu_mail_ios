@@ -137,7 +137,6 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
 
     func didTapAddPhotoButton() {
         self.view?.openSavedPhotosAlbum()
-    }
-    
+    }    
 }
 

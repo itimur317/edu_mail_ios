@@ -32,9 +32,13 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
 //
     let scrollView = UIScrollView()
     
-    let image = UILabel() //= UIImage() //need fix
-    let imageEditImageView = UIImageView()//= UIButton()
-    let imageEditIcon = UIImage(named: "imageEditIcon")
+    // добавление фото
+    let profileImageView = UIImageView()
+    
+    let addPhotoButton = UIButton()
+    let addPhotoImage = UIImage(named: "addPhotoImage")
+    let correctPhotoButton = UIButton()
+    var addPhotoImagePicker = UIImagePickerController()
     
     let nameLabel = UILabel()
     let nameTextField = UITextField()
@@ -49,8 +53,24 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
     
     let saveButton = UIButton()
     
+    func setImagePicker(){
+        addPhotoButton.backgroundColor = UIColor(named: "backgroundColorForEmpty")
+        addPhotoButton.layer.cornerRadius = 60
+        addPhotoButton.setImage(addPhotoImage, for: .normal)
+        addPhotoButton.addTarget(self,
+                                 action: #selector(didTapAddPhotoButton(_:)),
+                                 for: .touchUpInside)
+        scrollView.addSubview(addPhotoButton)
+        
+        profileImageView.isHidden = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // presenter delegate
+        output.setViewDelegate(delegate: self)
+        
         view.backgroundColor = .white
         navigationItem.title = "Изменить профиль"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Выйти", style: .plain, target: self, action: #selector(didTapLogoutButton(_ :)))
@@ -61,6 +81,10 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
         scrollView.contentSize = CGSize(width: view.frame.width, height: 578) // need changes
         view.addSubview(scrollView)
        
+        // image picker
+        addPhotoImagePicker.delegate = self
+        setImagePicker()
+        
         //take 2
 //        scrollView.contentSize = CGSize (
 //            width: view.frame.width,
@@ -69,21 +93,7 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
 //            )
 //        )
 //      view.addSubview(scrollView)
-        
-//          image
-        image.layer.cornerRadius = 60
-        image.layer.masksToBounds = true
-        image.backgroundColor = UIColor (
-            red: 0.62,
-            green: 0.85,
-            blue: 0.82,
-            alpha: 1.00
-        )
-        scrollView.addSubview(image)
-                
-        imageEditImageView.image = imageEditIcon
-        scrollView.addSubview(imageEditImageView)
-        
+
 //          labels
         nameLabel.text = "Имя"
         emailAdressLabel.text = "Электронная почта"
@@ -132,21 +142,15 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
             .height(view.frame.height)
             .width(view.frame.width)
               
-//         image
-        image.pin
+        addPhotoButton.pin
             .top(12)
             .topCenter()
-            .size(120)
-        
-//        edit icon ( pinned nearly similar to image )
-        imageEditImageView.pin
-            .top(12+35)
-            .topCenter()
-            .size(50)
+            .height(120)
+            .width(120)
         
 //        имя
         nameLabel.pin
-            .below(of: image).marginTop(10)
+            .below(of: addPhotoButton).marginTop(10)
             .horizontally(12)
             .height(CGFloat(lableHeight))
         
@@ -231,8 +235,75 @@ extension ChangeProfileDataViewController {
         Coordinator.rootVC(vc: authorizationViewController)
         //navigationController?.pushViewController(authorizationViewController, animated: true)
     }
-//    override func viewWillDisappear(_ animated: Bool) {
-//        self.navigationController?.isNavigationBarHidden = true
-//        self.tabBarController?.tabBar.isHidden = true
-//    }
+    
+    @objc
+    private func didTapAddPhotoButton(_ sender: UIButton) {
+        self.output.didTapAddPhotoButton()
+    }
+    
+    @objc
+    private func didTapCorrectPhotoButton(_ sender: UIButton) {
+        
+        if profileImageView.image != nil {
+            addPhotoButton.isHidden = false
+        }
+        
+        if profileImageView.image != nil {
+            profileImageView.image = nil
+            profileImageView.isHidden = true
+            
+            
+            correctPhotoButton.isHidden = true
+        }
+    }
+    
+    func openSavedPhotosAlbum() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            addPhotoImagePicker.allowsEditing = false
+            addPhotoImagePicker.sourceType = .savedPhotosAlbum
+            
+            present(addPhotoImagePicker,
+                    animated: true,
+                    completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Нет доступа!",
+                                          message: "У Pickabook нет доступа к вашим фото.\nЧтобы предоставить доступ, перейдите в Настройки и включите Фото.",
+                                          preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Ок",
+                                          style: .default,
+                                          handler: nil))
+            
+            present(alert, animated: true)
+        }
+    }
+    
+    func setImage(_ pickedImage: UIImage) {
+        addPhotoButton.contentMode = .scaleToFill
+        addPhotoButton.setImage(pickedImage, for: .normal)
+        
+        addPhotoButton.layer.cornerRadius = 60
+        addPhotoButton.layer.masksToBounds = true
+        
+        // сохраняем для того, чтобы сохранять в бд
+        profileImageView.image = pickedImage
+        
+        correctPhotoButton.isHidden = false
+    }
+}
+
+extension ChangeProfileDataViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            setImage(pickedImage)
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
 }

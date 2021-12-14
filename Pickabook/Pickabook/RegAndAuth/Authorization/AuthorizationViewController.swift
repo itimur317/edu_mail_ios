@@ -106,15 +106,10 @@ class AuthorizationViewController : UIViewController {
                             for: .touchUpInside)
         
         [authButton, regButton].forEach() { button in
-            button.layer.cornerRadius = 14
+            button.layer.cornerRadius = 15
             button.layer.masksToBounds = true
-            button.backgroundColor = UIColor (
-                red: 0.62,
-                green: 0.85,
-                blue: 0.82,
-                alpha: 1.00
-            )
-            button.setTitleColor(UIColor.black, for: .normal)
+            button.backgroundColor = UIColor(named: "buttonColor")
+            button.setTitleColor(UIColor.white, for: .normal)
             scrollView.addSubview(button)
         }
         

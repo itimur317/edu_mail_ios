@@ -21,7 +21,7 @@ protocol MyProfileViewControllerProtocol: AnyObject {
 protocol MyProfilePresenterProtocol: AnyObject {
     func didTapChangeProfileDataButton()
     func didTapOpenBook(book: Book)
-    
+    func setViewDelegate(delegate: MyProfileViewControllerProtocol)
     //func didLoadProfileData()
     //func didFail(with error: Error)
 }
@@ -44,6 +44,9 @@ final class MyProfilePresenter: MyProfilePresenterProtocol {
         self.view?.changeProfileDataView()
     }
     
+    public func setViewDelegate(delegate: MyProfileViewControllerProtocol) {
+        self.view = delegate
+    }
 //    func didLoadProfileData() {
 //        database.collection("Users").addSnapshotListener { querySnapshot, error in
 //            if let error = error { return }
