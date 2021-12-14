@@ -13,7 +13,7 @@ protocol LibraryPresenterProtocol : AnyObject {
     func dismissView()
     func didTapOpenAddNewBook()
     func didTapOpenBook(book: Book)
-    func observeBooks(genre: Genre)
+    func observeBooks()
     func deleteBook(book: Book, index: Int)
 }
 
@@ -39,7 +39,7 @@ final class LibraryPresenter : LibraryPresenterProtocol {
         
     }
     
-    func observeBooks(genre: Genre) {
+    func observeBooks() {
         DispatchQueue.global().async {
             BookManager.shared.output = self
             // сделать обсерв по профилю
