@@ -23,7 +23,7 @@ class UserProfileViewController : UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let profileImage = UILabel() //let profileImage = UIImage() //need fix
+    let profileImageView = UIImageView()
     let profileName = UILabel()
     let profileMailAdress = UILabel()
     let profilePhoneNumber = UILabel()
@@ -46,16 +46,10 @@ class UserProfileViewController : UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .black
         
-        //profileImage.imageWithoutBaseline()
-        profileImage.layer.cornerRadius = 60
-        profileImage.layer.masksToBounds = true
-        profileImage.backgroundColor = UIColor (
-            red: 0.62,
-            green: 0.85,
-            blue: 0.82,
-            alpha: 1.00
-        )
-        view.addSubview(profileImage)
+        profileImageView.image = UIImage(named: "default")
+        profileImageView.layer.cornerRadius = 60
+        profileImageView.layer.masksToBounds = true
+        view.addSubview(profileImageView)
         
         profileName.text = "Попуг Геночка"
         profileName.textAlignment = .center
@@ -104,7 +98,7 @@ class UserProfileViewController : UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        profileImage.pin
+        profileImageView.pin
             .top(view.pin.safeArea.top+12)
             //.below(of: UserProfileTitle).marginTop(10)
             //.top(50+26)
@@ -112,7 +106,7 @@ class UserProfileViewController : UIViewController {
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
 
         profileName.pin
-            .below(of: profileImage).marginTop(10)
+            .below(of: profileImageView).marginTop(10)
             .horizontally(12)
             .height(28)
         

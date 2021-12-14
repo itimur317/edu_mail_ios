@@ -8,6 +8,7 @@
 import Foundation
 //output
 protocol ChangeProfileDataViewControllerProtocol: AnyObject {
+    func openSavedPhotosAlbum()
     //func presentProfile(profiles: [Profile])
     //func presentAlert(title: String, message: String)
     //var bookList: [Book]? { get }
@@ -19,7 +20,9 @@ protocol ChangeProfileDataViewControllerProtocol: AnyObject {
 }
  
 protocol ChangeProfileDataPresenterProtocol: AnyObject {
+    func didTapAddPhotoButton()
     func didTapAddButton()
+    func setViewDelegate(delegate: ChangeProfileDataViewControllerProtocol)
 }
  
  
@@ -31,6 +34,14 @@ final class ChangeProfileDataPresenter: ChangeProfileDataPresenterProtocol {
 //    public func getProfiles() {
 //        //
 //    }
+    
+    public func setViewDelegate(delegate: ChangeProfileDataViewControllerProtocol) {
+        self.view = delegate
+    }
+    
+    func didTapAddPhotoButton() {
+        self.view?.openSavedPhotosAlbum()
+    }
  
     func didTapAddButton() {
         //

@@ -11,21 +11,21 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class RegistrationViewController : UIViewController, RegistrationViewControllerProtocol {
-
-//    var ref: DatabaseReference! //под вопросом
-//    private var profileData: Profile! //под вопросом
+    
+    //    var ref: DatabaseReference! //под вопросом
+    //    private var profileData: Profile! //под вопросом
     
     var output: RegistrationPresenterProtocol
     init(output: RegistrationPresenterProtocol){
         self.output = output
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-//для удобной верстки
+    //для удобной верстки
     private let lableFontSize = 16
     private let textFieldFontSize = 14
     
@@ -33,12 +33,17 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
     private let textFieldHeight = 32
     
     private let textFieldCornerRadius = 14
-//
+    
+    //
     let scrollView = UIScrollView()
     
-    let image = UILabel() //= UIImage() //need fix
-    let imageEditImageView = UIImageView()//= UIButton()
-    let imageEditIcon = UIImage(named: "imageEditIcon")
+    // добавление фото
+    let profileImageView = UIImageView()
+    
+    let addPhotoButton = UIButton()
+    let addPhotoImage = UIImage(named: "addPhotoImage")
+    let correctPhotoButton = UIButton()
+    var addPhotoImagePicker = UIImagePickerController()
     
     //email
     let emailAdressLabel = UILabel()
@@ -64,8 +69,24 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
     
     let endRegistrationButton = UIButton()
     
+    func setImagePicker(){
+        addPhotoButton.backgroundColor = UIColor(named: "backgroundColorForEmpty")
+        addPhotoButton.layer.cornerRadius = 60
+        addPhotoButton.setImage(addPhotoImage, for: .normal)
+        addPhotoButton.addTarget(self,
+                                 action: #selector(didTapAddPhotoButton(_:)),
+                                 for: .touchUpInside)
+        scrollView.addSubview(addPhotoButton)
+        
+        profileImageView.isHidden = true
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // presenter delegate
+        output.setViewDelegate(delegate: self)
+        
         view.backgroundColor = .white
         navigationItem.title = "Регистрация"
         self.hideKeyboardWhenTappedAround()
@@ -74,21 +95,11 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
         scrollView.contentSize = CGSize(width: view.frame.width, height: 786) // need changes
         view.addSubview(scrollView)
         
-//          image
-        image.layer.cornerRadius = 60
-        image.layer.masksToBounds = true
-        image.backgroundColor = UIColor (
-            red: 0.62,
-            green: 0.85,
-            blue: 0.82,
-            alpha: 1.00
-        )
-        scrollView.addSubview(image)
-                
-        imageEditImageView.image = imageEditIcon
-        scrollView.addSubview(imageEditImageView)
-        
-//          labels надо добавить звездочки и обязательные поля
+        // image picker
+        addPhotoImagePicker.delegate = self
+        setImagePicker()
+
+        //          labels надо добавить звездочки и обязательные поля
         emailAdressLabel.text = "Электронная почта"
         newPasswordFirstLabel.text = "Придумайте пароль"
         newPasswordSecondLabel.text = "Повторите пароль"
@@ -102,7 +113,7 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
             scrollView.addSubview(label)
         }
         
-//          textFields
+        //          textFields
         nameTextField.placeholder = "Введите имя"
         nameTextField.autocorrectionType = UITextAutocorrectionType.no
         
@@ -136,8 +147,8 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
             textField.backgroundColor = .systemGray6
             scrollView.addSubview(textField)
         }
-
-//         главные заголовки
+        
+        //         главные заголовки
         generalFirstLabel.text = "Данные для регистрации"
         generalSecondLabel.text = "Имя и фото"
         generalThirdLabel.text = "Способы связи"
@@ -147,49 +158,38 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
             scrollView.addSubview(label)
         }
         
-//        кнопка сохранения
+        //        кнопка сохранения
         //saveButton.titleLabel?.font = backButton.titleLabel?.font.withSize(10)
-        endRegistrationButton.layer.cornerRadius = 14
+        endRegistrationButton.layer.cornerRadius = 15
         endRegistrationButton.layer.masksToBounds = true
-        endRegistrationButton.backgroundColor = UIColor (
-            red: 0.62,
-            green: 0.85,
-            blue: 0.82,
-            alpha: 1.00
-        )
+        endRegistrationButton.backgroundColor = UIColor(named: "buttonColor")
         endRegistrationButton.setTitle("Cохранить", for: .normal)
-        endRegistrationButton.setTitleColor(UIColor.black, for: .normal)
+        endRegistrationButton.tintColor = .white
         endRegistrationButton.addTarget(self,
-                            action: #selector(didTapSaveButton(_:)),
-                            for: .touchUpInside)
+                                        action: #selector(didTapSaveButton(_:)),
+                                        for: .touchUpInside)
         scrollView.addSubview(endRegistrationButton)
         
     }
     
     override func viewDidLayoutSubviews() {
         super .viewDidLayoutSubviews()
-                
+        
         scrollView.pin
             .topLeft()
             .height(view.frame.height)
             .width(view.frame.width)
-              
-//         image
-        image.pin
-            .top(12)
+        
+        addPhotoButton.pin
+            .top(10)
             .topCenter()
-            .size(120)
-
-//        edit icon ( pinned nearly similar to image )
-            imageEditImageView.pin
-                .top(12+35)
-                .topCenter()
-                .size(50)
-            
-//        имя
+            .height(120)
+            .width(120)
+        
+        //        имя
         nameLabel.pin
-            //.top(12)
-            .below(of: image).marginTop(10)
+        //.top(12)
+            .below(of: addPhotoButton).marginTop(10)
             .horizontally(12)
             .height(CGFloat(lableHeight))
         
@@ -198,13 +198,13 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
         
-//          first BIG label
+        //          first BIG label
         generalFirstLabel.pin
             .below(of: nameTextField).marginTop(14) //was 10
             .horizontally(12)
             .height(CGFloat(lableHeight))
         
-//          email
+        //          email
         emailAdressLabel.pin
             .below(of: generalFirstLabel).marginTop(2)
             .horizontally(12)
@@ -215,7 +215,7 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
         
-//          new password
+        //          new password
         newPasswordFirstLabel.pin
             .below(of: emailAdressTextField).marginTop(10)
             .horizontally(12)
@@ -235,14 +235,14 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
             .below(of: newPasswordSecondLabel).marginTop(2)
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
-
-//          third BOG label
+        
+        //          third BOG label
         generalThirdLabel.pin
             .below(of: newPasswordSecondTextField).marginTop(14)
             .horizontally(12)
             .height(CGFloat(lableHeight))
         
-//        номер телефона
+        //        номер телефона
         phoneNumberLabel.pin
             .below(of: generalThirdLabel).marginTop(2)
             .horizontally(12)
@@ -253,7 +253,7 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
         
-//        телеграм
+        //        телеграм
         telegramLinkLabel.pin
             .below(of: phoneNumberTextField).marginTop(10)
             .horizontally(12)
@@ -264,7 +264,7 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
         
-//        инстаграм
+        //        инстаграм
         instagramLinkLabel.pin
             .below(of: telegramLinkTextField).marginTop(10)
             .horizontally(12)
@@ -275,35 +275,35 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
         
-//        кнопка сохранения
+        //        кнопка сохранения
         endRegistrationButton.pin
             .below(of: instagramLinkTextField).marginTop(18)
             .horizontally(12)
             .height(46)
-
+        
     }
-//
-//
-//    func createProfile(profile: Profile, password: String) {
-//            Auth.auth().createUser(withEmail: profile.email, password: password, completion: {(result, error) in
-//                guard error == nil else {
-//                    print("error registration: \(error!)")
-//                    return
-//                }
-//                print("You have signed in")
-//                self.createProfileData(profile: profile)
-//            })
-//        }
-//
-//    func createProfileData(profile: Profile){
-//            //guard let currentProfile = Auth.auth().currentUser else { return }
-//            //self.profile = Profile(profile: currentProfile)
-//            ref = Database.database().reference(withPath: "profiles")
-//            self.profileData = profile
-//            //imageUpload(image: userData.profileImage!, title: "profile image")
-//        }
-//
-//
+    //
+    //
+    //    func createProfile(profile: Profile, password: String) {
+    //            Auth.auth().createUser(withEmail: profile.email, password: password, completion: {(result, error) in
+    //                guard error == nil else {
+    //                    print("error registration: \(error!)")
+    //                    return
+    //                }
+    //                print("You have signed in")
+    //                self.createProfileData(profile: profile)
+    //            })
+    //        }
+    //
+    //    func createProfileData(profile: Profile){
+    //            //guard let currentProfile = Auth.auth().currentUser else { return }
+    //            //self.profile = Profile(profile: currentProfile)
+    //            ref = Database.database().reference(withPath: "profiles")
+    //            self.profileData = profile
+    //            //imageUpload(image: userData.profileImage!, title: "profile image")
+    //        }
+    //
+    //
 }
 
 extension RegistrationViewController {
@@ -357,19 +357,88 @@ extension RegistrationViewController {
             
         }
         
-//        let id = Auth.auth().currentUser!.uid
-//        let name = nameTextField.text ?? ""
-//        let phoneNumber = Int(phoneNumberLabel.text ?? "")
-//        let emailAdress = emailAdressTextField.text
-//        let telegramLink = URL(string: telegramLinkTextField.text ?? "")
-//        let instagramLink = URL(string: instagramLinkTextField.text ?? "")
-//
-//        let regProfile = Profile.init(id: id, name: name, photoName: nil, photo: nil, phoneNumber: phoneNumber, email: emailAdress, telegramLink: telegramLink, instagramLink: instagramLink)
+        
+        //        let id = Auth.auth().currentUser!.uid
+        //        let name = nameTextField.text ?? ""
+        //        let phoneNumber = Int(phoneNumberLabel.text ?? "")
+        //        let emailAdress = emailAdressTextField.text
+        //        let telegramLink = URL(string: telegramLinkTextField.text ?? "")
+        //        let instagramLink = URL(string: instagramLinkTextField.text ?? "")
+        //
+        //        let regProfile = Profile.init(id: id, name: name, photoName: nil, photo: nil, phoneNumber: phoneNumber, email: emailAdress, telegramLink: telegramLink, instagramLink: instagramLink)
         
     }
-//    override func viewWillDisappear(_ animated: Bool) {
-//        self.navigationController?.isNavigationBarHidden = true
-//    }
+    
+    @objc
+    private func didTapAddPhotoButton(_ sender: UIButton) {
+        self.output.didTapAddPhotoButton()
+    }
+    
+    @objc
+    private func didTapCorrectPhotoButton(_ sender: UIButton) {
+        
+        if profileImageView.image != nil {
+            addPhotoButton.isHidden = false
+        }
+        
+        if profileImageView.image != nil {
+            profileImageView.image = nil
+            profileImageView.isHidden = true
+            
+            
+            correctPhotoButton.isHidden = true
+        }
+    }
+    
+    func openSavedPhotosAlbum() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            addPhotoImagePicker.allowsEditing = false
+            addPhotoImagePicker.sourceType = .savedPhotosAlbum
+            
+            present(addPhotoImagePicker,
+                    animated: true,
+                    completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Нет доступа!",
+                                          message: "У Pickabook нет доступа к вашим фото.\nЧтобы предоставить доступ, перейдите в Настройки и включите Фото.",
+                                          preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Ок",
+                                          style: .default,
+                                          handler: nil))
+            
+            present(alert, animated: true)
+        }
+    }
+    
+    func setImage(_ pickedImage: UIImage) {
+        addPhotoButton.contentMode = .scaleToFill
+        addPhotoButton.setImage(pickedImage, for: .normal)
+        
+        addPhotoButton.layer.cornerRadius = 60
+        addPhotoButton.layer.masksToBounds = true
+        
+        // сохраняем для того, чтобы сохранять в бд
+        profileImageView.image = pickedImage
+        
+        correctPhotoButton.isHidden = false
+    }
+}
+
+extension RegistrationViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            setImage(pickedImage)
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 // mainVC
