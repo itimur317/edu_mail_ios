@@ -12,7 +12,7 @@ import UIKit
 
 protocol BookManagerProtocol {
     var output: BookManagerOutput? { get set }
-    
+    func observeOwnerIdBooks(id : String)
     func observeGenreBooks(genreName : String)
     func create(book: Book)
     func delete(book: Book)
@@ -36,6 +36,7 @@ enum NetworkError : Error {
 
 
 final class BookManager : BookManagerProtocol {
+    
     static var shared: BookManagerProtocol = BookManager()
     
     weak var output: BookManagerOutput?
@@ -48,6 +49,66 @@ final class BookManager : BookManagerProtocol {
     private var books : [Book] = []
     
     let imageLoader: ImageLoaderProtocol = ImageLoader()
+    
+    func observeOwnerIdBooks(id: String) {
+        self.database.collection("Books").whereField("ownerId", isEqualTo: id).addSnapshotListener { [weak self] querySnapshot, error in
+            
+            if let error = error {
+                print("error in observe")
+                self?.output?.didFail(with: error)
+                return
+            }
+            
+            guard let documents = querySnapshot?.documents else {
+                print("query")
+                self?.output?.didFail(with: NetworkError.unexpected)
+                return
+            }
+            
+            var books = documents.compactMap {
+                self?.bookConverter.book(from: $0)
+            }
+            self?.output?.didRecieve(books)
+            
+            self?.books = books
+            
+            for j in 0..<books.count {
+                guard let names = books[j].bookImagesNamesDB else {return}
+                for i in 0..<names.count {
+                    self?.imageLoader.getImage(with: names[i]) { [weak self] (result) in
+                        switch result {
+                        case .success(let data):
+//                            books[j].bookImages.append(data)
+                            if i == 0 {
+                                books[j].bookImages.insert(data, at: 0)
+                            } else if i == 1 {
+                                if books[j].bookImages.count == 0 {
+                                    books[j].bookImages.insert(data, at: 0)
+                                } else {
+                                    books[j].bookImages.insert(data, at: 1)
+                                }
+                            } else {
+                                if books[j].bookImages.count == 0 {
+                                    books[j].bookImages.insert(data, at: 0)
+                                } else if books[j].bookImages.count == 1 {
+                                    books[j].bookImages.insert(data, at: 1)
+                                } else {
+                                    books[j].bookImages.insert(data, at: 2)
+                                }
+                            }
+//                            books[j].bookImages.insert(data, at: i)
+                            self?.output?.didRecieve(books)
+                            print(books[j].bookImages)
+                        case .failure(let error):
+                            print(error)
+                        }
+                    }
+
+                }
+            }
+  
+        }
+    }
     
     func observeGenreBooks(genreName : String) {
         
@@ -119,7 +180,13 @@ final class BookManager : BookManagerProtocol {
                 
                 var dictForDatabase : [String : Any]
                 
+                guard let currentUserId = Auth.auth().currentUser?.uid else {
+                    print("didn't register")
+                    return
+                }
+                
                 dictForDatabase = ["identifier" : book.identifier!,
+                                   "ownerId" : currentUserId,
                                    "imageNames" : imageNames,
                                    "imageURLs" : imageURLs,
                                    "name" : book.bookName,
@@ -191,6 +258,7 @@ final class BookManager : BookManagerProtocol {
 private final class BookConverter {
     enum Key: String {
         case identifier
+        case ownerId
         case name
         case author
         case genre
@@ -212,6 +280,7 @@ private final class BookConverter {
         
         guard let dict = document.data(),
               let identifier = dict[Key.identifier.rawValue] as? String,
+              let ownerId = dict[Key.ownerId.rawValue] as? String,
               let imageURLs = dict[Key.imageURLs.rawValue] as? [String],
               let imageNames = dict[Key.imageNames.rawValue] as? [String],
               let name = dict[Key.name.rawValue] as? String,
@@ -238,7 +307,7 @@ private final class BookConverter {
         
         
         
-        var currentBook = Book(identifier: identifier, bookImagesNamesDB: imageNames, bookImages: [], bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
+        var currentBook = Book(identifier: identifier,ownerId: ownerId, bookImagesNamesDB: imageNames, bookImages: [], bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
 
 
         if let index = Util.shared.genres.firstIndex(where: { $0.name == genre} ) {
