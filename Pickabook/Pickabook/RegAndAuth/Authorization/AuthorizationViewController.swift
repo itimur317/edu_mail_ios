@@ -73,9 +73,15 @@ class AuthorizationViewController : UIViewController {
         }
         
 //          textFields
-        loginTextField.text = "login"
-        passwordTextField.text = ""
+        loginTextField.placeholder = "Адрес электронной почты"
+        loginTextField.keyboardType = UIKeyboardType.emailAddress
+        loginTextField.autocorrectionType = UITextAutocorrectionType.no
+        loginTextField.autocapitalizationType = .none
+        
+        passwordTextField.placeholder = "Введите пароль"
         passwordTextField.isSecureTextEntry = true
+
+        
         [loginTextField, passwordTextField].forEach { textField in
             textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
             textField.leftViewMode = .always
@@ -211,11 +217,20 @@ extension AuthorizationViewController {
         else { return }
         
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
-            //print("[DEBUG] \(result) \(error)")
+            print("[DEBUG] \(result) \(error)")
+            if error == nil {
+                //перенаправление на главный экран с таббаром
+                Coordinator.rootVC(vc: MainViewController() )
+            }
+            else {
+                let alert = UIAlertController(title: "Ошибка", message: "Проверьте правильность \n введенных данных", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }
         }
         
         //перенаправление на главный экран с таббаром
-        Coordinator.rootVC(vc: MainViewController() )
+        //Coordinator.rootVC(vc: MainViewController() )
         //navigationController?.pushViewController(mainViewController, animated: true)
     }
     
