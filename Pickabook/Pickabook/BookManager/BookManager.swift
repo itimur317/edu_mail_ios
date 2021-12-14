@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseAuth
 import UIKit
 
 protocol BookManagerProtocol {
@@ -77,8 +78,25 @@ final class BookManager : BookManagerProtocol {
                     self?.imageLoader.getImage(with: names[i]) { [weak self] (result) in
                         switch result {
                         case .success(let data):
-//                            self?.imagesData.append(data)
-                            books[j].bookImages.append(data)
+//                            books[j].bookImages.append(data)
+                            if i == 0 {
+                                books[j].bookImages.insert(data, at: 0)
+                            } else if i == 1 {
+                                if books[j].bookImages.count == 0 {
+                                    books[j].bookImages.insert(data, at: 0)
+                                } else {
+                                    books[j].bookImages.insert(data, at: 1)
+                                }
+                            } else {
+                                if books[j].bookImages.count == 0 {
+                                    books[j].bookImages.insert(data, at: 0)
+                                } else if books[j].bookImages.count == 1 {
+                                    books[j].bookImages.insert(data, at: 1)
+                                } else {
+                                    books[j].bookImages.insert(data, at: 2)
+                                }
+                            }
+//                            books[j].bookImages.insert(data, at: i)
                             self?.output?.didRecieve(books)
                             print(books[j].bookImages)
                         case .failure(let error):
