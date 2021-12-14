@@ -15,14 +15,14 @@ protocol MyProfileViewControllerProtocol: AnyObject {
     func presentAlert(title: String, message: String)
     func changeProfileDataView()
     func openBook(book: Book)
-//    func loadProfileData(profileData: Profile)
+    //func loadProfileData(profileData: Profile)
 }
  
 protocol MyProfilePresenterProtocol: AnyObject {
     func didTapChangeProfileDataButton()
     func didTapOpenBook(book: Book)
-//    func didLoadProfileData()
     
+    //func didLoadProfileData()
     //func didFail(with error: Error)
 }
  
@@ -30,11 +30,11 @@ protocol MyProfilePresenterProtocol: AnyObject {
 final class MyProfilePresenter: MyProfilePresenterProtocol {
     
     private let database = Firestore.firestore()
-    private let profileDataConverter = ProfileDataConverter()
+    //private let profileDataConverter = ProfileDataConverter()
     
     weak var view: MyProfileViewControllerProtocol?
     
-//    public func getProfiles() {}
+    //public func getProfiles() {}
     
     func didTapOpenBook(book: Book) {
         self.view?.openBook(book:  book)
@@ -52,37 +52,5 @@ final class MyProfilePresenter: MyProfilePresenterProtocol {
 //            self?.view?.loadProfileData(profileData: profileData)
 //        }
 //    }
-}
-
-
-
-
-
-
-private final class ProfileDataConverter {
-    
-    enum Key: String {
-        case email
-        case id
-        case instagramLink
-        case name
-        case phoneNumber
-        case photoName
-        case telegramLink
-    }
-    
-    func profileData (from document: DocumentSnapshot) -> Profile? {
-        guard let dict = document.data(),
-              let id = dict[Key.id.rawValue] as? String,
-              let name = dict[Key.name.rawValue] as? String,
-              let phoneNumber = dict[Key.phoneNumber.rawValue] as? Int,
-              let email = dict[Key.email.rawValue] as? String,
-              let telegramLink = dict[Key.telegramLink.rawValue] as? URL,
-              let instagramLink = dict[Key.instagramLink.rawValue] as? URL else { return nil }
-        let photoName = dict[Key.photoName.rawValue] as? String
-        
-        let profileData = Profile(id: id, name: name, photoName: photoName, phoneNumber: phoneNumber, email: email, telegramLink: telegramLink, instagramLink: instagramLink)
-        return profileData
-    }
     
 }

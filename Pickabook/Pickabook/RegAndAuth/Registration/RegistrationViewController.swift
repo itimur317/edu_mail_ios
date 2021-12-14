@@ -103,16 +103,29 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
         }
         
 //          textFields
-        emailAdressTextField.text = "peekabook@peeka.book"
-        newPasswordFirstTextField.text = "parol"
-        newPasswordSecondTextField.text = "tochno parol"
-        nameTextField.text = "Павлин Кечкa"
-        phoneNumberTextField.text = "+4 44 44"
-        telegramLinkTextField.text = "https://t.me/"
-        instagramLinkTextField.text = "https://www.instagram.com/"
+        nameTextField.placeholder = "Введите имя"
+        nameTextField.autocorrectionType = UITextAutocorrectionType.no
         
+        emailAdressTextField.placeholder = "Адрес электронной почты"
+        emailAdressTextField.autocorrectionType = UITextAutocorrectionType.no
+        emailAdressTextField.keyboardType = UIKeyboardType.emailAddress
+        emailAdressTextField.autocapitalizationType = .none
+        
+        newPasswordFirstTextField.placeholder = "Придумайте пароль"
         newPasswordFirstTextField.isSecureTextEntry = true
+        
+        newPasswordSecondTextField.placeholder = "Повторите пароль"
         newPasswordSecondTextField.isSecureTextEntry = true
+        
+        phoneNumberTextField.placeholder = "Введите телефон"
+        
+        telegramLinkTextField.placeholder = "https://t.me/user"
+        telegramLinkTextField.autocorrectionType = UITextAutocorrectionType.no
+        telegramLinkTextField.autocapitalizationType = .none
+        
+        instagramLinkTextField.placeholder = "https://www.instagram.com/user"
+        instagramLinkTextField.autocorrectionType = UITextAutocorrectionType.no
+        instagramLinkTextField.autocapitalizationType = .none
         
         [emailAdressTextField, newPasswordFirstTextField, newPasswordSecondTextField, nameTextField, phoneNumberTextField, telegramLinkTextField, instagramLinkTextField].forEach { textField in
             textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
@@ -308,16 +321,51 @@ extension RegistrationViewController {
     @objc
     private func didTapSaveButton(_ sender: UIButton) {
         guard let email = emailAdressTextField.text,
-              let password = newPasswordFirstTextField.text
+              let password = newPasswordFirstTextField.text,
+              let secPassword = newPasswordSecondTextField.text
         else { return }
         
-        Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            //print("[DEBUG] \(result) \(error)")
+        func RegAlert (regAlert: String) {
+            let alert = UIAlertController(title: "Ошибка", message: regAlert, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
-        //let user = Profile.init(id: <#T##Int#>, name: <#T##String#>, photo: <#T##URL?#>, phoneNumber: <#T##Int?#>, email: <#T##String?#>, telegramLink: <#T##URL?#>, instagramLink: <#T##URL?#>)
-        //перенаправление на главный экран с таббаром
-        Coordinator.rootVC( vc: MainViewController() )
-        //navigationController?.pushViewController(MainViewController(), animated: true)
+        
+        if nameTextField.text == "" {
+            RegAlert (regAlert:  "Введите имя пользователя")
+        }
+        else if emailAdressTextField.text == "" || newPasswordFirstTextField.text == "" || newPasswordSecondTextField.text == "" {
+            RegAlert (regAlert:  "Введите почту и/или пароль")
+        }
+        else if password != secPassword {
+            RegAlert (regAlert:  "Пароли не совпадают")
+        }
+        else if phoneNumberTextField.text == "" && telegramLinkTextField.text == "" && instagramLinkTextField.text == "" {
+            RegAlert (regAlert:  "Введите хотя бы один \n способ связи")
+        }
+        else {
+            Auth.auth().createUser(withEmail: email, password: password) { result, error in
+                print("[DEBUG] \(result) \(error)")
+                if error == nil {
+                    //перенаправление на главный экран с таббаром
+                    Coordinator.rootVC( vc: MainViewController() )
+                }
+                else {
+                    RegAlert (regAlert:  "Проверьте правильность \n электронной почты и пароля \n (пароль должен содержать \n хотя бы 6 символов)")
+                }
+            }
+            
+        }
+        
+//        let id = Auth.auth().currentUser!.uid
+//        let name = nameTextField.text ?? ""
+//        let phoneNumber = Int(phoneNumberLabel.text ?? "")
+//        let emailAdress = emailAdressTextField.text
+//        let telegramLink = URL(string: telegramLinkTextField.text ?? "")
+//        let instagramLink = URL(string: instagramLinkTextField.text ?? "")
+//
+//        let regProfile = Profile.init(id: id, name: name, photoName: nil, photo: nil, phoneNumber: phoneNumber, email: emailAdress, telegramLink: telegramLink, instagramLink: instagramLink)
+        
     }
 //    override func viewWillDisappear(_ animated: Bool) {
 //        self.navigationController?.isNavigationBarHidden = true

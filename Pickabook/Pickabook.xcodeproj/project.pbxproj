@@ -29,6 +29,7 @@
 		A5960D342747E87F0011082C /* RegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5960D332747E87F0011082C /* RegistrationPresenter.swift */; };
 		A5BB7E5D27467F06009A7E04 /* AuthorizationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BB7E5C27467F06009A7E04 /* AuthorizationPresenter.swift */; };
 		A5CA19052767C38400D8D0E2 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CA19042767C38400D8D0E2 /* Coordinator.swift */; };
+		A5CA19082767FF8C00D8D0E2 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CA19072767FF8C00D8D0E2 /* UserManager.swift */; };
 		E11886BD275B6DD300488A4D /* BookProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11886BC275B6DD300488A4D /* BookProfileViewController.swift */; };
 		E11886BF275B6DF300488A4D /* BookProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11886BE275B6DF300488A4D /* BookProfilePresenter.swift */; };
 		E13E79A3274431B300BEE7EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E13E79A1274431B300BEE7EC /* Main.storyboard */; };
@@ -77,6 +78,7 @@
 		A5960D332747E87F0011082C /* RegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPresenter.swift; sourceTree = "<group>"; };
 		A5BB7E5C27467F06009A7E04 /* AuthorizationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationPresenter.swift; sourceTree = "<group>"; };
 		A5CA19042767C38400D8D0E2 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		A5CA19072767FF8C00D8D0E2 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		E11886BC275B6DD300488A4D /* BookProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookProfileViewController.swift; sourceTree = "<group>"; };
 		E11886BE275B6DF300488A4D /* BookProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookProfilePresenter.swift; sourceTree = "<group>"; };
 		E13E7998274431B300BEE7EC /* Pickabook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pickabook.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,6 +203,14 @@
 			path = Authorization;
 			sourceTree = "<group>";
 		};
+		A5CA19062767FF6D00D8D0E2 /* UserManager */ = {
+			isa = PBXGroup;
+			children = (
+				A5CA19072767FF8C00D8D0E2 /* UserManager.swift */,
+			);
+			path = UserManager;
+			sourceTree = "<group>";
+		};
 		E11886BB275B6DA700488A4D /* BookProfileView */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,6 +239,7 @@
 		E13E799A274431B300BEE7EC /* Pickabook */ = {
 			isa = PBXGroup;
 			children = (
+				A5CA19062767FF6D00D8D0E2 /* UserManager */,
 				399BC26327662D6E0047EBBF /* BookManager */,
 				E11886BB275B6DA700488A4D /* BookProfileView */,
 				39F7A508274827F2003E196B /* Library */,
@@ -455,6 +466,7 @@
 				39F7A50C27482836003E196B /* LibraryPresenter.swift in Sources */,
 				3920BB602748038A007A6B4D /* FailAddNewBookPresenter.swift in Sources */,
 				E11886BF275B6DF300488A4D /* BookProfilePresenter.swift in Sources */,
+				A5CA19082767FF8C00D8D0E2 /* UserManager.swift in Sources */,
 				A52ABB7C2745611800EA87D8 /* RegistrationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
