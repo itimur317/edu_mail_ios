@@ -68,7 +68,7 @@ final class LibraryViewController : UIViewController {
         super.viewWillAppear(animated)
         print("viewWillAppear")
 
-        self.presenter.observeBooks(genre: Util.shared.genres[3])
+        self.presenter.observeBooks()
 
     }
     

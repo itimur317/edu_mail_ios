@@ -90,6 +90,12 @@ class MyProfileViewController : UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.output.observeBooks()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -146,7 +152,7 @@ class MyProfileViewController : UIViewController {
 extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
     //количество строк
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return profileBookList.count
+        return self.output.currentBooks.count
     }
     //высота строки
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -159,19 +165,25 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return .init()
         }
         
-        let book = profileBookList[indexPath.row]
+//        let book = profileBookList[indexPath.row]
+        let book = self.output.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let book = profileBookList[indexPath.row]
+//        let book = profileBookList[indexPath.row]
+        let book = self.output.currentBooks[indexPath.row]
         output.didTapOpenBook(book: book)
     }
     
 }
 
 extension MyProfileViewController: MyProfileViewControllerProtocol {
+    func reloadTable() {
+        self.profileBookListTableView.reloadData()
+    }
+    
    
     func changeProfileDataView() {
         let changeProfileDataPresenter = ChangeProfileDataPresenter()
