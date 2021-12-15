@@ -12,9 +12,6 @@ import FirebaseFirestore
 
 class RegistrationViewController : UIViewController, RegistrationViewControllerProtocol {
     
-    //    var ref: DatabaseReference! //под вопросом
-    //    private var profileData: Profile! //под вопросом
-    
     var output: RegistrationPresenterProtocol
     init(output: RegistrationPresenterProtocol){
         self.output = output
@@ -105,8 +102,8 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
         newPasswordSecondLabel.text = "Повторите пароль"
         nameLabel.text = "Имя"
         phoneNumberLabel.text = "Номер телефона"
-        telegramLinkLabel.text = "Ссылка на аккаунт в Telegram"
-        instagramLinkLabel.text = "Ссылка на аккаунт в Instagram"
+        telegramLinkLabel.text = "Ник в Telegram"
+        instagramLinkLabel.text = "Ник в Instagram"
         
         [emailAdressLabel, newPasswordFirstLabel, newPasswordSecondLabel, nameLabel, phoneNumberLabel, telegramLinkLabel, instagramLinkLabel].forEach { label in
             label.font = UIFont.systemFont(ofSize: CGFloat(lableFontSize))
@@ -129,12 +126,14 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
         newPasswordSecondTextField.isSecureTextEntry = true
         
         phoneNumberTextField.placeholder = "Введите телефон"
+        phoneNumberTextField.keyboardType = UIKeyboardType.phonePad
+        phoneNumberTextField.delegate = self
         
-        telegramLinkTextField.placeholder = "https://t.me/user"
+        telegramLinkTextField.placeholder = "Ваш ник в Telegram"
         telegramLinkTextField.autocorrectionType = UITextAutocorrectionType.no
         telegramLinkTextField.autocapitalizationType = .none
         
-        instagramLinkTextField.placeholder = "https://www.instagram.com/user"
+        instagramLinkTextField.placeholder = "Ваш ник в Instagram"
         instagramLinkTextField.autocorrectionType = UITextAutocorrectionType.no
         instagramLinkTextField.autocapitalizationType = .none
         
@@ -282,28 +281,6 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
             .height(46)
         
     }
-    //
-    //
-    //    func createProfile(profile: Profile, password: String) {
-    //            Auth.auth().createUser(withEmail: profile.email, password: password, completion: {(result, error) in
-    //                guard error == nil else {
-    //                    print("error registration: \(error!)")
-    //                    return
-    //                }
-    //                print("You have signed in")
-    //                self.createProfileData(profile: profile)
-    //            })
-    //        }
-    //
-    //    func createProfileData(profile: Profile){
-    //            //guard let currentProfile = Auth.auth().currentUser else { return }
-    //            //self.profile = Profile(profile: currentProfile)
-    //            ref = Database.database().reference(withPath: "profiles")
-    //            self.profileData = profile
-    //            //imageUpload(image: userData.profileImage!, title: "profile image")
-    //        }
-    //
-    //
 }
 
 extension RegistrationViewController {
@@ -317,13 +294,38 @@ extension RegistrationViewController {
     }
 }
 
+extension RegistrationViewController : UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let allowedCharacters = CharacterSet.decimalDigits
+        let characterSet = CharacterSet(charactersIn: string)
+        return allowedCharacters.isSuperset(of: characterSet)
+    }
+}
+
 extension RegistrationViewController {
     @objc
     private func didTapSaveButton(_ sender: UIButton) {
+        
         guard let email = emailAdressTextField.text,
               let password = newPasswordFirstTextField.text,
               let secPassword = newPasswordSecondTextField.text
         else { return }
+        
+        //создание ссылок
+        var telegramLink = "https://t.me/"
+        if telegramLinkTextField.text != "" {
+            telegramLink += telegramLinkTextField.text!
+            telegramLink = telegramLink.replacingOccurrences(of: " ", with: "")
+        } else { telegramLink = "" }
+        var instagramLink = "https://www.instagram.com/"
+        if instagramLinkTextField.text != "" {
+            instagramLink += instagramLinkTextField.text!
+            instagramLink = instagramLink.replacingOccurrences(of: " ", with: "")
+        } else { instagramLink = "" }
+        
+        //установка дефолтной картинки, если не выбрана
+        var profileImage = profileImageView.image
+        if profileImage == nil { profileImage = UIImage(named: "logo") }
         
         func RegAlert (regAlert: String) {
             let alert = UIAlertController(title: "Ошибка", message: regAlert, preferredStyle: .alert)
@@ -331,6 +333,7 @@ extension RegistrationViewController {
             self.present(alert, animated: true)
         }
         
+        //проверка корректности введенных данных
         if nameTextField.text == "" {
             RegAlert (regAlert:  "Введите имя пользователя")
         }
@@ -344,9 +347,17 @@ extension RegistrationViewController {
             RegAlert (regAlert:  "Введите хотя бы один \n способ связи")
         }
         else {
-            Auth.auth().createUser(withEmail: email, password: password) { result, error in
-                print("[DEBUG] \(result) \(error)")
-                if error == nil {
+            Auth.auth().createUser(withEmail: email, password: password) { [self] result, error in
+                //print("[DEBUG] \(result) \(error)")
+                if error == nil { //если нет ошибок
+                    //запись в базу данных
+                    self.output.didTapRegButton(    name: nameTextField.text!,
+                                                    photoName: nil,
+                                                    photo: profileImage,
+                                                    phoneNumber: Int(phoneNumberTextField.text ?? ""),
+                                                    email: emailAdressTextField.text,
+                                                    telegramLink: telegramLink,
+                                                    instagramLink: instagramLink )
                     //перенаправление на главный экран с таббаром
                     Coordinator.rootVC( vc: MainViewController() )
                 }
@@ -354,19 +365,7 @@ extension RegistrationViewController {
                     RegAlert (regAlert:  "Проверьте правильность \n электронной почты и пароля \n (пароль должен содержать \n хотя бы 6 символов)")
                 }
             }
-            
         }
-        
-        
-        //        let id = Auth.auth().currentUser!.uid
-        //        let name = nameTextField.text ?? ""
-        //        let phoneNumber = Int(phoneNumberLabel.text ?? "")
-        //        let emailAdress = emailAdressTextField.text
-        //        let telegramLink = URL(string: telegramLinkTextField.text ?? "")
-        //        let instagramLink = URL(string: instagramLinkTextField.text ?? "")
-        //
-        //        let regProfile = Profile.init(id: id, name: name, photoName: nil, photo: nil, phoneNumber: phoneNumber, email: emailAdress, telegramLink: telegramLink, instagramLink: instagramLink)
-        
     }
     
     @objc
@@ -440,14 +439,4 @@ extension RegistrationViewController : UIImagePickerControllerDelegate, UINaviga
         dismiss(animated: true, completion: nil)
     }
 }
-
-// mainVC
-//let registrationPresenter = RegistrationPresenter()
-//let registrationViewController = RegistrationViewController(output: registrationPresenter)
-//let registrationVC = UINavigationController(rootViewController: registrationViewController)
-//registrationPresenter.view = registrationViewController
-//registrationVC.tabBarItem.image = UIImage(named: "RegistrationViewIcon")
-//registrationVC.title = ""
-//
-//self.setViewControllers([genresVC, registrationVC, addVC, myProfileVC], animated: false)
 

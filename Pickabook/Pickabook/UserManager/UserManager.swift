@@ -118,7 +118,7 @@ private final class ProfileDataConverter {
         case name
         case phoneNumber
         case photoName
-        case photo
+        case photoURL
         case telegramLink
     }
     
@@ -128,12 +128,13 @@ private final class ProfileDataConverter {
               let name = dict[Key.name.rawValue] as? String,
               let phoneNumber = dict[Key.phoneNumber.rawValue] as? Int,
               let email = dict[Key.email.rawValue] as? String,
-              let telegramLink = dict[Key.telegramLink.rawValue] as? URL,
-              let instagramLink = dict[Key.instagramLink.rawValue] as? URL else { return nil }
+              let telegramLink = dict[Key.telegramLink.rawValue] as? String,
+              let instagramLink = dict[Key.instagramLink.rawValue] as? String else { return nil }
         let photoName = dict[Key.photoName.rawValue] as? String
-        let photo = dict[Key.photo.rawValue] as? UIImage
+        //let photoURL = dict[Key.photoURL.rawValue] as? String
+        //let photo = UIImage.init(data: photo1)
         
-        let profileData = Profile(id: id, name: name, photoName: photoName, photo: photo, phoneNumber: phoneNumber, email: email, telegramLink: telegramLink, instagramLink: instagramLink)
+        let profileData = Profile(id: id, name: name, photoName: photoName, photo: nil, phoneNumber: phoneNumber, email: email, telegramLink: telegramLink, instagramLink: instagramLink)
         return profileData
     }
     
