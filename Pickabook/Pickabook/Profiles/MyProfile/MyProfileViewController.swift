@@ -10,7 +10,7 @@ import Firebase
 
 class MyProfileViewController : UIViewController {
     
-    func presentProfile(profiles: [Profile]) {}
+    //func presentProfile(profiles: [Profile]) {}
     func presentAlert(title: String, message: String) {}
     
     var output: MyProfilePresenterProtocol

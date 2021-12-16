@@ -14,7 +14,6 @@ protocol MyProfileViewControllerProtocol: AnyObject {
     func reloadTable()
     func reloadMyProfile(myProfile: Profile)
     //var output: MyProfilePresenter
-    func presentProfile(profiles: [Profile])
     func presentAlert(title: String, message: String)
     func changeProfileDataView()
     func openBook(book: Book)
@@ -28,8 +27,10 @@ protocol MyProfilePresenterProtocol: AnyObject {
     
     func observeBooks()
     func observeMyProfile()
+    
     func didTapChangeProfileDataButton()
     func didTapOpenBook(book: Book)
+    
     func setViewDelegate(delegate: MyProfileViewControllerProtocol)
     //func didLoadProfileData()
     //func didFail(with error: Error)
@@ -37,6 +38,13 @@ protocol MyProfilePresenterProtocol: AnyObject {
  
  
 final class MyProfilePresenter: MyProfilePresenterProtocol {
+    
+    public func setViewDelegate(delegate: MyProfileViewControllerProtocol) {
+        self.view = delegate
+    }
+    
+    weak var view: MyProfileViewControllerProtocol?
+    private let database = Firestore.firestore()
     
     var currentBooks: [Book] = []
     
@@ -59,23 +67,12 @@ final class MyProfilePresenter: MyProfilePresenterProtocol {
         UserManager.shared.observeUser(userId: MyId)
     }
     
-    private let database = Firestore.firestore()
-    //private let profileDataConverter = ProfileDataConverter()
-    
-    weak var view: MyProfileViewControllerProtocol?
-    
-    //public func getProfiles() {}
-    
     func didTapOpenBook(book: Book) {
         self.view?.openBook(book:  book)
     }
     
     func didTapChangeProfileDataButton() {
         self.view?.changeProfileDataView()
-    }
-    
-    public func setViewDelegate(delegate: MyProfileViewControllerProtocol) {
-        self.view = delegate
     }
     
 }
