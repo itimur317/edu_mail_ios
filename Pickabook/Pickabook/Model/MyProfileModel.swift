@@ -28,11 +28,11 @@ struct Profile {
     init(id: String, name: String, photoName: String?, photo: UIImage?, phoneNumber: Int?, email: String?, telegramLink: String?, instagramLink: String?) {
         
         self.id = ""//= Auth.auth().currentUser!.uid
-        self.name = ""
+        self.name = "Init Data"
         self.photoName = nil
         self.photo = nil
-        self.phoneNumber = 0
-        self.email = ""
+        self.phoneNumber = 404
+        self.email = "From MyProfileModel"
         self.telegramLink = nil
         self.instagramLink = nil
         
