@@ -14,11 +14,10 @@ class UserProfileViewController : UIViewController {
     func presentAlert(title: String, message: String) {}
     
     var output: UserProfilePresenterProtocol
-    let profile: Profile!
+    var profile: Profile!
     
-    init(output: UserProfilePresenterProtocol, profile: Profile){
+    init(output: UserProfilePresenterProtocol){
         self.output = output
-        self.profile = profile
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -54,7 +53,7 @@ class UserProfileViewController : UIViewController {
         profileImageView.layer.masksToBounds = true
         view.addSubview(profileImageView)
         
-        profileName.text = profile.name
+        profileName.text = "Name"
         profileName.textAlignment = .center
         view.addSubview(profileName)
         
@@ -91,6 +90,11 @@ class UserProfileViewController : UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.output.observeProfile()
+    }
+    
     @objc func didTapTelegramLinkButton(_ sender: UIButton) {
         self.output.didTapTelegramLinkButton()
     }
@@ -100,7 +104,9 @@ class UserProfileViewController : UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+    }
+    
+    func updateLayout(){
         profileImageView.pin
             .top(view.pin.safeArea.top+12)
             //.below(of: UserProfileTitle).marginTop(10)
@@ -153,7 +159,6 @@ class UserProfileViewController : UIViewController {
             .below(of: profileBookListTitle).marginTop(3)
             .horizontally(12)
             .bottom(12)
-        
     }
 
 }
@@ -187,6 +192,23 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
 }
 
 extension UserProfileViewController: UserProfileViewControllerProtocol {
+    
+    func reloadProfile(profile: Profile) {
+        self.profile = profile
+        
+        profileImageView.image = profile.photo        //UIImage(named: "default")
+        profileName.text = profile.name               //"Попуг Олежа"
+        profileMailAdress.text = profile.email        //"peekabook@peeka.book"
+        //let phoneNumber = myProfile.phoneNumber!
+        //profilePhoneNumber.text = String(phoneNumber) //"+4 44 44"
+        profilePhoneNumber.text = profile.phoneNumber
+        
+        updateLayout()
+    }
+    
+    func reloadTable() {
+        self.profileBookListTableView.reloadData()
+    }
     
     func changeProfileDataView() {
         let changeProfileDataPresenter = ChangeProfileDataPresenter()
