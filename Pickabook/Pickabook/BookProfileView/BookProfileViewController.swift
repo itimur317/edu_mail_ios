@@ -17,6 +17,8 @@ class BookProfileViewController: UIViewController {
     /* Владелец книги */
     var ownerProfile: Profile!
     
+    var length : CGFloat = 0
+    
     init(output: BookViewPresenterProtocol, book: Book, owned: Bool){
         self.presenter = output
         self.book = book
@@ -182,7 +184,7 @@ class BookProfileViewController: UIViewController {
     
     /* Задаем содержимое вью */
     func configureView(){
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 800)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 700)
         view.addSubview(scrollView)
         
         // картинки
@@ -225,10 +227,12 @@ class BookProfileViewController: UIViewController {
         authorLabel.text = book.bookAuthor
         scrollView.addSubview(authorLabel)
         
+        
         genreLabel.text = book.bookGenres.name
         genreLabel.sizeToFit()
         genreLabel.textColor = .white
         genreLabel.backgroundColor = book.bookGenres.color
+        length = self.genreLabel.frame.width
         scrollView.addSubview(genreLabel)
         
         descriptionLabel.text = book.bookDescription
@@ -316,7 +320,7 @@ class BookProfileViewController: UIViewController {
             .below(of: authorLabel)
             .marginTop(10)
             .left(15)
-            .width(self.genreLabel.frame.width + 20)
+            .width(length + 20)
             .height(30)
         
         descriptionLabel.pin
