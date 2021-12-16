@@ -25,10 +25,7 @@ final class BookViewPresenter: BookViewPresenterProtocol {
     }
     
     func takeBookButtonAction(book: Book){
-        let owner = UserManager.shared.findUser(userId: book.ownerId!)
-        print(owner)
-        print("otkrivaet presenter")
-        delegate?.presentNextVC(profile: owner)
+        delegate?.presentNextVC()
     }
     
     func observeBookOwner(ownerId: String) {

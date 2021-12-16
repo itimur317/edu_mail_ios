@@ -30,6 +30,8 @@ struct Profile {
         self.id = id
         self.name = name
         self.photoName = photoName
+        let nul = UIImage(named: "default")
+        print("in  model: \(photo ?? nul)")
         self.photo = UIImage(named: "default") // to do
         self.phoneNumber = phoneNumber
         self.email = email

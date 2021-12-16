@@ -13,7 +13,6 @@ import UIKit
 protocol UserManagerProtocol {
     
     var output: UserManagerOutput? { get set }
-    func findUser(userId : String) -> Profile
     func observeUser(userId : String)
     func create(user: Profile)
     
@@ -95,59 +94,28 @@ final class UserManager : UserManagerProtocol {
             let defaultProfile : Profile = Profile.init(id: "", name: "", photoName: "", photo: nil, phoneNumber: nil, email: "", telegramLink: "", instagramLink: "")
             print ("\(user)")
             print ("\(defaultProfile)") //почему-то грузится именно дефолтный юзер
-            self?.output?.didRecieve(user ?? defaultProfile)
             
-            self?.user = user ?? defaultProfile
-  
-            guard let name = user.photoName else {return}
+            self?.output?.didRecieve(user)
+            self?.user = user
+            
+            guard let name = user.photoName else {
+                print("произошел ретерн")
+                return
+            }
             self?.imageLoader.getImage(with: name) { [weak self] (result) in
                 switch result {
                 case .success(let data):
                     user.photo = UIImage(data: data)
-                    self?.output?.didRecieve(user ?? defaultProfile)
+                    let nul = UIImage(named: "default")
+                    print("case success: \(user.photo ?? nul)")
+                    self?.output?.didRecieve(user)
                     //print(user?.photoName)
                 case .failure(let error):
+                    print("case fail")
                     print(error)
                 }
             }
         }
-    }
-    
-    func findUser(userId : String) -> Profile{
-        var owner : Profile =  Profile.init(id: "", name: "", photoName: "", photo: nil, phoneNumber: nil, email: "", telegramLink: "", instagramLink: "")
-        print(userId)
-        self.database.collection("Users").whereField("id", isEqualTo: userId).addSnapshotListener { [weak self] querySnapshot, error in
-  
-            if let error = error {
-                print (error)
-                self?.output?.didFail(with: error)
-                return
-            }
-            
-            guard let documents = querySnapshot?.documents else {
-                print("query")
-                self?.output?.didFail(with: NetworkError.unexpected)
-                return
-            }
-            
-            owner = (self?.userConverter.profileData(from: documents[0]))!
-            
-            let defaultProfile : Profile = Profile.init(id: "", name: "", photoName: "", photo: nil, phoneNumber: nil, email: "", telegramLink: "", instagramLink: "")
-            print ("\(owner)")
-            print ("\(defaultProfile)") //почему-то грузится именно дефолтный юзер
-  
-            guard let name = owner.photoName else {return}
-            self?.imageLoader.getImage(with: name) { [weak self] (result) in
-                switch result {
-                case .success(let data):
-                    owner.photo = UIImage(data: data)
-                    //print(user?.photoName)
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        }
-        return owner
     }
 }
 
@@ -168,23 +136,20 @@ private final class ProfileDataConverter {
         guard let dict = document.data(),
               let id = dict[Key.id.rawValue] as? String,
               let name = dict[Key.name.rawValue] as? String,
-              let email = dict[Key.email.rawValue] as? String
-//            let photoName = dict[Key.photoName.rawValue] as? String
-            else {
-                print("return nil")
-                return nil
-                }
+              let email = dict[Key.email.rawValue] as? String,
+              let phoneNumber = dict[Key.phoneNumber.rawValue] as? String,
+              let photoName = dict[Key.photoName.rawValue] as? [String]
+        else {
+            return nil
+        }
         
-        var phoneNumber = dict[Key.phoneNumber.rawValue] as? String
         var telegramLink = dict[Key.telegramLink.rawValue] as? String
         var instagramLink = dict[Key.instagramLink.rawValue] as? String
         
-        if dict[Key.phoneNumber.rawValue] == nil { phoneNumber = "" }
         if dict[Key.telegramLink.rawValue] == nil { telegramLink = "" }
         if dict[Key.instagramLink.rawValue] == nil { instagramLink = "" }
-        //let photoURL = dict[Key.photoURL.rawValue] as? String
-        //let photo = UIImage.init(data: photo1)
-        let profileDataResult = Profile(id: id, name: name, photoName: nil, photo: nil, phoneNumber: phoneNumber, email: email, telegramLink: telegramLink, instagramLink: instagramLink)
+        
+        let profileDataResult = Profile(id: id, name: name, photoName: photoName[0], photo: nil, phoneNumber: String(phoneNumber), email: email, telegramLink: telegramLink, instagramLink: instagramLink)
         return profileDataResult
     }
     

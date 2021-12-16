@@ -266,13 +266,9 @@ class BookProfileViewController: UIViewController {
         presenter.takeBookButtonAction(book: book)
     }
     
-    func presentNextVC(profile: Profile){
+    func presentNextVC(){
         let presenterB = UserProfilePresenter()
         let vc = UserProfileViewController(output: presenterB, userId: book.ownerId!)
-        
-        
-        print("anme")
-        print(profile.name)
         
         self.navigationController?.pushViewController(vc, animated: true)
         vc.modalPresentationStyle = .fullScreen
