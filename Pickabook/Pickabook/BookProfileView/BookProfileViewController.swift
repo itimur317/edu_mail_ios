@@ -337,44 +337,44 @@ class BookProfileViewController: UIViewController {
             .height(23)
         
         stars[0].pin
-            .width(32)
+            .width(28)
             .after(of: conditionLabel)
             .marginLeft(3)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         stars[1].pin
-            .width(32)
+            .width(28)
             .after(of: stars[0])
-            .marginLeft(3)
+            .marginLeft(1)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         stars[2].pin
-            .width(32)
+            .width(28)
             .after(of: stars[1])
-            .marginLeft(3)
+            .marginLeft(1)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         stars[3].pin
-            .width(32)
+            .width(28)
             .after(of: stars[2])
-            .marginLeft(3)
+            .marginLeft(1)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         stars[4].pin
-            .width(32)
+            .width(28)
             .after(of: stars[3])
-            .marginLeft(3)
+            .marginLeft(1)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         profileImage.pin
             .below(of: stars[4])
