@@ -7,7 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
-import FirebaseAuth //need be deleted
+//import FirebaseAuth //need be deleted
 //output
 protocol UserProfileViewControllerProtocol: AnyObject {
     func reloadTable()

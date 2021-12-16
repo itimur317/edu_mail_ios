@@ -96,7 +96,7 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
         addPhotoImagePicker.delegate = self
         setImagePicker()
 
-        //          labels надо добавить звездочки и обязательные поля
+        // labels
         emailAdressLabel.text = "Электронная почта"
         newPasswordFirstLabel.text = "Придумайте пароль"
         newPasswordSecondLabel.text = "Повторите пароль"
@@ -294,6 +294,7 @@ extension RegistrationViewController {
     }
 }
 
+//только цифры в номере телефона
 extension RegistrationViewController : UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let allowedCharacters = CharacterSet.decimalDigits
