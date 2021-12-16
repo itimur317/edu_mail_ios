@@ -12,6 +12,7 @@ import FirebaseAuth
 //output
 protocol MyProfileViewControllerProtocol: AnyObject {
     func reloadTable()
+    func reloadMyProfile(myProfile: Profile)
     //var output: MyProfilePresenter
     func presentProfile(profiles: [Profile])
     func presentAlert(title: String, message: String)
@@ -21,8 +22,12 @@ protocol MyProfileViewControllerProtocol: AnyObject {
 }
  
 protocol MyProfilePresenterProtocol: AnyObject {
+    
     var currentBooks: [Book] { get set }
+    var myProfile: Profile { get set }
+    
     func observeBooks()
+    func observeMyProfile()
     func didTapChangeProfileDataButton()
     func didTapOpenBook(book: Book)
     func setViewDelegate(delegate: MyProfileViewControllerProtocol)
@@ -38,12 +43,21 @@ final class MyProfilePresenter: MyProfilePresenterProtocol {
     func observeBooks() {
         DispatchQueue.global().async {
             BookManager.shared.output = self
-            guard let MyId = Auth.auth().currentUser?.uid else {   print("didn't registere")
-                return}
+            guard let MyId = Auth.auth().currentUser?.uid else {
+                print("didn't register")
+                return
+            }
             BookManager.shared.observeOwnerIdBooks(id: MyId)
         }
     }
     
+    var myProfile: Profile = Profile.init(id: "", name: "", photoName: "", photo: nil, phoneNumber: nil, email: "", telegramLink: "", instagramLink: "")
+    
+    func observeMyProfile() {
+        UserManager.shared.output = self
+        guard let MyId = Auth.auth().currentUser?.uid else { return }
+        UserManager.shared.observeUser(userId: MyId)
+    }
     
     private let database = Firestore.firestore()
     //private let profileDataConverter = ProfileDataConverter()
@@ -63,14 +77,6 @@ final class MyProfilePresenter: MyProfilePresenterProtocol {
     public func setViewDelegate(delegate: MyProfileViewControllerProtocol) {
         self.view = delegate
     }
-//    func didLoadProfileData() {
-//        database.collection("Users").addSnapshotListener { querySnapshot, error in
-//            if let error = error { return }
-//            guard let documents = querySnapshot?.documents else { return }
-//            let profileData = documents.compactMap { self.profileDataConverter.profileData(from: $0) }
-//            self?.view?.loadProfileData(profileData: profileData)
-//        }
-//    }
     
 }
 
@@ -93,5 +99,17 @@ extension MyProfilePresenter : BookManagerOutput {
         print("error didDelete in MyProfilePresenter")
     }
     
+    
+}
+
+extension MyProfilePresenter : UserManagerOutput {
+    
+    func didRecieve(_ user: Profile) {
+        print ("didRecieve IN WORK")
+        print (user)
+        self.view?.reloadMyProfile(myProfile: user)
+    }
+    
+    func didCreate(_ user: Profile) { }
     
 }

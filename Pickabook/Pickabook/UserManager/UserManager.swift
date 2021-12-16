@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+//import FirebaseAuth
 import UIKit
 
 protocol UserManagerProtocol {
@@ -25,7 +26,6 @@ protocol UserManagerOutput : AnyObject {
     
     func didRecieve(_ user: Profile)
     func didCreate(_ user: Profile)
-    
     func didFail(with error: Error)
     
     //func didDelete(_ user: Profile)
@@ -36,6 +36,8 @@ final class UserManager : UserManagerProtocol {
     
     static var shared: UserManagerProtocol = UserManager()
     weak var output: UserManagerOutput?
+    
+    private var user: Profile = Profile(id: "", name: "", photoName: "", photo: nil, phoneNumber: nil, email: "", telegramLink: "", instagramLink: "")
     
     private let database = Firestore.firestore()
     private let userConverter = ProfileDataConverter()
@@ -91,8 +93,12 @@ final class UserManager : UserManagerProtocol {
             }
             
             var user = self?.userConverter.profileData(from: documents[0])
-            let defaultProfile : Profile = Profile.init(id: "", name: "", photoName: "", photo: nil, phoneNumber: 1, email: "", telegramLink: nil, instagramLink: nil)
+            let defaultProfile : Profile = Profile.init(id: "", name: "", photoName: "", photo: nil, phoneNumber: nil, email: "", telegramLink: "", instagramLink: "")
+            print ("\(user)")
+            print ("\(defaultProfile)") //почему-то грузится именно дефолтный юзер
             self?.output?.didRecieve(user ?? defaultProfile)
+            
+            self?.user = user ?? defaultProfile
                         
             guard let name = user?.photoName else {return}
             self?.imageLoader.getImage(with: name) { [weak self] (result) in
@@ -100,7 +106,7 @@ final class UserManager : UserManagerProtocol {
                 case .success(let data):
                     user?.photo = UIImage(data: data)
                     self?.output?.didRecieve(user ?? defaultProfile)
-                    print(user?.photoName)
+                    //print(user?.photoName)
                 case .failure(let error):
                     print(error)
                 }
@@ -118,7 +124,7 @@ private final class ProfileDataConverter {
         case name
         case phoneNumber
         case photoName
-        case photo
+        case photoURL
         case telegramLink
     }
     
@@ -128,13 +134,15 @@ private final class ProfileDataConverter {
               let name = dict[Key.name.rawValue] as? String,
               let phoneNumber = dict[Key.phoneNumber.rawValue] as? Int,
               let email = dict[Key.email.rawValue] as? String,
-              let telegramLink = dict[Key.telegramLink.rawValue] as? URL,
-              let instagramLink = dict[Key.instagramLink.rawValue] as? URL else { return nil }
-        let photoName = dict[Key.photoName.rawValue] as? String
-        let photo = dict[Key.photo.rawValue] as? UIImage
+              let telegramLink = dict[Key.telegramLink.rawValue] as? String,
+              let instagramLink = dict[Key.instagramLink.rawValue] as? String,
+              let photoName = dict[Key.photoName.rawValue] as? String else { return nil }
         
-        let profileData = Profile(id: id, name: name, photoName: photoName, photo: photo, phoneNumber: phoneNumber, email: email, telegramLink: telegramLink, instagramLink: instagramLink)
-        return profileData
+        //let photoURL = dict[Key.photoURL.rawValue] as? String
+        //let photo = UIImage.init(data: photo1)
+        
+        let profileDataResult = Profile(id: id, name: name, photoName: photoName, photo: nil, phoneNumber: phoneNumber, email: email, telegramLink: telegramLink, instagramLink: instagramLink)
+        return profileDataResult
     }
     
 }

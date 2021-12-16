@@ -14,17 +14,18 @@ class MyProfileViewController : UIViewController {
     func presentAlert(title: String, message: String) {}
     
     var output: MyProfilePresenterProtocol
-    init(output: MyProfilePresenterProtocol){
+    var myProfile: Profile!
+
+    init(output: MyProfilePresenterProtocol/*, myProfile: Profile*/){
         self.output = output
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
 //    var handle: AuthStateDidChangeListenerHandle?
-
     let profileImageView = UIImageView()
     
     let profileName = UILabel()
@@ -53,36 +54,43 @@ class MyProfileViewController : UIViewController {
         
 //        title and top right button
         navigationItem.title = "Мой профиль"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(didTapChangeProfileDataButton(_ :))) //old: changeProfileDataButton.addTarget(self, action: #selector(didTapChangeProfileDataButton(_ :)), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(didTapChangeProfileDataButton(_ :)))
         
+        //фото профиля
         profileImageView.image = UIImage(named: "default")
         profileImageView.layer.cornerRadius = 60
         profileImageView.layer.masksToBounds = true
         view.addSubview(profileImageView)
         
+        //имя в профиле
         profileName.text = "Попуг Олежа"
         profileName.textAlignment = .center
         view.addSubview(profileName)
         
+        //описание профиля
 //        profileAboutInfo.text = "Кулинарные книги не предлагать"
 //        //profileAboutInfo.textAlignment = .justified // выравнять  по ширине
 //        //profileAboutInfo.size
 //        profileAboutInfo.textAlignment = .center
 //        view.addSubview(profileAboutInfo)
         
+        //почта
         profileMailAdress.text = "peekabook@peeka.book"
         profileMailAdress.font = profileMailAdress.font.withSize(14)
         profileMailAdress.textAlignment = .center
         view.addSubview(profileMailAdress)
         
+        //телефон
         profilePhoneNumber.text = "+4 44 44"
         profilePhoneNumber.font = profilePhoneNumber.font.withSize(14)
         profilePhoneNumber.textAlignment = .center
         view.addSubview(profilePhoneNumber)
         
+        //заголовок
         profileBookListTitle.text = "Книги на обмен"
         view.addSubview(profileBookListTitle)
         
+        //таблица с ячейками книг
         profileBookListTableView.dataSource = self
         profileBookListTableView.delegate = self
         profileBookListTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
@@ -92,15 +100,18 @@ class MyProfileViewController : UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.output.observeBooks()
+        self.output.observeMyProfile()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        //updateLayout()
+    }
+    
+    func updateLayout() {
         
         profileImageView.pin
-            //.below(of: myProfileTitle).marginTop(10)
             .top(view.pin.safeArea.top + 12)
             .topCenter()
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
@@ -180,6 +191,19 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension MyProfileViewController: MyProfileViewControllerProtocol {
+    
+    func reloadMyProfile(myProfile: Profile) {
+        self.myProfile = myProfile
+        
+        profileImageView.image = myProfile.photo        //UIImage(named: "default")
+        profileName.text = myProfile.name               //"Попуг Олежа"
+        profileMailAdress.text = myProfile.email        //"peekabook@peeka.book"
+        let phoneNumber = myProfile.phoneNumber!
+        profilePhoneNumber.text = String(phoneNumber)   //"+4 44 44"
+        
+        updateLayout()
+    }
+    
     func reloadTable() {
         self.profileBookListTableView.reloadData()
     }
@@ -203,7 +227,14 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
         //bookViewPresenter.view = bookProfileViewController
     }
     
-//    func loadProfileData(profileData: Profile) {
-//        <#code#>
-//    }
+//    func loadProfileData(profileData: Profile) { }
 }
+
+//extension MyProfileViewController : UserManagerOutput {
+//    
+//    func didRecieve(_ user: Profile) { }
+//    func didCreate(_ user: Profile) { }
+//    func didFail(with error: Error) { }
+//    
+//    UserManager.shared.getMyProfileData() 
+//}
