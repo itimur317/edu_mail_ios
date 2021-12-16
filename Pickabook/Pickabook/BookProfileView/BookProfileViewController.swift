@@ -263,7 +263,7 @@ class BookProfileViewController: UIViewController {
     
     func presentNextVC(profile: Profile){
         let presenterB = UserProfilePresenter()
-        let vc = UserProfileViewController(output: presenterB, profile: profile)
+        let vc = UserProfileViewController(output: presenterB)
         
         
         print("anme")
