@@ -24,7 +24,7 @@ protocol RegistrationPresenterProtocol: AnyObject {
                          name: String,
                          photoName: String?,
                          photo: UIImage?,//Data?,
-                         phoneNumber: Int?,
+                         phoneNumber: String?,
                          email: String?,
                          telegramLink: String?,
                          instagramLink: String?)
@@ -53,7 +53,7 @@ final class RegistrationPresenter: RegistrationPresenterProtocol, UserManagerOut
                             name: "",
                             photoName: "",
                             photo: UIImage(named: "addPhotoImage"),
-                            phoneNumber: nil,
+                            phoneNumber: "",
                             email: "",
                             telegramLink: nil,
                             instagramLink: nil  )
@@ -63,7 +63,7 @@ final class RegistrationPresenter: RegistrationPresenterProtocol, UserManagerOut
                           name: String,
                           photoName: String?,
                           photo: UIImage?,
-                          phoneNumber: Int?,
+                          phoneNumber: String?,
                           email: String?,
                           telegramLink: String?,
                           instagramLink: String? ) {

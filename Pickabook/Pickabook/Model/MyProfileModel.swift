@@ -14,7 +14,7 @@ struct Profile {
     var name: String
     var photoName: String? //URL?
     var photo: UIImage?
-    var phoneNumber: Int?
+    var phoneNumber: String?//Int?
     var email: String?
     var telegramLink: String?
     var instagramLink: String?
@@ -25,7 +25,7 @@ struct Profile {
     //let adress
     //let metroStation
     
-    init(id: String, name: String, photoName: String?, photo: UIImage?, phoneNumber: Int?, email: String?, telegramLink: String?, instagramLink: String?) {
+    init(id: String, name: String, photoName: String?, photo: UIImage?, phoneNumber: String?, email: String?, telegramLink: String?, instagramLink: String?) {
         
         self.id = id
         self.name = name

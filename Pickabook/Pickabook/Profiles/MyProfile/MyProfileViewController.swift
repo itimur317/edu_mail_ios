@@ -198,8 +198,9 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
         profileImageView.image = myProfile.photo        //UIImage(named: "default")
         profileName.text = myProfile.name               //"Попуг Олежа"
         profileMailAdress.text = myProfile.email        //"peekabook@peeka.book"
-        let phoneNumber = myProfile.phoneNumber!
-        profilePhoneNumber.text = String(phoneNumber)   //"+4 44 44"
+        //let phoneNumber = myProfile.phoneNumber!
+        //profilePhoneNumber.text = String(phoneNumber) //"+4 44 44"
+        profilePhoneNumber.text = myProfile.phoneNumber
         
         updateLayout()
     }

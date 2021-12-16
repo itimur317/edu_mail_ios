@@ -354,7 +354,7 @@ extension RegistrationViewController {
                     self.output.didTapRegButton(    name: nameTextField.text!,
                                                     photoName: nil,
                                                     photo: profileImage,
-                                                    phoneNumber: Int(phoneNumberTextField.text ?? ""),
+                                                    phoneNumber: phoneNumberTextField.text,
                                                     email: emailAdressTextField.text,
                                                     telegramLink: telegramLink,
                                                     instagramLink: instagramLink )
