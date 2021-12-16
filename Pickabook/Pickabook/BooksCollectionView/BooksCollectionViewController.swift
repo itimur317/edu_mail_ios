@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 private let reuseIdentifier = "Cell"
 
@@ -53,11 +54,16 @@ class BooksCollectionViewController: UICollectionViewController {
     
     func presentNextVC(selectedBook : Book){
         let presenterB = BookViewPresenter()
-        let vc = BookProfileViewController(output: presenterB, book: selectedBook, owned: false)
+        let owned = checkOwner(selectedBook: selectedBook)
+        let vc = BookProfileViewController(output: presenterB, book: selectedBook, owned: owned)
         self.navigationController?.pushViewController(vc, animated: true)
        
         vc.navigationController?.navigationBar.tintColor = .black
         vc.modalPresentationStyle = .fullScreen
+    }
+    
+    func checkOwner(selectedBook: Book) -> Bool {
+        return selectedBook.ownerId == Auth.auth().currentUser?.uid
     }
 }
 

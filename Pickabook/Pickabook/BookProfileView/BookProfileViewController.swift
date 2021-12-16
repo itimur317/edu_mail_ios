@@ -14,6 +14,8 @@ class BookProfileViewController: UIViewController {
     let book : Book!
     /* Флаг, чтобы определить, что книга принадлежит пользователю */
     let owned: Bool!
+    /* Владелец книги */
+    var ownerProfile: Profile!
     
     init(output: BookViewPresenterProtocol, book: Book, owned: Bool){
         self.presenter = output
@@ -168,6 +170,10 @@ class BookProfileViewController: UIViewController {
         configureView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.presenter.observeBookOwner(ownerId: book.ownerId!)
+    }
     
     /* Устанавливаем делегат для обратной связи между пресентером и вью */
     func setPresenter(){
@@ -272,9 +278,20 @@ class BookProfileViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
     }
     
+    func loadBookOwner(ownerProfile: Profile) {
+        self.ownerProfile = ownerProfile
+        
+        profileImage.image = ownerProfile.photo        //UIImage(named: "default")
+        userLabel.text = ownerProfile.name
+        
+        updateLayout()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+    }
+    
+    func updateLayout(){
         scrollView.pin
             .topLeft()
             .height(view.frame.height)
