@@ -21,9 +21,10 @@ protocol UserProfileViewControllerProtocol: AnyObject {
 protocol UserProfilePresenterProtocol: AnyObject {
     var currentBooks: [Book] { get set }
     var userProfile: Profile { get set }
+    //var userId: String { get set }
     
-    func observeBooks()
-    func observeUserProfile()
+    func observeBooks(userId: String)
+    func observeUserProfile(userId: String)
     
     func didTapTelegramLinkButton()
     func didTapInstagramLinkButton()
@@ -44,22 +45,19 @@ final class UserProfilePresenter: UserProfilePresenterProtocol {
 
     var currentBooks: [Book] = []
     
-    func observeBooks() {
+    func observeBooks(userId: String) {
         DispatchQueue.global().async {
             BookManager.shared.output = self
-            guard let userId = Auth.auth().currentUser?.uid else {
-                print("didn't register")
-                return
-            }
+            //guard let userId = Auth.auth().currentUser?.uid else { }
             BookManager.shared.observeOwnerIdBooks(id: userId)
         }
     }
     
     var userProfile: Profile = Profile.init(id: "", name: "", photoName: "", photo: nil, phoneNumber: nil, email: "", telegramLink: "", instagramLink: "")
     
-    func observeUserProfile() {
+    func observeUserProfile(userId: String) {
         UserManager.shared.output = self
-        guard let userId = Auth.auth().currentUser?.uid else { return }
+        //guard let userId = Auth.auth().currentUser?.uid else { return }
         UserManager.shared.observeUser(userId: userId)
     }
         

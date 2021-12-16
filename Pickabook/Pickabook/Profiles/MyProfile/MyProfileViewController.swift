@@ -176,14 +176,12 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return .init()
         }
         
-//        let book = profileBookList[indexPath.row]
         let book = self.output.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let book = profileBookList[indexPath.row]
         let book = self.output.currentBooks[indexPath.row]
         output.didTapOpenBook(book: book)
     }
