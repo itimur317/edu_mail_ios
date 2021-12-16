@@ -15,7 +15,7 @@ struct Profile {
     var photoName: String? //URL?
     var photo: UIImage?
     var phoneNumber: Int?
-    var email: String
+    var email: String?
     var telegramLink: String?
     var instagramLink: String?
     
@@ -27,14 +27,14 @@ struct Profile {
     
     init(id: String, name: String, photoName: String?, photo: UIImage?, phoneNumber: Int?, email: String?, telegramLink: String?, instagramLink: String?) {
         
-        self.id = ""//= Auth.auth().currentUser!.uid
-        self.name = "Init Data"
-        self.photoName = nil
-        self.photo = nil
-        self.phoneNumber = 404
-        self.email = "From MyProfileModel"
-        self.telegramLink = nil
-        self.instagramLink = nil
+        self.id = id
+        self.name = name
+        self.photoName = photoName
+        self.photo = UIImage(named: "default") // to do
+        self.phoneNumber = phoneNumber
+        self.email = email
+        self.telegramLink = telegramLink
+        self.instagramLink = instagramLink
         
     }
 

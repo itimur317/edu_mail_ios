@@ -111,8 +111,7 @@ final class BookManager : BookManagerProtocol {
     }
     
     func observeGenreBooks(genreName : String) {
-        
-        self.database.collection("Books").whereField("genre", isEqualTo: genreName).addSnapshotListener { [weak self] querySnapshot, error in
+        self.database.collection("Books").whereField("genre", isEqualTo: genreName).whereField("ownerId", isNotEqualTo: Auth.auth().currentUser?.uid).addSnapshotListener { [weak self] querySnapshot, error in
             
             if let error = error {
                 print("error in observe")

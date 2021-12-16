@@ -8,7 +8,7 @@
 import Foundation
 
 protocol BookViewPresenterProtocol: AnyObject {
-    func takeBookButtonAction()
+    func takeBookButtonAction(book: Book)
     func setViewDelegate(delegate: BookProfileViewController)
 }
 
@@ -20,8 +20,10 @@ final class BookViewPresenter: BookViewPresenterProtocol {
         self.delegate = delegate
     }
     
-    func takeBookButtonAction(){
-        print("нажата кнопка presenter")
-        delegate?.presentNextVC()
+    func takeBookButtonAction(book: Book){
+        let owner = UserManager.shared.findUser(userId: book.ownerId!)
+        print(owner)
+        print("otkrivaet presenter")
+        delegate?.presentNextVC(profile: owner)
     }
 }
