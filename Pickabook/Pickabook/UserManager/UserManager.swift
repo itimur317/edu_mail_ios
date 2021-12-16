@@ -168,16 +168,20 @@ private final class ProfileDataConverter {
         guard let dict = document.data(),
               let id = dict[Key.id.rawValue] as? String,
               let name = dict[Key.name.rawValue] as? String,
-              let phoneNumber = dict[Key.phoneNumber.rawValue] as? Int,
-              let email = dict[Key.email.rawValue] as? String,
-              let telegramLink = dict[Key.telegramLink.rawValue] as? String,
-              let instagramLink = dict[Key.instagramLink.rawValue] as? String
-//              let photoName = dict[Key.photoName.rawValue] as? String
+              let email = dict[Key.email.rawValue] as? String
+//            let photoName = dict[Key.photoName.rawValue] as? String
             else {
                 print("return nil")
                 return nil
                 }
         
+        var phoneNumber = dict[Key.phoneNumber.rawValue] as? String
+        var telegramLink = dict[Key.telegramLink.rawValue] as? String
+        var instagramLink = dict[Key.instagramLink.rawValue] as? String
+        
+        if dict[Key.phoneNumber.rawValue] == nil { phoneNumber = "" }
+        if dict[Key.telegramLink.rawValue] == nil { telegramLink = "" }
+        if dict[Key.instagramLink.rawValue] == nil { instagramLink = "" }
         //let photoURL = dict[Key.photoURL.rawValue] as? String
         //let photo = UIImage.init(data: photo1)
         let profileDataResult = Profile(id: id, name: name, photoName: nil, photo: nil, phoneNumber: phoneNumber, email: email, telegramLink: telegramLink, instagramLink: instagramLink)
