@@ -4,7 +4,6 @@
 //
 //  Created by Ульяна Цимбалистая on 04.12.2021.
 //
-
 import UIKit
 import PinLayout
 
@@ -263,7 +262,7 @@ class BookProfileViewController: UIViewController {
     
     func presentNextVC(profile: Profile){
         let presenterB = UserProfilePresenter()
-        let vc = UserProfileViewController(output: presenterB)
+        let vc = UserProfileViewController(output: presenterB, userId: book.ownerId!)
         
         
         print("anme")

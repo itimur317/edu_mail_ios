@@ -4,20 +4,23 @@
 //
 //  Created by Даниил Найко on 17.11.2021.
 //
-
 import UIKit
 import PinLayout
+import Firebase
 
 class UserProfileViewController : UIViewController {
     
-    func presentProfile(profiles: [Profile]) {}
+    //func presentProfile(profiles: [Profile]) {}
     func presentAlert(title: String, message: String) {}
     
     var output: UserProfilePresenterProtocol
-    var profile: Profile!
+    var userProfile: Profile!
+    var userId: String
     
-    init(output: UserProfilePresenterProtocol){
+    init(output: UserProfilePresenterProtocol, userId: String){
         self.output = output
+        self.userId = userId
+        //self.userProfile = profile
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -41,6 +44,8 @@ class UserProfileViewController : UIViewController {
      
     override func viewDidLoad() {
         super.viewDidLoad()
+        output.setViewDelegate(delegate: self)
+        
         view.backgroundColor = .white
         navigationItem.title = "Профиль пользователя"
         
@@ -48,12 +53,14 @@ class UserProfileViewController : UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .black
         
+        //фото профиля
         profileImageView.image = UIImage(named: "default")
         profileImageView.layer.cornerRadius = 60
         profileImageView.layer.masksToBounds = true
         view.addSubview(profileImageView)
         
-        profileName.text = "Name"
+        //имя в профиле
+        profileName.text = "Попуг Геночка"
         profileName.textAlignment = .center
         view.addSubview(profileName)
         
@@ -63,57 +70,56 @@ class UserProfileViewController : UIViewController {
 //        profileAboutInfo.textAlignment = .center
 //        view.addSubview(profileAboutInfo)
         
+        //почта
         profileMailAdress.text = "peekabook@peeka.book"
         profileMailAdress.font = profileMailAdress.font.withSize(14)
         profileMailAdress.textAlignment = .center
         view.addSubview(profileMailAdress)
         
+        //телефон
         profilePhoneNumber.text = "+5 55 55"
         profilePhoneNumber.font = profilePhoneNumber.font.withSize(14)
         profilePhoneNumber.textAlignment = .center
         view.addSubview(profilePhoneNumber)
         
+        //заголовок
         profileBookListTitle.text = "Книги на обмен"
         view.addSubview(profileBookListTitle)
         
+        //таблица с ячейками книг
         profileBookListTableView.dataSource = self
         profileBookListTableView.delegate = self
         profileBookListTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
         view.addSubview(profileBookListTableView)
         
+        //блок ссылок
         view.addSubview(linksView)
         profileTelegramLinkImageView.image = profileTelegramLinkIcon
         profileInstagramLinkImageView.image = profileInstagramLinkIcon
         linksView.addSubview(profileTelegramLinkImageView)
         linksView.addSubview(profileInstagramLinkImageView)
 
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.output.observeProfile()
-    }
-    
-    @objc func didTapTelegramLinkButton(_ sender: UIButton) {
-        self.output.didTapTelegramLinkButton()
-    }
-    @objc func didTapInstagramLinkButton(_ sender: UIButton) {
-        self.output.didTapInstagramLinkButton()
+        self.output.observeBooks(userId: userId)
+        self.output.observeUserProfile(userId: userId)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        //updateLayout()
     }
     
-    func updateLayout(){
+    func updateLayout() {
+        
         profileImageView.pin
             .top(view.pin.safeArea.top+12)
             //.below(of: UserProfileTitle).marginTop(10)
             //.top(50+26)
             .topCenter()
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
-
         profileName.pin
             .below(of: profileImageView).marginTop(10)
             .horizontally(12)
@@ -159,6 +165,7 @@ class UserProfileViewController : UIViewController {
             .below(of: profileBookListTitle).marginTop(3)
             .horizontally(12)
             .bottom(12)
+        
     }
 
 }
@@ -166,7 +173,7 @@ class UserProfileViewController : UIViewController {
 extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource {
     //количество строк
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return profileBookList.count
+        return self.output.currentBooks.count
     }
     //высота строки
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -179,29 +186,36 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
             return .init()
         }
         
-        let book = profileBookList[indexPath.row]
+        let book = self.output.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let book = profileBookList[indexPath.row]
+        let book = self.output.currentBooks[indexPath.row]
         output.didTapOpenBook(book: book)
     }
     
 }
 
+extension UserProfileViewController {
+    @objc func didTapTelegramLinkButton(_ sender: UIButton) {
+        self.output.didTapTelegramLinkButton()
+    }
+    @objc func didTapInstagramLinkButton(_ sender: UIButton) {
+        self.output.didTapInstagramLinkButton()
+    }
+}
+
 extension UserProfileViewController: UserProfileViewControllerProtocol {
     
-    func reloadProfile(profile: Profile) {
-        self.profile = profile
+    func reloadUserProfile(userProfile: Profile) {
+        self.userProfile = userProfile
         
-        profileImageView.image = profile.photo        //UIImage(named: "default")
-        profileName.text = profile.name               //"Попуг Олежа"
-        profileMailAdress.text = profile.email        //"peekabook@peeka.book"
-        //let phoneNumber = myProfile.phoneNumber!
-        //profilePhoneNumber.text = String(phoneNumber) //"+4 44 44"
-        profilePhoneNumber.text = profile.phoneNumber
+        profileImageView.image = userProfile.photo        //UIImage(named: "default")
+        profileName.text = userProfile.name               //"Попуг Олежа"
+        profileMailAdress.text = userProfile.email        //"peekabook@peeka.book"
+        profilePhoneNumber.text = userProfile.phoneNumber
         
         updateLayout()
     }

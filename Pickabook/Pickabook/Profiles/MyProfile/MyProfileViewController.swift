@@ -10,7 +10,7 @@ import Firebase
 
 class MyProfileViewController : UIViewController {
     
-    func presentProfile(profiles: [Profile]) {}
+    //func presentProfile(profiles: [Profile]) {}
     func presentAlert(title: String, message: String) {}
     
     var output: MyProfilePresenterProtocol
@@ -157,7 +157,6 @@ class MyProfileViewController : UIViewController {
 //    override func viewWillDisappear(_ animated: Bool) {
 //        Auth.auth().removeStateDidChangeListener(handle!)
 //    }
-
 }
 
 extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
@@ -176,14 +175,12 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return .init()
         }
         
-//        let book = profileBookList[indexPath.row]
         let book = self.output.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let book = profileBookList[indexPath.row]
         let book = self.output.currentBooks[indexPath.row]
         output.didTapOpenBook(book: book)
     }
@@ -232,10 +229,10 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
 }
 
 //extension MyProfileViewController : UserManagerOutput {
-//    
+//
 //    func didRecieve(_ user: Profile) { }
 //    func didCreate(_ user: Profile) { }
 //    func didFail(with error: Error) { }
-//    
-//    UserManager.shared.getMyProfileData() 
+//
+//    UserManager.shared.getMyProfileData()
 //}
