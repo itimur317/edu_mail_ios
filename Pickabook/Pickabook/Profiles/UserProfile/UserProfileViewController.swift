@@ -7,6 +7,7 @@
 
 import UIKit
 import PinLayout
+import Firebase
 
 class UserProfileViewController : UIViewController {
     
@@ -16,7 +17,7 @@ class UserProfileViewController : UIViewController {
     var output: UserProfilePresenterProtocol
     var userProfile: Profile!
     
-    init(output: UserProfilePresenterProtocol, profile: Profile){
+    init(output: UserProfilePresenterProtocol){
         self.output = output
         //self.userProfile = profile
         super.init(nibName: nil, bundle: nil)
@@ -42,6 +43,8 @@ class UserProfileViewController : UIViewController {
      
     override func viewDidLoad() {
         super.viewDidLoad()
+        output.setViewDelegate(delegate: self)
+        
         view.backgroundColor = .white
         navigationItem.title = "Профиль пользователя"
         
@@ -49,11 +52,13 @@ class UserProfileViewController : UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .black
         
+        //фото профиля
         profileImageView.image = UIImage(named: "default")
         profileImageView.layer.cornerRadius = 60
         profileImageView.layer.masksToBounds = true
         view.addSubview(profileImageView)
         
+        //имя в профиле
         profileName.text = "Попуг Геночка"
         profileName.textAlignment = .center
         view.addSubview(profileName)
@@ -64,38 +69,35 @@ class UserProfileViewController : UIViewController {
 //        profileAboutInfo.textAlignment = .center
 //        view.addSubview(profileAboutInfo)
         
+        //почта
         profileMailAdress.text = "peekabook@peeka.book"
         profileMailAdress.font = profileMailAdress.font.withSize(14)
         profileMailAdress.textAlignment = .center
         view.addSubview(profileMailAdress)
         
+        //телефон
         profilePhoneNumber.text = "+5 55 55"
         profilePhoneNumber.font = profilePhoneNumber.font.withSize(14)
         profilePhoneNumber.textAlignment = .center
         view.addSubview(profilePhoneNumber)
         
+        //заголовок
         profileBookListTitle.text = "Книги на обмен"
         view.addSubview(profileBookListTitle)
         
+        //таблица с ячейками книг
         profileBookListTableView.dataSource = self
         profileBookListTableView.delegate = self
         profileBookListTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
         view.addSubview(profileBookListTableView)
         
+        //блок ссылок
         view.addSubview(linksView)
         profileTelegramLinkImageView.image = profileTelegramLinkIcon
         profileInstagramLinkImageView.image = profileInstagramLinkIcon
         linksView.addSubview(profileTelegramLinkImageView)
         linksView.addSubview(profileInstagramLinkImageView)
 
-        
-    }
-    
-    @objc func didTapTelegramLinkButton(_ sender: UIButton) {
-        self.output.didTapTelegramLinkButton()
-    }
-    @objc func didTapInstagramLinkButton(_ sender: UIButton) {
-        self.output.didTapInstagramLinkButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -184,7 +186,7 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
             return .init()
         }
         
-        let book = profileBookList[indexPath.row]
+        let book = self.output.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell
     }
@@ -194,6 +196,15 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
         output.didTapOpenBook(book: book)
     }
     
+}
+
+extension UserProfileViewController {
+    @objc func didTapTelegramLinkButton(_ sender: UIButton) {
+        self.output.didTapTelegramLinkButton()
+    }
+    @objc func didTapInstagramLinkButton(_ sender: UIButton) {
+        self.output.didTapInstagramLinkButton()
+    }
 }
 
 extension UserProfileViewController: UserProfileViewControllerProtocol {
