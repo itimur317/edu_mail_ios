@@ -59,7 +59,7 @@ final class MyProfilePresenter: MyProfilePresenterProtocol {
         }
     }
     
-    var myProfile: Profile = Profile.init(id: "", name: "", photoName: "", photo: nil, phoneNumber: nil, email: "", telegramLink: "", instagramLink: "")
+    var myProfile: Profile = Profile.init(id: "", name: "", photoName: "", photo: nil, phoneNumber: "", email: "", telegramLink: "", instagramLink: "")
     
     func observeMyProfile() {
         UserManager.shared.output = self

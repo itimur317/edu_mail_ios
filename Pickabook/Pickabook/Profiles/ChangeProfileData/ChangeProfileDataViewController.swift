@@ -12,6 +12,7 @@ import FirebaseAuth
 class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewControllerProtocol {
 
     var output: ChangeProfileDataPresenterProtocol
+    var myProfile: Profile!
     init(output: ChangeProfileDataPresenterProtocol){
         self.output = output
         super.init(nibName: nil, bundle: nil)
@@ -98,8 +99,8 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
         nameLabel.text = "Имя"
         emailAdressLabel.text = "Электронная почта"
         phoneNumberLabel.text = "Номер телефона"
-        telegramLinkLabel.text = "Ссылка на аккаунт в Telegram"
-        instagramLinkLabel.text = "Ссылка на аккаунт в Instagram"
+        telegramLinkLabel.text = "Ник в Telegram"
+        instagramLinkLabel.text = "Ник в Instagram"
         
         [nameLabel, emailAdressLabel, phoneNumberLabel, telegramLinkLabel, instagramLinkLabel].forEach { label in
             label.font = UIFont.systemFont(ofSize: CGFloat(lableFontSize))
@@ -108,10 +109,29 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
         
 //          textFields
         nameTextField.text = "Попуг Олежа"
+        nameTextField.placeholder = "Введите имя"
+        nameTextField.autocorrectionType = UITextAutocorrectionType.no
+        
         emailAdressTextField.text = "peekabook@peeka.book"
+        emailAdressTextField.placeholder = "Адрес электронной почты"
+        emailAdressTextField.autocorrectionType = UITextAutocorrectionType.no
+        emailAdressTextField.keyboardType = UIKeyboardType.emailAddress
+        emailAdressTextField.autocapitalizationType = .none
+        
         phoneNumberTextField.text = "+4 44 44"
+        phoneNumberTextField.placeholder = "Ваш номер телефона"
+        phoneNumberTextField.keyboardType = UIKeyboardType.phonePad
+        phoneNumberTextField.delegate = self
+        
         telegramLinkTextField.text = "https://t.me/"
+        telegramLinkTextField.placeholder = "Ваш ник в Telegram"
+        telegramLinkTextField.autocorrectionType = UITextAutocorrectionType.no
+        telegramLinkTextField.autocapitalizationType = .none
+        
         instagramLinkTextField.text = "https://www.instagram.com/"
+        instagramLinkTextField.placeholder = "Ваш ник в Instagram"
+        instagramLinkTextField.autocorrectionType = UITextAutocorrectionType.no
+        instagramLinkTextField.autocapitalizationType = .none
         
         [nameTextField, emailAdressTextField, phoneNumberTextField, telegramLinkTextField, instagramLinkTextField].forEach { textField in
             textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
@@ -134,9 +154,18 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.output.observeMyProfile()
+    }
+    
     override func viewDidLayoutSubviews() {
         super .viewDidLayoutSubviews()
-                
+        //updateLayout()
+    }
+    
+    func updateLayout() {
+        
         scrollView.pin
             .topLeft()
             .height(view.frame.height)
@@ -211,6 +240,15 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
             .height(50)
             .left(view.frame.width / 2 - 100)
 
+    }
+}
+
+//только цифры в номере телефона
+extension ChangeProfileDataViewController : UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let allowedCharacters = CharacterSet.decimalDigits
+        let characterSet = CharacterSet(charactersIn: string)
+        return allowedCharacters.isSuperset(of: characterSet)
     }
 }
 
@@ -305,5 +343,26 @@ extension ChangeProfileDataViewController : UIImagePickerControllerDelegate, UIN
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ChangeProfileDataViewController {
+    func reloadMyProfile(myProfile: Profile) {
+        self.myProfile = myProfile
+        
+        //profileImageView.image = myProfile.photo
+        nameTextField.text = myProfile.name
+        emailAdressTextField.text = myProfile.email
+        phoneNumberTextField.text = myProfile.phoneNumber
+        
+        var telegramLink = myProfile.telegramLink
+        telegramLink = telegramLink?.replacingOccurrences(of: "https://t.me/", with: "")
+        telegramLinkTextField.text = telegramLink
+    
+        var instagramLink = myProfile.instagramLink
+        instagramLink = instagramLink?.replacingOccurrences(of: "https://www.instagram.com/", with: "")
+        instagramLinkTextField.text = instagramLink
+        
+        updateLayout()
     }
 }
