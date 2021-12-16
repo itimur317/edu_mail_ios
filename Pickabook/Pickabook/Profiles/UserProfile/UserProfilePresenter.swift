@@ -4,6 +4,7 @@
 //
 //  Created by Даниил Найко on 17.11.2021.
 //
+
 import Foundation
 import FirebaseFirestore
 import FirebaseAuth //need be deleted
@@ -106,3 +107,4 @@ extension UserProfilePresenter : UserManagerOutput {
     func didCreate(_ user: Profile) { }
     
 }
+

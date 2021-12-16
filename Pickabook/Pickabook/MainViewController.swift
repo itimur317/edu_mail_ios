@@ -6,12 +6,14 @@
 //
 
 import UIKit
+//import FirebaseAuth
 
 class MainViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //try? Auth.auth().signOut()
+
         let genrePresenter = GenreCollectionViewPresenter()
         let genresVC = UINavigationController(rootViewController: GenreCollectionViewController(output: genrePresenter))
         genresVC.tabBarItem.image = UIImage(named: "SearchViewIcon")
