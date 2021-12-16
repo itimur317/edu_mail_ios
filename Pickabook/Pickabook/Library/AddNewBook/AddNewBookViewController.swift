@@ -779,7 +779,7 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     }
     
     func presentLoadingAlert() {
-        let alert = UIAlertController(title: nil, message: "Загружаем книгу...", preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: "Добавляем книгу...", preferredStyle: .alert)
 
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
         loadingIndicator.hidesWhenStopped = true
