@@ -105,7 +105,7 @@ extension LibraryViewController: LibraryViewControllerProtocol {
     
     func didTapOpenBook(book: Book) {
         let bookViewPresenter = BookViewPresenter()
-        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book)
+        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book, owned: true)
         navigationController?.pushViewController(bookProfileViewController, animated: true)
         navigationController?.navigationBar.tintColor = .black
         //bookViewPresenter.view = bookProfileViewController

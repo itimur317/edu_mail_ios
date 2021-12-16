@@ -14,8 +14,11 @@ class UserProfileViewController : UIViewController {
     func presentAlert(title: String, message: String) {}
     
     var output: UserProfilePresenterProtocol
-    init(output: UserProfilePresenterProtocol){
+    let profile: Profile!
+    
+    init(output: UserProfilePresenterProtocol, profile: Profile){
         self.output = output
+        self.profile = profile
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -51,7 +54,7 @@ class UserProfileViewController : UIViewController {
         profileImageView.layer.masksToBounds = true
         view.addSubview(profileImageView)
         
-        profileName.text = "Попуг Геночка"
+        profileName.text = profile.name
         profileName.textAlignment = .center
         view.addSubview(profileName)
         
@@ -194,7 +197,7 @@ extension UserProfileViewController: UserProfileViewControllerProtocol {
     
     func openBook(book: Book) {
         let bookViewPresenter = BookViewPresenter()
-        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book)
+        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book, owned: true)
         navigationController?.pushViewController(bookProfileViewController, animated: true)
         //bookViewPresenter.view = bookProfileViewController
     }

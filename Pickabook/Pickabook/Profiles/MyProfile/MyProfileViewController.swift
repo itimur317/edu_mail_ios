@@ -222,7 +222,7 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
     
     func openBook(book: Book) {
         let bookViewPresenter = BookViewPresenter()
-        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book)
+        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book, owned: true)
         navigationController?.pushViewController(bookProfileViewController, animated: true)
         //bookViewPresenter.view = bookProfileViewController
     }
