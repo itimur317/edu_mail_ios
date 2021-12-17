@@ -15,11 +15,15 @@ class UserProfileViewController : UIViewController {
     
     var output: UserProfilePresenterProtocol
     var userProfile: Profile!
+    var telegramUrl: URL? //= URL(string: "")!
+    var instagramUrl: URL? //= URL(string: "")!
     var userId: String
     
     init(output: UserProfilePresenterProtocol, userId: String){
         self.output = output
         self.userId = userId
+        self.telegramUrl = URL(string: "")
+        self.instagramUrl = URL(string: "")
         //self.userProfile = profile
         super.init(nibName: nil, bundle: nil)
     }
@@ -45,6 +49,9 @@ class UserProfileViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         output.setViewDelegate(delegate: self)
+        
+        let telegramTapGesture = UITapGestureRecognizer(target: self, action: #selector(UserProfileViewController.telegramImageTapped(gesture: )))
+        let instagramTapGesture = UITapGestureRecognizer(target: self, action: #selector(UserProfileViewController.instagramImageTapped(gesture: )))
         
         view.backgroundColor = .white
         navigationItem.title = "Профиль пользователя"
@@ -98,6 +105,13 @@ class UserProfileViewController : UIViewController {
         profileInstagramLinkImageView.image = profileInstagramLinkIcon
         linksView.addSubview(profileTelegramLinkImageView)
         linksView.addSubview(profileInstagramLinkImageView)
+        
+        //распознание нажатий
+        profileTelegramLinkImageView.addGestureRecognizer(telegramTapGesture)
+        profileInstagramLinkImageView.addGestureRecognizer(instagramTapGesture)
+
+        profileTelegramLinkImageView.isUserInteractionEnabled = true
+        profileInstagramLinkImageView.isUserInteractionEnabled = true
 
     }
     
@@ -217,6 +231,11 @@ extension UserProfileViewController: UserProfileViewControllerProtocol {
         profileMailAdress.text = userProfile.email        //"peekabook@peeka.book"
         profilePhoneNumber.text = userProfile.phoneNumber
         
+        let telLink = userProfile.telegramLink ?? ""
+        telegramUrl = URL(string: telLink)
+        let instLink = userProfile.instagramLink ?? ""
+        instagramUrl = URL(string: instLink)
+        
         updateLayout()
     }
     
@@ -238,4 +257,24 @@ extension UserProfileViewController: UserProfileViewControllerProtocol {
         //bookViewPresenter.view = bookProfileViewController
     }
 
+}
+
+extension UserProfileViewController {
+    @objc func telegramImageTapped(gesture: UIGestureRecognizer) {
+        // if the tapped view is a UIImageView then set it to imageview
+        if (gesture.view as? UIImageView) != nil {
+            print("Telegram Image Tapped")
+            print(telegramUrl)
+            UIApplication.shared.open(telegramUrl!)
+        }
+    }
+    
+    @objc func instagramImageTapped(gesture: UIGestureRecognizer) {
+        // if the tapped view is a UIImageView then set it to imageview
+        if (gesture.view as? UIImageView) != nil {
+            print("Instagram Image Tapped")
+            print(instagramUrl)
+            UIApplication.shared.open(instagramUrl!)
+        }
+    }
 }
