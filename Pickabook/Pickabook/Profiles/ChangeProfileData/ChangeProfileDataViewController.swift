@@ -274,6 +274,18 @@ extension ChangeProfileDataViewController {
         //navigationController?.pushViewController(authorizationViewController, animated: true)
     }
     
+    @objc func didTapSaveButton() {
+        let newData = Profile.init( id: "",
+                                    name: nameTextField.text!,
+                                    photoName: "",
+                                    photo: profileImageView.image,
+                                    phoneNumber: phoneNumberTextField.text,
+                                    email: emailAdressTextField.text,
+                                    telegramLink: telegramLinkTextField.text,
+                                    instagramLink: instagramLinkTextField.text)
+        self.output.replaceDatabaseData(with: newData)
+    }
+    
     @objc
     private func didTapAddPhotoButton(_ sender: UIButton) {
         self.output.didTapAddPhotoButton()
