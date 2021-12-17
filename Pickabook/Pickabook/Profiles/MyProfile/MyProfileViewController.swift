@@ -6,7 +6,7 @@
 //
 import UIKit
 import PinLayout
-import Firebase
+import FirebaseAuth
 
 class MyProfileViewController : UIViewController {
     
@@ -54,7 +54,8 @@ class MyProfileViewController : UIViewController {
         
 //        title and top right button
         navigationItem.title = "Мой профиль"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(didTapChangeProfileDataButton(_ :)))
+        //navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(didTapChangeProfileDataButton(_ :)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Выйти", style: .plain, target: self, action: #selector(didTapLogoutButton(_ :)))
         
         //фото профиля
         profileImageView.image = UIImage(named: "default")
@@ -236,3 +237,17 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
 //
 //    UserManager.shared.getMyProfileData()
 //}
+
+
+
+extension MyProfileViewController {
+    @objc private func didTapLogoutButton(_ sender: UIButton) {
+        //разлогинься
+        try? Auth.auth().signOut()
+        //перенаправление на экран авторизации
+        let authorizationPresenter = AuthorizationPresenter()
+        let authorizationViewController = AuthorizationViewController(output: authorizationPresenter)
+        Coordinator.rootVC(vc: authorizationViewController)
+        //navigationController?.pushViewController(authorizationViewController, animated: true)
+    }
+}
