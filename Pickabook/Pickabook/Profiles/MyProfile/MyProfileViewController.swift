@@ -247,7 +247,9 @@ extension MyProfileViewController {
         //перенаправление на экран авторизации
         let authorizationPresenter = AuthorizationPresenter()
         let authorizationViewController = AuthorizationViewController(output: authorizationPresenter)
-        Coordinator.rootVC(vc: authorizationViewController)
+        authorizationPresenter.view = authorizationViewController
+        Coordinator.rootVC(vc: UINavigationController(rootViewController: authorizationViewController))
+        
         //navigationController?.pushViewController(authorizationViewController, animated: true)
     }
 }
