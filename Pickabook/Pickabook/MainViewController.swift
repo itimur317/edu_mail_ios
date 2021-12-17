@@ -26,19 +26,6 @@ class MainViewController: UITabBarController {
         myProfileVC.tabBarItem.image = UIImage(named: "ProfileViewIcon")
         myProfileVC.title = ""
         
-//        let favoritesVC = TestFavVC()
-//        favoritesVC.tabBarItem.image = UIImage(named: "FavViewIcon")
-//        favoritesVC.title = ""
-        
-//        let addPresenter = AddNewBookPresenter()
-//        let addViewController = AddNewBookViewController(output: addPresenter)
-//        let addVC = UINavigationController(rootViewController: addViewController)
-//        addPresenter.view = addViewController
-//        addVC.tabBarItem.image = UIImage(named: "AddViewIcon")
-//        addVC.title = ""
-    
-        // LibraryViewController
-        
         let libraryPresenter = LibraryPresenter()
         let libraryViewController = LibraryViewController(presenter: libraryPresenter)
         let libraryVC = UINavigationController(rootViewController: libraryViewController)

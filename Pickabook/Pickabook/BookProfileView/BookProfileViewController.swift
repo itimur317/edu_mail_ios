@@ -17,6 +17,8 @@ class BookProfileViewController: UIViewController {
     /* Владелец книги */
     var ownerProfile: Profile!
     
+    var length : CGFloat = 0
+    
     init(output: BookViewPresenterProtocol, book: Book, owned: Bool){
         self.presenter = output
         self.book = book
@@ -225,10 +227,12 @@ class BookProfileViewController: UIViewController {
         authorLabel.text = book.bookAuthor
         scrollView.addSubview(authorLabel)
         
+        
         genreLabel.text = book.bookGenres.name
         genreLabel.sizeToFit()
         genreLabel.textColor = .white
         genreLabel.backgroundColor = book.bookGenres.color
+        length = self.genreLabel.frame.width
         scrollView.addSubview(genreLabel)
         
         descriptionLabel.text = book.bookDescription
@@ -316,7 +320,7 @@ class BookProfileViewController: UIViewController {
             .below(of: authorLabel)
             .marginTop(10)
             .left(15)
-            .width(self.genreLabel.frame.width + 20)
+            .width(length + 20)
             .height(30)
         
         descriptionLabel.pin
@@ -333,44 +337,44 @@ class BookProfileViewController: UIViewController {
             .height(23)
         
         stars[0].pin
-            .width(32)
+            .width(28)
             .after(of: conditionLabel)
             .marginLeft(3)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         stars[1].pin
-            .width(32)
+            .width(28)
             .after(of: stars[0])
-            .marginLeft(3)
+            .marginLeft(1)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         stars[2].pin
-            .width(32)
+            .width(28)
             .after(of: stars[1])
-            .marginLeft(3)
+            .marginLeft(1)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         stars[3].pin
-            .width(32)
+            .width(28)
             .after(of: stars[2])
-            .marginLeft(3)
+            .marginLeft(1)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         stars[4].pin
-            .width(32)
+            .width(28)
             .after(of: stars[3])
-            .marginLeft(3)
+            .marginLeft(1)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         profileImage.pin
             .below(of: stars[4])
