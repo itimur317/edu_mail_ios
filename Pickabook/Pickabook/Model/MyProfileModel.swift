@@ -39,5 +39,5 @@ struct Profile {
         self.instagramLink = instagramLink
         
     }
-
+    
 }

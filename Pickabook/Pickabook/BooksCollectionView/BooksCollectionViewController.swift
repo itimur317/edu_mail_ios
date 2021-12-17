@@ -57,7 +57,7 @@ class BooksCollectionViewController: UICollectionViewController {
         let owned = checkOwner(selectedBook: selectedBook)
         let vc = BookProfileViewController(output: presenterB, book: selectedBook, owned: owned)
         self.navigationController?.pushViewController(vc, animated: true)
-       
+        
         vc.navigationController?.navigationBar.tintColor = .black
         vc.modalPresentationStyle = .fullScreen
     }
@@ -85,7 +85,7 @@ extension BooksCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-           let book = self.presenter.currentBooks[indexPath.row]
-           presenter.chosedBook(book: book)
-       }
+        let book = self.presenter.currentBooks[indexPath.row]
+        presenter.chosedBook(book: book)
+    }
 }

@@ -19,7 +19,7 @@ protocol MyProfileViewControllerProtocol: AnyObject {
     func openBook(book: Book)
     //func loadProfileData(profileData: Profile)
 }
- 
+
 protocol MyProfilePresenterProtocol: AnyObject {
     
     var currentBooks: [Book] { get set }
@@ -35,8 +35,8 @@ protocol MyProfilePresenterProtocol: AnyObject {
     //func didLoadProfileData()
     //func didFail(with error: Error)
 }
- 
- 
+
+
 final class MyProfilePresenter: MyProfilePresenterProtocol {
     
     public func setViewDelegate(delegate: MyProfileViewControllerProtocol) {

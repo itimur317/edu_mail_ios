@@ -60,7 +60,7 @@ class GenreCollectionViewController: UICollectionViewController {
         let presenterB = BooksCollectionViewPresenter()
         let vc = BooksCollectionViewController(output: presenterB, genre: genre)
         self.navigationController?.pushViewController(vc, animated: true)
-   
+        
         vc.navigationController?.navigationBar.tintColor = .black
         vc.modalPresentationStyle = .fullScreen
         vc.title = "\(genre.name)"

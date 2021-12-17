@@ -27,7 +27,7 @@ class UserProfileViewController : UIViewController {
         //self.userProfile = profile
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -45,7 +45,7 @@ class UserProfileViewController : UIViewController {
     var profileInstagramLinkIcon = UIImage(named: "instagramIcon")
     let profileTelegramLinkImageView = UIImageView()
     let profileInstagramLinkImageView = UIImageView()
-     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         output.setViewDelegate(delegate: self)
@@ -56,7 +56,7 @@ class UserProfileViewController : UIViewController {
         view.backgroundColor = .white
         navigationItem.title = "Профиль пользователя"
         
-//        back button
+        //        back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .black
         
@@ -71,11 +71,11 @@ class UserProfileViewController : UIViewController {
         profileName.textAlignment = .center
         view.addSubview(profileName)
         
-//        profileAboutInfo.text = "Кулинарные книги не предлагать"
-//        //profileAboutInfo.textAlignment = .justified // выравнять  по ширине
-//        //profileAboutInfo.size
-//        profileAboutInfo.textAlignment = .center
-//        view.addSubview(profileAboutInfo)
+        //        profileAboutInfo.text = "Кулинарные книги не предлагать"
+        //        //profileAboutInfo.textAlignment = .justified // выравнять  по ширине
+        //        //profileAboutInfo.size
+        //        profileAboutInfo.textAlignment = .center
+        //        view.addSubview(profileAboutInfo)
         
         //почта
         profileMailAdress.text = "peekabook@peeka.book"
@@ -109,10 +109,10 @@ class UserProfileViewController : UIViewController {
         //распознание нажатий
         profileTelegramLinkImageView.addGestureRecognizer(telegramTapGesture)
         profileInstagramLinkImageView.addGestureRecognizer(instagramTapGesture)
-
+        
         profileTelegramLinkImageView.isUserInteractionEnabled = true
         profileInstagramLinkImageView.isUserInteractionEnabled = true
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -130,8 +130,8 @@ class UserProfileViewController : UIViewController {
         
         profileImageView.pin
             .top(view.pin.safeArea.top+12)
-            //.below(of: UserProfileTitle).marginTop(10)
-            //.top(50+26)
+        //.below(of: UserProfileTitle).marginTop(10)
+        //.top(50+26)
             .topCenter()
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
         profileName.pin
@@ -139,10 +139,10 @@ class UserProfileViewController : UIViewController {
             .horizontally(12)
             .height(28)
         
-//        profileAboutInfo.pin
-//            .below(of: profileName).marginTop(0)
-//            .horizontally(12)
-//            .height(50)
+        //        profileAboutInfo.pin
+        //            .below(of: profileName).marginTop(0)
+        //            .horizontally(12)
+        //            .height(50)
         
         profileMailAdress.pin
             .below(of: profileName).marginTop(-4)
@@ -160,15 +160,15 @@ class UserProfileViewController : UIViewController {
             .width(100)
             .height(36)
         
-            profileTelegramLinkImageView.pin
-                .top(0)
-                .left(0)
-                .size(linksView.frame.height)
-            
-            profileInstagramLinkImageView.pin
-                .top(0)
-                .right(0)
-                .size(linksView.frame.height)
+        profileTelegramLinkImageView.pin
+            .top(0)
+            .left(0)
+            .size(linksView.frame.height)
+        
+        profileInstagramLinkImageView.pin
+            .top(0)
+            .right(0)
+            .size(linksView.frame.height)
         
         profileBookListTitle.pin
             .below(of: linksView).marginTop(12)
@@ -181,7 +181,7 @@ class UserProfileViewController : UIViewController {
             .bottom(12)
         
     }
-
+    
 }
 
 extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource {
@@ -265,7 +265,7 @@ extension UserProfileViewController: UserProfileViewControllerProtocol {
         navigationController?.pushViewController(bookProfileViewController, animated: true)
         //bookViewPresenter.view = bookProfileViewController
     }
-
+    
 }
 
 extension UserProfileViewController {

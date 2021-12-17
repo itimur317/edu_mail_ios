@@ -10,18 +10,18 @@ import PinLayout
 import FirebaseAuth
 
 class AuthorizationViewController : UIViewController {
-
+    
     var output: AuthorizationPresenterProtocol
     init(output: AuthorizationPresenterProtocol){
         self.output = output
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-//для удобной верстки
+    //для удобной верстки
     private let lableFontSize = 16
     private let textFieldFontSize = 14
     
@@ -29,7 +29,7 @@ class AuthorizationViewController : UIViewController {
     private let textFieldHeight = 32
     
     private let textFieldCornerRadius = 14
-//
+    //
     let scrollView = UIScrollView()
     
     let appIconImage = UIImage(named: "logo")
@@ -59,12 +59,12 @@ class AuthorizationViewController : UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: 446 /*+ 500*/) // need changes
         view.addSubview(scrollView)
         
-//          image
+        //          image
         //appIconImage?.size = 180
         appIconImageView.image = appIconImage
         scrollView.addSubview(appIconImageView)
         
-//          labels
+        //          labels
         loginLabel.text = "Электронная почта"
         passwordLabel.text = "Пароль"
         [loginLabel, passwordLabel].forEach { label in
@@ -72,7 +72,7 @@ class AuthorizationViewController : UIViewController {
             scrollView.addSubview(label)
         }
         
-//          textFields
+        //          textFields
         loginTextField.placeholder = "Адрес электронной почты"
         loginTextField.keyboardType = UIKeyboardType.emailAddress
         loginTextField.autocorrectionType = UITextAutocorrectionType.no
@@ -80,7 +80,7 @@ class AuthorizationViewController : UIViewController {
         
         passwordTextField.placeholder = "Введите пароль"
         passwordTextField.isSecureTextEntry = true
-
+        
         
         [loginTextField, passwordTextField].forEach { textField in
             textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
@@ -91,8 +91,8 @@ class AuthorizationViewController : UIViewController {
             textField.backgroundColor = .systemGray6
             scrollView.addSubview(textField)
         }
-
-//        кнопки входа и регистрации
+        
+        //        кнопки входа и регистрации
         //seveButton.titleLabel?.font = backButton.titleLabel?.font.withSize(10)
         
         authButton.setTitle("Войти", for: .normal)
@@ -113,7 +113,7 @@ class AuthorizationViewController : UIViewController {
             scrollView.addSubview(button)
         }
         
-//        лейбл "или"
+        //        лейбл "или"
         orLabel.text = "Нет аккаунта?"
         orLabel.textAlignment = .center
         scrollView.addSubview(orLabel)
@@ -122,19 +122,19 @@ class AuthorizationViewController : UIViewController {
     
     override func viewDidLayoutSubviews() {
         super .viewDidLayoutSubviews()
-                
+        
         scrollView.pin
             .top(view.pin.safeArea.top)
             .width(view.frame.width)
             .bottom(view.pin.safeArea.bottom)
-              
-//         image
+        
+        //         image
         appIconImageView.pin
             .top()
             .topCenter()
             .size(180)
         
-//        login
+        //        login
         loginLabel.pin
             .below(of: appIconImageView)//.marginTop(10)
             .horizontally(12)
@@ -145,7 +145,7 @@ class AuthorizationViewController : UIViewController {
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
         
-//        password
+        //        password
         passwordLabel.pin
             .below(of: loginTextField).marginTop(10)
             .horizontally(12)
@@ -156,26 +156,26 @@ class AuthorizationViewController : UIViewController {
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
         
-//        кнопка сохранения
+        //        кнопка сохранения
         authButton.pin
             .below(of: passwordTextField).marginTop(18)
             .horizontally(12)
             .height(46)
         
-//        or label
+        //        or label
         orLabel.pin
             .below(of: authButton).marginTop(18)
             .left(12)
             .right(view.frame.width/2+12/2)
             .height(CGFloat(textFieldHeight))
-
-//        кнопка registration
+        
+        //        кнопка registration
         regButton.pin
             .below(of: authButton).marginTop(18)
             .left(view.frame.width/2+12/2)
             .right(12)
             .height(CGFloat(textFieldHeight))
-
+        
     }
 }
 
@@ -206,7 +206,7 @@ extension AuthorizationViewController: AuthorizationViewControllerProtocol {
 extension AuthorizationViewController {
     @objc
     private func didTapAuthButton(_ sender: UIButton) {
-       
+        
         guard let email = loginTextField.text,
               let password = passwordTextField.text
         else { return }
@@ -229,11 +229,11 @@ extension AuthorizationViewController {
         //navigationController?.pushViewController(mainViewController, animated: true)
     }
     
-//    override func viewWillDisappear(_ animated: Bool) {
-//        if Auth.auth().currentUser?.isAnonymous != nil {
-//                self.navigationController?.isNavigationBarHidden = true
-//        }
-//    }
+    //    override func viewWillDisappear(_ animated: Bool) {
+    //        if Auth.auth().currentUser?.isAnonymous != nil {
+    //                self.navigationController?.isNavigationBarHidden = true
+    //        }
+    //    }
 }
 
 //extension AuthorizationViewController: AuthorizationViewControllerProtocol {
@@ -247,7 +247,7 @@ extension AuthorizationViewController {
 //    }
 //}
 
-    //в мейн вью контроллере
+//в мейн вью контроллере
 //let authorizationPresenter = AuthorizationPresenter()
 //let authorizationViewController = AuthorizationViewController(output: authorizationPresenter)
 //let authorizationVC = UINavigationController(rootViewController: authorizationViewController)
@@ -255,5 +255,5 @@ extension AuthorizationViewController {
 //authorizationVC.tabBarItem.image = UIImage(named: "AddViewIcon")
 //authorizationVC.title = ""
 
-    //там же поправить
+//там же поправить
 //self.setViewControllers([authorizationVC, genresVC, libraryVC, myProfileVC], animated: false)

@@ -11,7 +11,7 @@ import UIKit
 class Coordinator {
     static func rootVC(vc: UIViewController) {
         let sceneDelegate = UIApplication.shared.connectedScenes
-                .first!.delegate as! SceneDelegate
+            .first!.delegate as! SceneDelegate
         //sceneDelegate.window!.rootViewController = UINavigationController(rootViewController: vc)
         sceneDelegate.window!.rootViewController = vc
         sceneDelegate.window!.makeKeyAndVisible()

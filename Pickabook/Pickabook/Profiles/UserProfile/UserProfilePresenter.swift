@@ -17,7 +17,7 @@ protocol UserProfileViewControllerProtocol: AnyObject {
     func changeProfileDataView()
     func openBook(book: Book)
 }
- 
+
 protocol UserProfilePresenterProtocol: AnyObject {
     var currentBooks: [Book] { get set }
     var userProfile: Profile { get set }
@@ -32,8 +32,8 @@ protocol UserProfilePresenterProtocol: AnyObject {
     
     func setViewDelegate(delegate: UserProfileViewControllerProtocol)
 }
- 
- 
+
+
 final class UserProfilePresenter: UserProfilePresenterProtocol {
     
     public func setViewDelegate(delegate: UserProfileViewControllerProtocol) {
@@ -42,7 +42,7 @@ final class UserProfilePresenter: UserProfilePresenterProtocol {
     
     weak var view: UserProfileViewControllerProtocol?
     private let database = Firestore.firestore()
-
+    
     var currentBooks: [Book] = []
     
     func observeBooks(userId: String) {
@@ -60,7 +60,7 @@ final class UserProfilePresenter: UserProfilePresenterProtocol {
         //guard let userId = Auth.auth().currentUser?.uid else { return }
         UserManager.shared.observeUser(userId: userId)
     }
-        
+    
     func didTapOpenBook(book: Book) {
         self.view?.openBook(book:  book)
     }

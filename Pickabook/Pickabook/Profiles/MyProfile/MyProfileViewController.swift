@@ -15,7 +15,7 @@ class MyProfileViewController : UIViewController {
     
     var output: MyProfilePresenterProtocol
     var myProfile: Profile!
-
+    
     init(output: MyProfilePresenterProtocol/*, myProfile: Profile*/){
         self.output = output
         super.init(nibName: nil, bundle: nil)
@@ -25,7 +25,7 @@ class MyProfileViewController : UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    var handle: AuthStateDidChangeListenerHandle?
+    //    var handle: AuthStateDidChangeListenerHandle?
     let profileImageView = UIImageView()
     
     let profileName = UILabel()
@@ -35,8 +35,8 @@ class MyProfileViewController : UIViewController {
     let profileBookListTableView = UITableView()
     let profileBookList = books
     let libraryIsEmpty = UILabel()
-
-
+    
+    
     //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
     //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
     //let profileAboutInfo = UITextView() //can be added
@@ -50,11 +50,11 @@ class MyProfileViewController : UIViewController {
         output.setViewDelegate(delegate: self)
         
         view.backgroundColor = .white
-//        back button
+        //        back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .black
         
-//        title and top right button
+        //        title and top right button
         navigationItem.title = "Мой профиль"
         //navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(didTapChangeProfileDataButton(_ :)))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Выйти", style: .plain, target: self, action: #selector(didTapLogoutButton(_ :)))
@@ -71,11 +71,11 @@ class MyProfileViewController : UIViewController {
         view.addSubview(profileName)
         
         //описание профиля
-//        profileAboutInfo.text = "Кулинарные книги не предлагать"
-//        //profileAboutInfo.textAlignment = .justified // выравнять  по ширине
-//        //profileAboutInfo.size
-//        profileAboutInfo.textAlignment = .center
-//        view.addSubview(profileAboutInfo)
+        //        profileAboutInfo.text = "Кулинарные книги не предлагать"
+        //        //profileAboutInfo.textAlignment = .justified // выравнять  по ширине
+        //        //profileAboutInfo.size
+        //        profileAboutInfo.textAlignment = .center
+        //        view.addSubview(profileAboutInfo)
         
         //почта
         profileMailAdress.text = "peekabook@peeka.book"
@@ -132,10 +132,10 @@ class MyProfileViewController : UIViewController {
             .horizontally(12)
             .height(28)
         
-//        profileAboutInfo.pin
-//            .below(of: profileName).marginTop(0)
-//            .horizontally(12)
-//            .height(50)
+        //        profileAboutInfo.pin
+        //            .below(of: profileName).marginTop(0)
+        //            .horizontally(12)
+        //            .height(50)
         
         profileMailAdress.pin
             .below(of: profileName).marginTop(-4)
@@ -164,15 +164,15 @@ class MyProfileViewController : UIViewController {
         
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        handle = Auth.auth().addStateDidChangeListener { auth, user in
-//          // ...
-//        }
-//    }
-//
-//    override func viewWillDisappear(_ animated: Bool) {
-//        Auth.auth().removeStateDidChangeListener(handle!)
-//    }
+    //    override func viewWillAppear(_ animated: Bool) {
+    //        handle = Auth.auth().addStateDidChangeListener { auth, user in
+    //          // ...
+    //        }
+    //    }
+    //
+    //    override func viewWillDisappear(_ animated: Bool) {
+    //        Auth.auth().removeStateDidChangeListener(handle!)
+    //    }
 }
 
 extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
@@ -227,7 +227,7 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
         }
     }
     
-   
+    
     func changeProfileDataView() {
         let changeProfileDataPresenter = ChangeProfileDataPresenter()
         let changeProfileDataViewController = ChangeProfileDataViewController(output: changeProfileDataPresenter)
@@ -246,7 +246,7 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
         //bookViewPresenter.view = bookProfileViewController
     }
     
-//    func loadProfileData(profileData: Profile) { }
+    //    func loadProfileData(profileData: Profile) { }
 }
 
 //extension MyProfileViewController : UserManagerOutput {

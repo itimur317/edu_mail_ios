@@ -10,19 +10,19 @@ import PinLayout
 import FirebaseAuth
 
 class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewControllerProtocol {
-
+    
     var output: ChangeProfileDataPresenterProtocol
     var myProfile: Profile!
     init(output: ChangeProfileDataPresenterProtocol){
         self.output = output
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-//для удобной верстки
+    //для удобной верстки
     private let lableFontSize = 16
     private let textFieldFontSize = 14
     
@@ -30,7 +30,7 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
     private let textFieldHeight = 32
     
     private let textFieldCornerRadius = 14
-//
+    //
     let scrollView = UIScrollView()
     
     // добавление фото
@@ -81,21 +81,21 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
         //take 1
         scrollView.contentSize = CGSize(width: view.frame.width, height: 578) // need changes
         view.addSubview(scrollView)
-       
+        
         // image picker
         addPhotoImagePicker.delegate = self
         setImagePicker()
         
         //take 2
-//        scrollView.contentSize = CGSize (
-//            width: view.frame.width,
-//            height: (
-//                CGFloat(view.frame.height) > CGFloat(574) ? view.frame.height : 574
-//            )
-//        )
-//      view.addSubview(scrollView)
-
-//          labels
+        //        scrollView.contentSize = CGSize (
+        //            width: view.frame.width,
+        //            height: (
+        //                CGFloat(view.frame.height) > CGFloat(574) ? view.frame.height : 574
+        //            )
+        //        )
+        //      view.addSubview(scrollView)
+        
+        //          labels
         nameLabel.text = "Имя"
         emailAdressLabel.text = "Электронная почта"
         phoneNumberLabel.text = "Номер телефона"
@@ -107,7 +107,7 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
             scrollView.addSubview(label)
         }
         
-//          textFields
+        //          textFields
         nameTextField.text = "Попуг Олежа"
         nameTextField.placeholder = "Введите имя"
         nameTextField.autocorrectionType = UITextAutocorrectionType.no
@@ -142,8 +142,8 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
             textField.backgroundColor = .systemGray6
             scrollView.addSubview(textField)
         }
-
-//        кнопка сохранения
+        
+        //        кнопка сохранения
         //saveButton.titleLabel?.font = backButton.titleLabel?.font.withSize(10)
         saveButton.layer.cornerRadius = 14
         saveButton.layer.masksToBounds = true
@@ -170,14 +170,14 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
             .topLeft()
             .height(view.frame.height)
             .width(view.frame.width)
-              
+        
         addPhotoButton.pin
             .top(12)
             .topCenter()
             .height(120)
             .width(120)
         
-//        имя
+        //        имя
         nameLabel.pin
             .below(of: addPhotoButton).marginTop(10)
             .horizontally(12)
@@ -188,7 +188,7 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
         
-//        почта
+        //        почта
         emailAdressLabel.pin
             .below(of: nameTextField).marginTop(10)
             .horizontally(12)
@@ -199,7 +199,7 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
         
-//        номер телефона
+        //        номер телефона
         phoneNumberLabel.pin
             .below(of: emailAdressTextField).marginTop(10)
             .horizontally(12)
@@ -210,7 +210,7 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
         
-//        телеграм
+        //        телеграм
         telegramLinkLabel.pin
             .below(of: phoneNumberTextField).marginTop(10)
             .horizontally(12)
@@ -221,7 +221,7 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
         
-//        инстаграм
+        //        инстаграм
         instagramLinkLabel.pin
             .below(of: telegramLinkTextField).marginTop(10)
             .horizontally(12)
@@ -232,14 +232,14 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
             .horizontally(12)
             .height(CGFloat(textFieldHeight))
         
-//        кнопка сохранения
+        //        кнопка сохранения
         saveButton.pin
             .below(of: instagramLinkTextField).marginTop(18)
-            //.bottom(12)
+        //.bottom(12)
             .width(200)
             .height(50)
             .left(view.frame.width / 2 - 100)
-
+        
     }
 }
 
@@ -370,7 +370,7 @@ extension ChangeProfileDataViewController {
         var telegramLink = myProfile.telegramLink
         telegramLink = telegramLink?.replacingOccurrences(of: "https://t.me/", with: "")
         telegramLinkTextField.text = telegramLink
-    
+        
         var instagramLink = myProfile.instagramLink
         instagramLink = instagramLink?.replacingOccurrences(of: "https://www.instagram.com/", with: "")
         instagramLinkTextField.text = instagramLink

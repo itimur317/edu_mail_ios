@@ -10,12 +10,12 @@ import Foundation
 protocol AuthorizationViewControllerProtocol: AnyObject {
     func regTapped()
 }
- 
+
 protocol AuthorizationPresenterProtocol: AnyObject {
     func didTapRegButton()
 }
- 
- 
+
+
 final class AuthorizationPresenter: AuthorizationPresenterProtocol {
     
     weak var view: AuthorizationViewControllerProtocol?

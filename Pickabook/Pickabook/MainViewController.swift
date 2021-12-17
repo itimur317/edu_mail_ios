@@ -13,7 +13,7 @@ class MainViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //try? Auth.auth().signOut()
-
+        
         let genrePresenter = GenreCollectionViewPresenter()
         let genresVC = UINavigationController(rootViewController: GenreCollectionViewController(output: genrePresenter))
         genresVC.tabBarItem.image = UIImage(named: "SearchViewIcon")
@@ -32,12 +32,12 @@ class MainViewController: UITabBarController {
         libraryPresenter.view = libraryViewController
         libraryVC.tabBarItem.image = UIImage(named: "AddViewIcon")
         libraryVC.title = ""
-         
+        
         
         self.setViewControllers([genresVC, libraryVC, myProfileVC], animated: false)
         self.modalPresentationStyle = .fullScreen
         self.tabBar.backgroundColor = .white
-                                
+        
         self.tabBar.tintColor = .black
     }
 }

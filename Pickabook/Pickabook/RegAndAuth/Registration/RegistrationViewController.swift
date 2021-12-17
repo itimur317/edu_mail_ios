@@ -77,7 +77,7 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
         
         profileImageView.isHidden = true
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -95,7 +95,7 @@ class RegistrationViewController : UIViewController, RegistrationViewControllerP
         // image picker
         addPhotoImagePicker.delegate = self
         setImagePicker()
-
+        
         // labels
         emailAdressLabel.text = "Электронная почта"
         newPasswordFirstLabel.text = "Придумайте пароль"

@@ -10,7 +10,7 @@ import UIKit
 import PinLayout
 
 class BookTableCell: UITableViewCell {
-        
+    
     //struct Book {
     //    var bookImages: [UIImage] = []
     //    var bookName: String
@@ -23,11 +23,11 @@ class BookTableCell: UITableViewCell {
     let bookImage = UIImageView() //= UIImage() //need fix
     let bookNameLabel = UILabel()
     let bookAuthorLabel = UILabel()
-
+    
     //  can be added (look comments down)
-//    let bookConditionLabel = UILabel()
-//    let bookConditionIcon  = UILabel() //= UIImage() //need fix
-        
+    //    let bookConditionLabel = UILabel()
+    //    let bookConditionIcon  = UILabel() //= UIImage() //need fix
+    
     func configure(with book: Book) {
         // Картинка книги
         bookImage.contentMode = UIView.ContentMode.scaleAspectFill
@@ -46,7 +46,7 @@ class BookTableCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -64,13 +64,13 @@ class BookTableCell: UITableViewCell {
         bookAuthorLabel.font = bookAuthorLabel.font.withSize(14)
         contentView.addSubview(bookAuthorLabel)
         
-//        bookConditionLabel.textAlignment = .center
-//        bookConditionLabel.font = bookConditionLabel.font.withSize(12)
-//        //bookConditionLabel.text = "4.6"
-//        contentView.addSubview(bookConditionLabel)
-
-//        bookConditionIcon.backgroundColor = UIColor.yellow
-//        contentView.addSubview(bookConditionIcon)
+        //        bookConditionLabel.textAlignment = .center
+        //        bookConditionLabel.font = bookConditionLabel.font.withSize(12)
+        //        //bookConditionLabel.text = "4.6"
+        //        contentView.addSubview(bookConditionLabel)
+        
+        //        bookConditionIcon.backgroundColor = UIColor.yellow
+        //        contentView.addSubview(bookConditionIcon)
         
     }
     
@@ -95,18 +95,18 @@ class BookTableCell: UITableViewCell {
             .right(of: bookImage, aligned: .top).marginLeft(10)
             .height(20)
             .right(10)
-
-//        bookConditionLabel.pin
-//            .below(of: bookAuthorLabel)
-//            .right(of: bookImage).marginLeft(10)
-//            .size(20)
-
-//        bookConditionIcon.pin
-//            //.bottomRight()
-//            .below(of: bookAuthorLabel)
-//            .right(of: bookConditionLabel)
-//            .size(20)
+        
+        //        bookConditionLabel.pin
+        //            .below(of: bookAuthorLabel)
+        //            .right(of: bookImage).marginLeft(10)
+        //            .size(20)
+        
+        //        bookConditionIcon.pin
+        //            //.bottomRight()
+        //            .below(of: bookAuthorLabel)
+        //            .right(of: bookConditionLabel)
+        //            .size(20)
         
     }
-
+    
 }
