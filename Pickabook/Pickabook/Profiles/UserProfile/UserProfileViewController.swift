@@ -41,8 +41,8 @@ class UserProfileViewController : UIViewController {
     let profileBookList = books
     //let profileAboutInfo = UITextView() //can be added
     let linksView = UIView()
-    let profileTelegramLinkIcon = UIImage(named: "telegramIcon")
-    let profileInstagramLinkIcon = UIImage(named: "instagramIcon")
+    var profileTelegramLinkIcon = UIImage(named: "telegramIcon")
+    var profileInstagramLinkIcon = UIImage(named: "instagramIcon")
     let profileTelegramLinkImageView = UIImageView()
     let profileInstagramLinkImageView = UIImageView()
      
@@ -233,8 +233,17 @@ extension UserProfileViewController: UserProfileViewControllerProtocol {
         
         let telLink = userProfile.telegramLink ?? ""
         telegramUrl = URL(string: telLink)
+        if telegramUrl == nil {
+            profileTelegramLinkIcon = UIImage(named: "telegramInactIcon")
+            profileTelegramLinkImageView.image = profileTelegramLinkIcon
+        }
+        
         let instLink = userProfile.instagramLink ?? ""
         instagramUrl = URL(string: instLink)
+        if instagramUrl == nil {
+            profileInstagramLinkIcon = UIImage(named: "instagramInactIcon")
+            profileInstagramLinkImageView.image = profileInstagramLinkIcon
+        }
         
         updateLayout()
     }

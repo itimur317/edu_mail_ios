@@ -184,7 +184,7 @@ class BookProfileViewController: UIViewController {
     
     /* Задаем содержимое вью */
     func configureView(){
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 700)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 800)
         view.addSubview(scrollView)
         
         // картинки
