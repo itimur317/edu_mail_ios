@@ -12,6 +12,7 @@ import FirebaseAuth
 class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewControllerProtocol {
 
     var output: ChangeProfileDataPresenterProtocol
+    var myProfile: Profile!
     init(output: ChangeProfileDataPresenterProtocol){
         self.output = output
         super.init(nibName: nil, bundle: nil)
@@ -32,9 +33,13 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
 //
     let scrollView = UIScrollView()
     
-    let image = UILabel() //= UIImage() //need fix
-    let imageEditImageView = UIImageView()//= UIButton()
-    let imageEditIcon = UIImage(named: "imageEditIcon")
+    // добавление фото
+    let profileImageView = UIImageView()
+    
+    let addPhotoButton = UIButton()
+    let addPhotoImage = UIImage(named: "addPhotoImage")
+    let correctPhotoButton = UIButton()
+    var addPhotoImagePicker = UIImagePickerController()
     
     let nameLabel = UILabel()
     let nameTextField = UITextField()
@@ -49,8 +54,24 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
     
     let saveButton = UIButton()
     
+    func setImagePicker(){
+        addPhotoButton.backgroundColor = UIColor(named: "backgroundColorForEmpty")
+        addPhotoButton.layer.cornerRadius = 60
+        addPhotoButton.setImage(addPhotoImage, for: .normal)
+        addPhotoButton.addTarget(self,
+                                 action: #selector(didTapAddPhotoButton(_:)),
+                                 for: .touchUpInside)
+        scrollView.addSubview(addPhotoButton)
+        
+        profileImageView.isHidden = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // presenter delegate
+        output.setViewDelegate(delegate: self)
+        
         view.backgroundColor = .white
         navigationItem.title = "Изменить профиль"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Выйти", style: .plain, target: self, action: #selector(didTapLogoutButton(_ :)))
@@ -61,6 +82,10 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
         scrollView.contentSize = CGSize(width: view.frame.width, height: 578) // need changes
         view.addSubview(scrollView)
        
+        // image picker
+        addPhotoImagePicker.delegate = self
+        setImagePicker()
+        
         //take 2
 //        scrollView.contentSize = CGSize (
 //            width: view.frame.width,
@@ -69,27 +94,13 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
 //            )
 //        )
 //      view.addSubview(scrollView)
-        
-//          image
-        image.layer.cornerRadius = 60
-        image.layer.masksToBounds = true
-        image.backgroundColor = UIColor (
-            red: 0.62,
-            green: 0.85,
-            blue: 0.82,
-            alpha: 1.00
-        )
-        scrollView.addSubview(image)
-                
-        imageEditImageView.image = imageEditIcon
-        scrollView.addSubview(imageEditImageView)
-        
+
 //          labels
         nameLabel.text = "Имя"
         emailAdressLabel.text = "Электронная почта"
         phoneNumberLabel.text = "Номер телефона"
-        telegramLinkLabel.text = "Ссылка на аккаунт в Telegram"
-        instagramLinkLabel.text = "Ссылка на аккаунт в Instagram"
+        telegramLinkLabel.text = "Ник в Telegram"
+        instagramLinkLabel.text = "Ник в Instagram"
         
         [nameLabel, emailAdressLabel, phoneNumberLabel, telegramLinkLabel, instagramLinkLabel].forEach { label in
             label.font = UIFont.systemFont(ofSize: CGFloat(lableFontSize))
@@ -98,10 +109,29 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
         
 //          textFields
         nameTextField.text = "Попуг Олежа"
+        nameTextField.placeholder = "Введите имя"
+        nameTextField.autocorrectionType = UITextAutocorrectionType.no
+        
         emailAdressTextField.text = "peekabook@peeka.book"
+        emailAdressTextField.placeholder = "Адрес электронной почты"
+        emailAdressTextField.autocorrectionType = UITextAutocorrectionType.no
+        emailAdressTextField.keyboardType = UIKeyboardType.emailAddress
+        emailAdressTextField.autocapitalizationType = .none
+        
         phoneNumberTextField.text = "+4 44 44"
+        phoneNumberTextField.placeholder = "Ваш номер телефона"
+        phoneNumberTextField.keyboardType = UIKeyboardType.phonePad
+        phoneNumberTextField.delegate = self
+        
         telegramLinkTextField.text = "https://t.me/"
+        telegramLinkTextField.placeholder = "Ваш ник в Telegram"
+        telegramLinkTextField.autocorrectionType = UITextAutocorrectionType.no
+        telegramLinkTextField.autocapitalizationType = .none
+        
         instagramLinkTextField.text = "https://www.instagram.com/"
+        instagramLinkTextField.placeholder = "Ваш ник в Instagram"
+        instagramLinkTextField.autocorrectionType = UITextAutocorrectionType.no
+        instagramLinkTextField.autocapitalizationType = .none
         
         [nameTextField, emailAdressTextField, phoneNumberTextField, telegramLinkTextField, instagramLinkTextField].forEach { textField in
             textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
@@ -124,29 +154,32 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.output.observeMyProfile()
+    }
+    
     override func viewDidLayoutSubviews() {
         super .viewDidLayoutSubviews()
-                
+        //updateLayout()
+    }
+    
+    func updateLayout() {
+        
         scrollView.pin
             .topLeft()
             .height(view.frame.height)
             .width(view.frame.width)
               
-//         image
-        image.pin
+        addPhotoButton.pin
             .top(12)
             .topCenter()
-            .size(120)
-        
-//        edit icon ( pinned nearly similar to image )
-        imageEditImageView.pin
-            .top(12+35)
-            .topCenter()
-            .size(50)
+            .height(120)
+            .width(120)
         
 //        имя
         nameLabel.pin
-            .below(of: image).marginTop(10)
+            .below(of: addPhotoButton).marginTop(10)
             .horizontally(12)
             .height(CGFloat(lableHeight))
         
@@ -210,6 +243,15 @@ class ChangeProfileDataViewController : UIViewController, ChangeProfileDataViewC
     }
 }
 
+//только цифры в номере телефона
+extension ChangeProfileDataViewController : UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let allowedCharacters = CharacterSet.decimalDigits
+        let characterSet = CharacterSet(charactersIn: string)
+        return allowedCharacters.isSuperset(of: characterSet)
+    }
+}
+
 extension ChangeProfileDataViewController {
     func hideKeyboardWhenTappedAround() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChangeProfileDataViewController.dismissKeyboard))
@@ -231,8 +273,96 @@ extension ChangeProfileDataViewController {
         Coordinator.rootVC(vc: authorizationViewController)
         //navigationController?.pushViewController(authorizationViewController, animated: true)
     }
-//    override func viewWillDisappear(_ animated: Bool) {
-//        self.navigationController?.isNavigationBarHidden = true
-//        self.tabBarController?.tabBar.isHidden = true
-//    }
+    
+    @objc
+    private func didTapAddPhotoButton(_ sender: UIButton) {
+        self.output.didTapAddPhotoButton()
+    }
+    
+    @objc
+    private func didTapCorrectPhotoButton(_ sender: UIButton) {
+        
+        if profileImageView.image != nil {
+            addPhotoButton.isHidden = false
+        }
+        
+        if profileImageView.image != nil {
+            profileImageView.image = nil
+            profileImageView.isHidden = true
+            
+            
+            correctPhotoButton.isHidden = true
+        }
+    }
+    
+    func openSavedPhotosAlbum() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            addPhotoImagePicker.allowsEditing = false
+            addPhotoImagePicker.sourceType = .savedPhotosAlbum
+            
+            present(addPhotoImagePicker,
+                    animated: true,
+                    completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Нет доступа!",
+                                          message: "У Pickabook нет доступа к вашим фото.\nЧтобы предоставить доступ, перейдите в Настройки и включите Фото.",
+                                          preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Ок",
+                                          style: .default,
+                                          handler: nil))
+            
+            present(alert, animated: true)
+        }
+    }
+    
+    func setImage(_ pickedImage: UIImage) {
+        addPhotoButton.contentMode = .scaleToFill
+        addPhotoButton.setImage(pickedImage, for: .normal)
+        
+        addPhotoButton.layer.cornerRadius = 60
+        addPhotoButton.layer.masksToBounds = true
+        
+        // сохраняем для того, чтобы сохранять в бд
+        profileImageView.image = pickedImage
+        
+        correctPhotoButton.isHidden = false
+    }
+}
+
+extension ChangeProfileDataViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            setImage(pickedImage)
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ChangeProfileDataViewController {
+    func reloadMyProfile(myProfile: Profile) {
+        self.myProfile = myProfile
+        
+        //profileImageView.image = myProfile.photo
+        nameTextField.text = myProfile.name
+        emailAdressTextField.text = myProfile.email
+        phoneNumberTextField.text = myProfile.phoneNumber
+        
+        var telegramLink = myProfile.telegramLink
+        telegramLink = telegramLink?.replacingOccurrences(of: "https://t.me/", with: "")
+        telegramLinkTextField.text = telegramLink
+    
+        var instagramLink = myProfile.instagramLink
+        instagramLink = instagramLink?.replacingOccurrences(of: "https://www.instagram.com/", with: "")
+        instagramLinkTextField.text = instagramLink
+        
+        updateLayout()
+    }
 }

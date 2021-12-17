@@ -4,18 +4,25 @@
 //
 //  Created by Ульяна Цимбалистая on 04.12.2021.
 //
-
 import UIKit
 import PinLayout
 
 class BookProfileViewController: UIViewController {
-    
+    /* Presenter книги, отвечает за логику */
     var presenter: BookViewPresenterProtocol!
+    /* Экземпляр книги которой заполняется страница */
     let book : Book!
+    /* Флаг, чтобы определить, что книга принадлежит пользователю */
+    let owned: Bool!
+    /* Владелец книги */
+    var ownerProfile: Profile!
     
-    init(output: BookViewPresenterProtocol, book: Book){
+    var length : CGFloat = 0
+    
+    init(output: BookViewPresenterProtocol, book: Book, owned: Bool){
         self.presenter = output
         self.book = book
+        self.owned = owned
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -23,11 +30,14 @@ class BookProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Скролл вью содержащая все вьюшки
     let scrollView = UIScrollView()
+    // Массив из пяти кнопок состояния
     var stars : [UIButton] = [UIButton]()
-    
+    // Коллекция картинок книги
     let imagesCorousel = UIScrollView()
     
+    // Название книги
     let nameLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 21, weight: .regular)
@@ -39,6 +49,7 @@ class BookProfileViewController: UIViewController {
         return label
     }()
     
+    // Автор книги
     let authorLabel :  UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
@@ -47,6 +58,7 @@ class BookProfileViewController: UIViewController {
         return label
     }()
     
+    // Жанр книги
     let genreLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
@@ -59,6 +71,7 @@ class BookProfileViewController: UIViewController {
         return label
     }()
     
+    // Описание книги
     let descriptionLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
@@ -69,6 +82,7 @@ class BookProfileViewController: UIViewController {
         return label
     }()
     
+    // Состояние
     let conditionLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
@@ -112,6 +126,7 @@ class BookProfileViewController: UIViewController {
         return button
     }()
     
+    // Картинка профиля владельца
     let profileImage : UIImageView = {
         let image = UIImage(named: "default")
         let imageView = UIImageView(image: image)
@@ -122,6 +137,7 @@ class BookProfileViewController: UIViewController {
         return imageView
     }()
     
+    // Имя профиля владельца
     let userLabel :  UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
@@ -130,6 +146,7 @@ class BookProfileViewController: UIViewController {
         return label
     }()
     
+    // Кнопка обмена
     let takeBookButton : UIButton = {
         let button = UIButton()
         button.setTitle("Забрать", for: .normal)
@@ -145,19 +162,29 @@ class BookProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Задаем параметры вью и навигатора
         view.backgroundColor = .white
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
+        // Конфигурация presenter'а
         setPresenter()
+        // Конфигурация вью
         configureView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.presenter.observeBookOwner(ownerId: book.ownerId!)
+    }
+    
+    /* Устанавливаем делегат для обратной связи между пресентером и вью */
     func setPresenter(){
         presenter.setViewDelegate(delegate: self)
     }
     
+    /* Задаем содержимое вью */
     func configureView(){
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 800)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 700)
         view.addSubview(scrollView)
         
         // картинки
@@ -200,10 +227,12 @@ class BookProfileViewController: UIViewController {
         authorLabel.text = book.bookAuthor
         scrollView.addSubview(authorLabel)
         
+        
         genreLabel.text = book.bookGenres.name
         genreLabel.sizeToFit()
         genreLabel.textColor = .white
         genreLabel.backgroundColor = book.bookGenres.color
+        length = self.genreLabel.frame.width
         scrollView.addSubview(genreLabel)
         
         descriptionLabel.text = book.bookDescription
@@ -217,42 +246,52 @@ class BookProfileViewController: UIViewController {
         for i in 0...book.bookCondition - 1{
             stars[i].setImage(UIImage(named: "conditionPaintedStarImage"), for: .normal)
         }
-    
+        
         for i in 0...4{
             print("ssss")
             scrollView.addSubview(stars[i])
         }
         
-        scrollView.addSubview(profileImage)
-        // book.owner
-        userLabel.text = "Имя пользователя"
-        scrollView.addSubview(userLabel)
-        
-        takeBookButton.addTarget(self,
-                                 action: #selector(didTapTakeButton(_:)),
-                                 for: .touchUpInside)
-        view.addSubview(takeBookButton)
+        if (!owned){
+            scrollView.addSubview(profileImage)
+            // book.owner
+            userLabel.text = "Имя пользователя"
+            scrollView.addSubview(userLabel)
+            
+            takeBookButton.addTarget(self,
+                                     action: #selector(didTapTakeButton(_:)),
+                                     for: .touchUpInside)
+            view.addSubview(takeBookButton)
+        }
     }
     
     @objc
     private func didTapTakeButton(_ sender: UIButton) {
-        presenter.takeBookButtonAction()
+        presenter.takeBookButtonAction(book: book)
     }
     
     func presentNextVC(){
         let presenterB = UserProfilePresenter()
-        let vc = UserProfileViewController(output: presenterB)
-        self.navigationController?.pushViewController(vc, animated: true)
+        let vc = UserProfileViewController(output: presenterB, userId: book.ownerId!)
         
-        vc.navigationController?.navigationBar.tintColor = .black
-        vc.title = "Обмен с пользователем"
-        vc.profileName.text = "Владелец"
+        self.navigationController?.pushViewController(vc, animated: true)
         vc.modalPresentationStyle = .fullScreen
+    }
+    
+    func loadBookOwner(ownerProfile: Profile) {
+        self.ownerProfile = ownerProfile
+        
+        profileImage.image = ownerProfile.photo        //UIImage(named: "default")
+        userLabel.text = ownerProfile.name
+        
+        updateLayout()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+    }
+    
+    func updateLayout(){
         scrollView.pin
             .topLeft()
             .height(view.frame.height)
@@ -281,7 +320,7 @@ class BookProfileViewController: UIViewController {
             .below(of: authorLabel)
             .marginTop(10)
             .left(15)
-            .width(self.genreLabel.frame.width + 20)
+            .width(length + 20)
             .height(30)
         
         descriptionLabel.pin
@@ -298,44 +337,44 @@ class BookProfileViewController: UIViewController {
             .height(23)
         
         stars[0].pin
-            .width(32)
+            .width(28)
             .after(of: conditionLabel)
             .marginLeft(3)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         stars[1].pin
-            .width(32)
+            .width(28)
             .after(of: stars[0])
-            .marginLeft(3)
+            .marginLeft(1)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         stars[2].pin
-            .width(32)
+            .width(28)
             .after(of: stars[1])
-            .marginLeft(3)
+            .marginLeft(1)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         stars[3].pin
-            .width(32)
+            .width(28)
             .after(of: stars[2])
-            .marginLeft(3)
+            .marginLeft(1)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         stars[4].pin
-            .width(32)
+            .width(28)
             .after(of: stars[3])
-            .marginLeft(3)
+            .marginLeft(1)
             .below(of: descriptionLabel)
             .marginTop(5)
-            .height(32)
+            .height(28)
         
         profileImage.pin
             .below(of: stars[4])

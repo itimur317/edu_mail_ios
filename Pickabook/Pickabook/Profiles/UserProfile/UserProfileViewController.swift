@@ -4,18 +4,23 @@
 //
 //  Created by Даниил Найко on 17.11.2021.
 //
-
 import UIKit
 import PinLayout
+import Firebase
 
 class UserProfileViewController : UIViewController {
     
-    func presentProfile(profiles: [Profile]) {}
+    //func presentProfile(profiles: [Profile]) {}
     func presentAlert(title: String, message: String) {}
     
     var output: UserProfilePresenterProtocol
-    init(output: UserProfilePresenterProtocol){
+    var userProfile: Profile!
+    var userId: String
+    
+    init(output: UserProfilePresenterProtocol, userId: String){
         self.output = output
+        self.userId = userId
+        //self.userProfile = profile
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -23,7 +28,7 @@ class UserProfileViewController : UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let profileImage = UILabel() //let profileImage = UIImage() //need fix
+    let profileImageView = UIImageView()
     let profileName = UILabel()
     let profileMailAdress = UILabel()
     let profilePhoneNumber = UILabel()
@@ -39,6 +44,8 @@ class UserProfileViewController : UIViewController {
      
     override func viewDidLoad() {
         super.viewDidLoad()
+        output.setViewDelegate(delegate: self)
+        
         view.backgroundColor = .white
         navigationItem.title = "Профиль пользователя"
         
@@ -46,17 +53,13 @@ class UserProfileViewController : UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .black
         
-        //profileImage.imageWithoutBaseline()
-        profileImage.layer.cornerRadius = 60
-        profileImage.layer.masksToBounds = true
-        profileImage.backgroundColor = UIColor (
-            red: 0.62,
-            green: 0.85,
-            blue: 0.82,
-            alpha: 1.00
-        )
-        view.addSubview(profileImage)
+        //фото профиля
+        profileImageView.image = UIImage(named: "default")
+        profileImageView.layer.cornerRadius = 60
+        profileImageView.layer.masksToBounds = true
+        view.addSubview(profileImageView)
         
+        //имя в профиле
         profileName.text = "Попуг Геночка"
         profileName.textAlignment = .center
         view.addSubview(profileName)
@@ -67,52 +70,58 @@ class UserProfileViewController : UIViewController {
 //        profileAboutInfo.textAlignment = .center
 //        view.addSubview(profileAboutInfo)
         
+        //почта
         profileMailAdress.text = "peekabook@peeka.book"
         profileMailAdress.font = profileMailAdress.font.withSize(14)
         profileMailAdress.textAlignment = .center
         view.addSubview(profileMailAdress)
         
+        //телефон
         profilePhoneNumber.text = "+5 55 55"
         profilePhoneNumber.font = profilePhoneNumber.font.withSize(14)
         profilePhoneNumber.textAlignment = .center
         view.addSubview(profilePhoneNumber)
         
+        //заголовок
         profileBookListTitle.text = "Книги на обмен"
         view.addSubview(profileBookListTitle)
         
+        //таблица с ячейками книг
         profileBookListTableView.dataSource = self
         profileBookListTableView.delegate = self
         profileBookListTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
         view.addSubview(profileBookListTableView)
         
+        //блок ссылок
         view.addSubview(linksView)
         profileTelegramLinkImageView.image = profileTelegramLinkIcon
         profileInstagramLinkImageView.image = profileInstagramLinkIcon
         linksView.addSubview(profileTelegramLinkImageView)
         linksView.addSubview(profileInstagramLinkImageView)
 
-        
     }
     
-    @objc func didTapTelegramLinkButton(_ sender: UIButton) {
-        self.output.didTapTelegramLinkButton()
-    }
-    @objc func didTapInstagramLinkButton(_ sender: UIButton) {
-        self.output.didTapInstagramLinkButton()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.output.observeBooks(userId: userId)
+        self.output.observeUserProfile(userId: userId)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        //updateLayout()
+    }
+    
+    func updateLayout() {
         
-        profileImage.pin
+        profileImageView.pin
             .top(view.pin.safeArea.top+12)
             //.below(of: UserProfileTitle).marginTop(10)
             //.top(50+26)
             .topCenter()
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
-
         profileName.pin
-            .below(of: profileImage).marginTop(10)
+            .below(of: profileImageView).marginTop(10)
             .horizontally(12)
             .height(28)
         
@@ -164,7 +173,7 @@ class UserProfileViewController : UIViewController {
 extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource {
     //количество строк
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return profileBookList.count
+        return self.output.currentBooks.count
     }
     //высота строки
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -177,19 +186,43 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
             return .init()
         }
         
-        let book = profileBookList[indexPath.row]
+        let book = self.output.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let book = profileBookList[indexPath.row]
+        let book = self.output.currentBooks[indexPath.row]
         output.didTapOpenBook(book: book)
     }
     
 }
 
+extension UserProfileViewController {
+    @objc func didTapTelegramLinkButton(_ sender: UIButton) {
+        self.output.didTapTelegramLinkButton()
+    }
+    @objc func didTapInstagramLinkButton(_ sender: UIButton) {
+        self.output.didTapInstagramLinkButton()
+    }
+}
+
 extension UserProfileViewController: UserProfileViewControllerProtocol {
+    
+    func reloadUserProfile(userProfile: Profile) {
+        self.userProfile = userProfile
+        
+        profileImageView.image = userProfile.photo        //UIImage(named: "default")
+        profileName.text = userProfile.name               //"Попуг Олежа"
+        profileMailAdress.text = userProfile.email        //"peekabook@peeka.book"
+        profilePhoneNumber.text = userProfile.phoneNumber
+        
+        updateLayout()
+    }
+    
+    func reloadTable() {
+        self.profileBookListTableView.reloadData()
+    }
     
     func changeProfileDataView() {
         let changeProfileDataPresenter = ChangeProfileDataPresenter()
@@ -200,7 +233,7 @@ extension UserProfileViewController: UserProfileViewControllerProtocol {
     
     func openBook(book: Book) {
         let bookViewPresenter = BookViewPresenter()
-        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book)
+        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book, owned: true)
         navigationController?.pushViewController(bookProfileViewController, animated: true)
         //bookViewPresenter.view = bookProfileViewController
     }

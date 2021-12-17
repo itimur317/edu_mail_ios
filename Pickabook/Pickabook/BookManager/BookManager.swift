@@ -111,7 +111,6 @@ final class BookManager : BookManagerProtocol {
     }
     
     func observeGenreBooks(genreName : String) {
-        
         self.database.collection("Books").whereField("genre", isEqualTo: genreName).addSnapshotListener { [weak self] querySnapshot, error in
             
             if let error = error {

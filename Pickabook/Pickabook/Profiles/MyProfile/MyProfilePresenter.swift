@@ -12,8 +12,8 @@ import FirebaseAuth
 //output
 protocol MyProfileViewControllerProtocol: AnyObject {
     func reloadTable()
+    func reloadMyProfile(myProfile: Profile)
     //var output: MyProfilePresenter
-    func presentProfile(profiles: [Profile])
     func presentAlert(title: String, message: String)
     func changeProfileDataView()
     func openBook(book: Book)
@@ -21,11 +21,17 @@ protocol MyProfileViewControllerProtocol: AnyObject {
 }
  
 protocol MyProfilePresenterProtocol: AnyObject {
+    
     var currentBooks: [Book] { get set }
+    var myProfile: Profile { get set }
+    
     func observeBooks()
+    func observeMyProfile()
+    
     func didTapChangeProfileDataButton()
     func didTapOpenBook(book: Book)
     
+    func setViewDelegate(delegate: MyProfileViewControllerProtocol)
     //func didLoadProfileData()
     //func didFail(with error: Error)
 }
@@ -33,24 +39,33 @@ protocol MyProfilePresenterProtocol: AnyObject {
  
 final class MyProfilePresenter: MyProfilePresenterProtocol {
     
+    public func setViewDelegate(delegate: MyProfileViewControllerProtocol) {
+        self.view = delegate
+    }
+    
+    weak var view: MyProfileViewControllerProtocol?
+    private let database = Firestore.firestore()
+    
     var currentBooks: [Book] = []
     
     func observeBooks() {
         DispatchQueue.global().async {
             BookManager.shared.output = self
-            guard let MyId = Auth.auth().currentUser?.uid else {   print("didn't registere")
-                return}
+            guard let MyId = Auth.auth().currentUser?.uid else {
+                print("didn't register")
+                return
+            }
             BookManager.shared.observeOwnerIdBooks(id: MyId)
         }
     }
     
+    var myProfile: Profile = Profile.init(id: "", name: "", photoName: "", photo: nil, phoneNumber: "", email: "", telegramLink: "", instagramLink: "")
     
-    private let database = Firestore.firestore()
-    //private let profileDataConverter = ProfileDataConverter()
-    
-    weak var view: MyProfileViewControllerProtocol?
-    
-    //public func getProfiles() {}
+    func observeMyProfile() {
+        UserManager.shared.output = self
+        guard let MyId = Auth.auth().currentUser?.uid else { return }
+        UserManager.shared.observeUser(userId: MyId)
+    }
     
     func didTapOpenBook(book: Book) {
         self.view?.openBook(book:  book)
@@ -59,15 +74,6 @@ final class MyProfilePresenter: MyProfilePresenterProtocol {
     func didTapChangeProfileDataButton() {
         self.view?.changeProfileDataView()
     }
-    
-//    func didLoadProfileData() {
-//        database.collection("Users").addSnapshotListener { querySnapshot, error in
-//            if let error = error { return }
-//            guard let documents = querySnapshot?.documents else { return }
-//            let profileData = documents.compactMap { self.profileDataConverter.profileData(from: $0) }
-//            self?.view?.loadProfileData(profileData: profileData)
-//        }
-//    }
     
 }
 
@@ -90,5 +96,17 @@ extension MyProfilePresenter : BookManagerOutput {
         print("error didDelete in MyProfilePresenter")
     }
     
+    
+}
+
+extension MyProfilePresenter : UserManagerOutput {
+    
+    func didRecieve(_ user: Profile) {
+        print ("didRecieve IN WORK")
+        print (user)
+        self.view?.reloadMyProfile(myProfile: user)
+    }
+    
+    func didCreate(_ user: Profile) { }
     
 }

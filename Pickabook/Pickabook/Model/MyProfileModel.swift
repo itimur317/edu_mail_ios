@@ -10,14 +10,14 @@ import FirebaseAuth
 
 struct Profile {
     
-    var id: String = Auth.auth().currentUser!.uid// let id: String = UUID().uuidString
+    var id: String// let id: String = UUID().uuidString
     var name: String
     var photoName: String? //URL?
     var photo: UIImage?
-    var phoneNumber: Int?
-    var email: String
-    var telegramLink: URL?
-    var instagramLink: URL?
+    var phoneNumber: String?//Int?
+    var email: String?
+    var telegramLink: String?
+    var instagramLink: String?
     
     //let bookList: [Book]? // под вопросом
     //let about: String?
@@ -25,16 +25,18 @@ struct Profile {
     //let adress
     //let metroStation
     
-    init(id: String, name: String, photoName: String?, photo: UIImage?, phoneNumber: Int?, email: String?, telegramLink: URL?, instagramLink: URL?) {
+    init(id: String, name: String, photoName: String?, photo: UIImage?, phoneNumber: String?, email: String?, telegramLink: String?, instagramLink: String?) {
         
-        self.id = Auth.auth().currentUser!.uid
-        self.name = ""
-        self.photoName = nil
-        self.photo = nil
-        self.phoneNumber = 0
-        self.email = ""
-        self.telegramLink = nil
-        self.instagramLink = nil
+        self.id = id
+        self.name = name
+        self.photoName = photoName
+        let nul = UIImage(named: "default")
+        print("in  model: \(photo ?? nul)")
+        self.photo = UIImage(named: "default") // to do
+        self.phoneNumber = phoneNumber
+        self.email = email
+        self.telegramLink = telegramLink
+        self.instagramLink = instagramLink
         
     }
 

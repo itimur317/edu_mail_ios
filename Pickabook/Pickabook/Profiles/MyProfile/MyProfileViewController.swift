@@ -10,22 +10,24 @@ import Firebase
 
 class MyProfileViewController : UIViewController {
     
-    func presentProfile(profiles: [Profile]) {}
+    //func presentProfile(profiles: [Profile]) {}
     func presentAlert(title: String, message: String) {}
     
     var output: MyProfilePresenterProtocol
-    init(output: MyProfilePresenterProtocol){
+    var myProfile: Profile!
+
+    init(output: MyProfilePresenterProtocol/*, myProfile: Profile*/){
         self.output = output
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
 //    var handle: AuthStateDidChangeListenerHandle?
-
-    let profileImage = UILabel() //let profileImage = UIImage() //need fix
+    let profileImageView = UIImageView()
+    
     let profileName = UILabel()
     let profileMailAdress = UILabel()
     let profilePhoneNumber = UILabel()
@@ -38,53 +40,57 @@ class MyProfileViewController : UIViewController {
     //let profileAboutInfo = UITextView() //can be added
     //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
     //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
-     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         
+        // presenter delegate
+        output.setViewDelegate(delegate: self)
+        
+        view.backgroundColor = .white
 //        back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .black
         
 //        title and top right button
         navigationItem.title = "Мой профиль"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(didTapChangeProfileDataButton(_ :))) //old: changeProfileDataButton.addTarget(self, action: #selector(didTapChangeProfileDataButton(_ :)), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(didTapChangeProfileDataButton(_ :)))
         
-        //profileImage.imageWithoutBaseline()
-        profileImage.layer.cornerRadius = 60
-        profileImage.layer.masksToBounds = true
-        profileImage.backgroundColor = UIColor (
-            red: 0.62,
-            green: 0.85,
-            blue: 0.82,
-            alpha: 1.00
-        )
-        view.addSubview(profileImage)
+        //фото профиля
+        profileImageView.image = UIImage(named: "default")
+        profileImageView.layer.cornerRadius = 60
+        profileImageView.layer.masksToBounds = true
+        view.addSubview(profileImageView)
         
+        //имя в профиле
         profileName.text = "Попуг Олежа"
         profileName.textAlignment = .center
         view.addSubview(profileName)
         
+        //описание профиля
 //        profileAboutInfo.text = "Кулинарные книги не предлагать"
 //        //profileAboutInfo.textAlignment = .justified // выравнять  по ширине
 //        //profileAboutInfo.size
 //        profileAboutInfo.textAlignment = .center
 //        view.addSubview(profileAboutInfo)
         
+        //почта
         profileMailAdress.text = "peekabook@peeka.book"
         profileMailAdress.font = profileMailAdress.font.withSize(14)
         profileMailAdress.textAlignment = .center
         view.addSubview(profileMailAdress)
         
+        //телефон
         profilePhoneNumber.text = "+4 44 44"
         profilePhoneNumber.font = profilePhoneNumber.font.withSize(14)
         profilePhoneNumber.textAlignment = .center
         view.addSubview(profilePhoneNumber)
         
+        //заголовок
         profileBookListTitle.text = "Книги на обмен"
         view.addSubview(profileBookListTitle)
         
+        //таблица с ячейками книг
         profileBookListTableView.dataSource = self
         profileBookListTableView.delegate = self
         profileBookListTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
@@ -94,21 +100,24 @@ class MyProfileViewController : UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.output.observeBooks()
+        self.output.observeMyProfile()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        //updateLayout()
+    }
+    
+    func updateLayout() {
         
-        profileImage.pin
-            //.below(of: myProfileTitle).marginTop(10)
+        profileImageView.pin
             .top(view.pin.safeArea.top + 12)
             .topCenter()
             .size(120) //  look at profileImage.layer.cornerRadius = 60 (=120/2)
         
         profileName.pin
-            .below(of: profileImage).marginTop(10)
+            .below(of: profileImageView).marginTop(10)
             .horizontally(12)
             .height(28)
         
@@ -148,7 +157,6 @@ class MyProfileViewController : UIViewController {
 //    override func viewWillDisappear(_ animated: Bool) {
 //        Auth.auth().removeStateDidChangeListener(handle!)
 //    }
-
 }
 
 extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
@@ -167,14 +175,12 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return .init()
         }
         
-//        let book = profileBookList[indexPath.row]
         let book = self.output.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let book = profileBookList[indexPath.row]
         let book = self.output.currentBooks[indexPath.row]
         output.didTapOpenBook(book: book)
     }
@@ -182,6 +188,20 @@ extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension MyProfileViewController: MyProfileViewControllerProtocol {
+    
+    func reloadMyProfile(myProfile: Profile) {
+        self.myProfile = myProfile
+        
+        profileImageView.image = myProfile.photo        //UIImage(named: "default")
+        profileName.text = myProfile.name               //"Попуг Олежа"
+        profileMailAdress.text = myProfile.email        //"peekabook@peeka.book"
+        //let phoneNumber = myProfile.phoneNumber!
+        //profilePhoneNumber.text = String(phoneNumber) //"+4 44 44"
+        profilePhoneNumber.text = myProfile.phoneNumber
+        
+        updateLayout()
+    }
+    
     func reloadTable() {
         self.profileBookListTableView.reloadData()
     }
@@ -200,12 +220,19 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
     
     func openBook(book: Book) {
         let bookViewPresenter = BookViewPresenter()
-        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book)
+        let bookProfileViewController = BookProfileViewController(output: bookViewPresenter, book: book, owned: true)
         navigationController?.pushViewController(bookProfileViewController, animated: true)
         //bookViewPresenter.view = bookProfileViewController
     }
     
-//    func loadProfileData(profileData: Profile) {
-//        <#code#>
-//    }
+//    func loadProfileData(profileData: Profile) { }
 }
+
+//extension MyProfileViewController : UserManagerOutput {
+//
+//    func didRecieve(_ user: Profile) { }
+//    func didCreate(_ user: Profile) { }
+//    func didFail(with error: Error) { }
+//
+//    UserManager.shared.getMyProfileData()
+//}

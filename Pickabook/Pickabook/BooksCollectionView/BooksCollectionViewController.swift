@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 private let reuseIdentifier = "Cell"
 
@@ -32,7 +33,6 @@ class BooksCollectionViewController: UICollectionViewController {
         setCollectionView()
         
         presenter.setViewDelegate(delegate: self)
-        sortedBooks = presenter.loadBooks(genre: genre)
     }
     
     func reloadCollection() {
@@ -54,31 +54,31 @@ class BooksCollectionViewController: UICollectionViewController {
     
     func presentNextVC(selectedBook : Book){
         let presenterB = BookViewPresenter()
-        let vc = BookProfileViewController(output: presenterB, book: selectedBook)
+        let owned = checkOwner(selectedBook: selectedBook)
+        let vc = BookProfileViewController(output: presenterB, book: selectedBook, owned: owned)
         self.navigationController?.pushViewController(vc, animated: true)
        
         vc.navigationController?.navigationBar.tintColor = .black
         vc.modalPresentationStyle = .fullScreen
     }
+    
+    func checkOwner(selectedBook: Book) -> Bool {
+        return selectedBook.ownerId == Auth.auth().currentUser?.uid
+    }
 }
-
-
 
 extension BooksCollectionViewController {
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return sortedBooks.count
         return self.presenter.currentBooks.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! BookCollectionCell
         
-//        let book = sortedBooks[indexPath.row]
         let book = self.presenter.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell

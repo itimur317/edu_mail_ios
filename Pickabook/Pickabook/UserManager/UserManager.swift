@@ -7,12 +7,12 @@
 
 import Foundation
 import FirebaseFirestore
+//import FirebaseAuth
 import UIKit
 
 protocol UserManagerProtocol {
     
     var output: UserManagerOutput? { get set }
-    
     func observeUser(userId : String)
     func create(user: Profile)
     
@@ -25,7 +25,6 @@ protocol UserManagerOutput : AnyObject {
     
     func didRecieve(_ user: Profile)
     func didCreate(_ user: Profile)
-    
     func didFail(with error: Error)
     
     //func didDelete(_ user: Profile)
@@ -37,11 +36,12 @@ final class UserManager : UserManagerProtocol {
     static var shared: UserManagerProtocol = UserManager()
     weak var output: UserManagerOutput?
     
+    private var user: Profile = Profile(id: "", name: "", photoName: "", photo: nil, phoneNumber: nil, email: "", telegramLink: "", instagramLink: "")
+    
     private let database = Firestore.firestore()
     private let userConverter = ProfileDataConverter()
     
     let imageLoader: ImageLoaderProtocol = ImageLoader()
-    
     
     func create(user: Profile) {
         let imageLoader: ImageLoaderProtocol = ImageLoader()
@@ -74,8 +74,7 @@ final class UserManager : UserManagerProtocol {
         }
     }
     
-    func observeUser(userId : String) {
-        
+    func observeUser(userId : String){
         self.database.collection("Users").whereField("id", isEqualTo: userId).addSnapshotListener { [weak self] querySnapshot, error in
             
             if let error = error {
@@ -90,18 +89,29 @@ final class UserManager : UserManagerProtocol {
                 return
             }
             
-            var user = self?.userConverter.profileData(from: documents[0])
-            let defaultProfile : Profile = Profile.init(id: "", name: "", photoName: "", photo: nil, phoneNumber: 1, email: "", telegramLink: nil, instagramLink: nil)
-            self?.output?.didRecieve(user ?? defaultProfile)
-                        
-            guard let name = user?.photoName else {return}
+            var user = (self?.userConverter.profileData(from: documents[0]))!
+            
+            let defaultProfile : Profile = Profile.init(id: "", name: "", photoName: "", photo: nil, phoneNumber: nil, email: "", telegramLink: "", instagramLink: "")
+            print ("\(user)")
+            print ("\(defaultProfile)") //почему-то грузится именно дефолтный юзер
+            
+            self?.output?.didRecieve(user)
+            self?.user = user
+            
+            guard let name = user.photoName else {
+                print("произошел ретерн")
+                return
+            }
             self?.imageLoader.getImage(with: name) { [weak self] (result) in
                 switch result {
                 case .success(let data):
-                    user?.photo = UIImage(data: data)
-                    self?.output?.didRecieve(user ?? defaultProfile)
-                    print(user?.photoName)
+                    user.photo = UIImage(data: data)
+                    let nul = UIImage(named: "default")
+                    print("case success: \(user.photo ?? nul)")
+                    self?.output?.didRecieve(user)
+                    //print(user?.photoName)
                 case .failure(let error):
+                    print("case fail")
                     print(error)
                 }
             }
@@ -118,7 +128,7 @@ private final class ProfileDataConverter {
         case name
         case phoneNumber
         case photoName
-        case photo
+        case photoURL
         case telegramLink
     }
     
@@ -126,15 +136,21 @@ private final class ProfileDataConverter {
         guard let dict = document.data(),
               let id = dict[Key.id.rawValue] as? String,
               let name = dict[Key.name.rawValue] as? String,
-              let phoneNumber = dict[Key.phoneNumber.rawValue] as? Int,
               let email = dict[Key.email.rawValue] as? String,
-              let telegramLink = dict[Key.telegramLink.rawValue] as? URL,
-              let instagramLink = dict[Key.instagramLink.rawValue] as? URL else { return nil }
-        let photoName = dict[Key.photoName.rawValue] as? String
-        let photo = dict[Key.photo.rawValue] as? UIImage
+              let phoneNumber = dict[Key.phoneNumber.rawValue] as? String,
+              let photoName = dict[Key.photoName.rawValue] as? [String]
+        else {
+            return nil
+        }
         
-        let profileData = Profile(id: id, name: name, photoName: photoName, photo: photo, phoneNumber: phoneNumber, email: email, telegramLink: telegramLink, instagramLink: instagramLink)
-        return profileData
+        var telegramLink = dict[Key.telegramLink.rawValue] as? String
+        var instagramLink = dict[Key.instagramLink.rawValue] as? String
+        
+        if dict[Key.telegramLink.rawValue] == nil { telegramLink = "" }
+        if dict[Key.instagramLink.rawValue] == nil { instagramLink = "" }
+        
+        let profileDataResult = Profile(id: id, name: name, photoName: photoName[0], photo: nil, phoneNumber: String(phoneNumber), email: email, telegramLink: telegramLink, instagramLink: instagramLink)
+        return profileDataResult
     }
     
 }
