@@ -265,7 +265,16 @@ extension UserProfileViewController {
         if (gesture.view as? UIImageView) != nil {
             print("Telegram Image Tapped")
             print(telegramUrl)
-            UIApplication.shared.open(telegramUrl!)
+            if telegramUrl == nil {
+                let alert = UIAlertController(title: "Нет информации",
+                                              message: "Пользователь не указал \n ник в Telegram",
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ок",
+                                              style: .default,
+                                              handler: nil))
+                present(alert, animated: true)
+            }
+            else { UIApplication.shared.open(telegramUrl!) }
         }
     }
     
@@ -274,7 +283,16 @@ extension UserProfileViewController {
         if (gesture.view as? UIImageView) != nil {
             print("Instagram Image Tapped")
             print(instagramUrl)
-            UIApplication.shared.open(instagramUrl!)
+            if instagramUrl == nil {
+                let alert = UIAlertController(title: "Нет информации",
+                                              message: "Пользователь не указал \n ник в Instagram",
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ок",
+                                              style: .default,
+                                              handler: nil))
+                present(alert, animated: true)
+            }
+            else { UIApplication.shared.open(instagramUrl!) }
         }
     }
 }
