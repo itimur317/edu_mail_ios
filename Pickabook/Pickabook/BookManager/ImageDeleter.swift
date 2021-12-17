@@ -17,7 +17,7 @@ protocol ImageDeleterProtocol : AnyObject {
 final class ImageDeleter: ImageDeleterProtocol {
     
     private let storageReference = Storage.storage().reference()
-
+    
     init() {}
     
     func deleteImages(imageNames : [String]) -> Bool {

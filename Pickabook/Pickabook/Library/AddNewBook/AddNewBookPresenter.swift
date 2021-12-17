@@ -4,13 +4,11 @@
 //
 //  Created by Timur on 05.11.2021.
 //
- 
+
 import Foundation
 import UIKit
 // added only for UIColor
-// убрать когда решим цвет фона какой будет
 
- 
 protocol AddNewBookPresenterProtocol: AnyObject {
     var newBook: Book { get set }
     func didTapAddButton(bookImages: [Data?],
@@ -25,8 +23,8 @@ protocol AddNewBookPresenterProtocol: AnyObject {
     func didTapConditionButton(_ addedCondition: Int)
     func didTapAddPhotoButton()
 }
- 
- 
+
+
 final class AddNewBookPresenter {
     var newBook: Book
     var genres = Util.shared.genres
@@ -65,7 +63,7 @@ extension AddNewBookPresenter: BookManagerOutput {
     
     
 }
-    
+
 extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
     
     func didTapAddButton(bookImages:[Data?],
@@ -115,28 +113,28 @@ extension AddNewBookPresenter: AddNewBookPresenterProtocol  {
             self.newBook.bookLanguage = bookLanguage
             
             
-            print(self.newBook.identifier)
-            print(self.newBook.bookImages)
-            print(self.newBook.bookName)
-            print(self.newBook.bookAuthor)
-            print(self.newBook.bookCondition)
-            print(self.newBook.bookGenres)
-            print(self.newBook.bookDescription)
-            print(self.newBook.bookLanguage)
+            //            print(self.newBook.identifier)
+            //            print(self.newBook.bookImages)
+            //            print(self.newBook.bookName)
+            //            print(self.newBook.bookAuthor)
+            //            print(self.newBook.bookCondition)
+            //            print(self.newBook.bookGenres)
+            //            print(self.newBook.bookDescription)
+            //            print(self.newBook.bookLanguage)
             
             BookManager.shared.output = self
             BookManager.shared.create(book: newBook)
-
+            
         }
     }
- 
+    
     func didTapConditionButton(_ addedCondition: Int) {
         newBook.bookCondition = addedCondition
         self.view?.changeCondition(addedCondition)
     }
-
+    
     func didTapAddPhotoButton() {
         self.view?.openSavedPhotosAlbum()
-    }    
+    }
 }
 

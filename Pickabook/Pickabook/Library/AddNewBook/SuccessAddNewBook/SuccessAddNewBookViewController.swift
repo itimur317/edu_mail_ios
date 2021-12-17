@@ -21,7 +21,7 @@ final class SuccessAddNewBookViewController : UIViewController {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -30,8 +30,8 @@ final class SuccessAddNewBookViewController : UIViewController {
     let daultyImage = UIImage(named: "successAddNewBookImage")
     let daultyImageView = UIImageView()
     let okButton = UIButton()
-
-
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,7 @@ final class SuccessAddNewBookViewController : UIViewController {
         addedNewBookLabel.backgroundColor = .white
         addedNewBookLabel.textAlignment = .center
         view.addSubview(addedNewBookLabel)
-
+        
         daultyImageView.image = daultyImage
         view.addSubview(daultyImageView)
         
@@ -57,7 +57,7 @@ final class SuccessAddNewBookViewController : UIViewController {
                            for: .touchUpInside)
         view.addSubview(okButton)
     }
-
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -78,7 +78,7 @@ final class SuccessAddNewBookViewController : UIViewController {
             .left(view.frame.width / 2 - 65)
             .width(130)
             .height(40)
-
+        
     }
     
     @objc

@@ -238,7 +238,7 @@ final class AddNewBookViewController: UIViewController {
             conditionButtons[i].setImage(conditionStarImage, for: .normal)
             scrollView.addSubview(conditionButtons[i])
         }
-    
+        
         
         descriptionLabel.text = "Описание"
         descriptionLabel.textAlignment = .left
@@ -472,7 +472,7 @@ extension AddNewBookViewController {
     
     @objc
     private func didTapRightPhotoImageView(tapGestureRecognizer: UITapGestureRecognizer) {
-
+        
         if let image = rightPhotoImageView.image {
             openAddNewBookAddedPhotoView(image)
         }
@@ -508,14 +508,14 @@ extension AddNewBookViewController {
         
         
         self.presenter.didTapAddButton(bookImages: [leftPhotoImageViewData, centerPhotoImageViewData, rightPhotoImageViewData],
-                                    bookName: bookNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
-                                    bookNameColor: bookNameTextView.textColor!,
-                                    authorName: authorNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
-                                    authorNameColor : authorNameTextView.textColor!,
-                                    bookDescription: descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
-                                    bookDescriptionColor : descriptionTextView.textColor!,
-                                    bookLanguage: languageTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
-                                    bookLanguageColor: languageTextView.textColor!)
+                                       bookName: bookNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
+                                       bookNameColor: bookNameTextView.textColor!,
+                                       authorName: authorNameTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
+                                       authorNameColor : authorNameTextView.textColor!,
+                                       bookDescription: descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
+                                       bookDescriptionColor : descriptionTextView.textColor!,
+                                       bookLanguage: languageTextView.text.trimmingCharacters(in: .whitespacesAndNewlines),
+                                       bookLanguageColor: languageTextView.textColor!)
         
     }
     
@@ -711,20 +711,20 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     
     func isDefault() -> Bool {
         if  correctPhotoButton.isHidden &&
-            bookNameTextView.textColor == .gray &&
-            bookNameTextView.text == "Укажите название книги(без кавычек)..." &&
-            authorNameTextView.textColor == .gray &&
-            authorNameTextView.text == "Укажите автора книги..." &&
-            conditionButtons[0].currentImage == UIImage(named: "conditionStarImage") &&
-            genresToChoosePickerView.selectedRow(inComponent: 0) == 0 &&
-            descriptionTextView.textColor == .gray &&
-            descriptionTextView.text == "Добавьте описание, например, наличие автографа автора или редкость издания..."
-            && languageTextView.text == "Русский" {
+                bookNameTextView.textColor == .gray &&
+                bookNameTextView.text == "Укажите название книги(без кавычек)..." &&
+                authorNameTextView.textColor == .gray &&
+                authorNameTextView.text == "Укажите автора книги..." &&
+                conditionButtons[0].currentImage == UIImage(named: "conditionStarImage") &&
+                genresToChoosePickerView.selectedRow(inComponent: 0) == 0 &&
+                descriptionTextView.textColor == .gray &&
+                descriptionTextView.text == "Добавьте описание, например, наличие автографа автора или редкость издания..."
+                && languageTextView.text == "Русский" {
             return true
         }
         
         return false
-
+        
     }
     
     
@@ -780,7 +780,7 @@ extension AddNewBookViewController: AddNewBookViewControllerProtocol {
     
     func presentLoadingAlert() {
         let alert = UIAlertController(title: nil, message: "Добавляем книгу...", preferredStyle: .alert)
-
+        
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
         loadingIndicator.hidesWhenStopped = true
         loadingIndicator.startAnimating()
