@@ -44,8 +44,8 @@ final class BookManager : BookManagerProtocol {
     private let database = Firestore.firestore()
     
     private let bookConverter = BookConverter()
-
-
+    
+    
     private var books : [Book] = []
     
     let imageLoader: ImageLoaderProtocol = ImageLoader()
@@ -78,7 +78,7 @@ final class BookManager : BookManagerProtocol {
                     self?.imageLoader.getImage(with: names[i]) { [weak self] (result) in
                         switch result {
                         case .success(let data):
-//                            books[j].bookImages.append(data)
+                            //                            books[j].bookImages.append(data)
                             if i == 0 {
                                 books[j].bookImages.insert(data, at: 0)
                             } else if i == 1 {
@@ -96,17 +96,17 @@ final class BookManager : BookManagerProtocol {
                                     books[j].bookImages.insert(data, at: 2)
                                 }
                             }
-//                            books[j].bookImages.insert(data, at: i)
+                            //                            books[j].bookImages.insert(data, at: i)
                             self?.output?.didRecieve(books)
                             print(books[j].bookImages)
                         case .failure(let error):
                             print(error)
                         }
                     }
-
+                    
                 }
             }
-  
+            
         }
     }
     
@@ -138,7 +138,7 @@ final class BookManager : BookManagerProtocol {
                     self?.imageLoader.getImage(with: names[i]) { [weak self] (result) in
                         switch result {
                         case .success(let data):
-//                            books[j].bookImages.append(data)
+                            //                            books[j].bookImages.append(data)
                             if i == 0 {
                                 books[j].bookImages.insert(data, at: 0)
                             } else if i == 1 {
@@ -156,17 +156,17 @@ final class BookManager : BookManagerProtocol {
                                     books[j].bookImages.insert(data, at: 2)
                                 }
                             }
-//                            books[j].bookImages.insert(data, at: i)
+                            //                            books[j].bookImages.insert(data, at: i)
                             self?.output?.didRecieve(books)
                             print(books[j].bookImages)
                         case .failure(let error):
                             print(error)
                         }
                     }
-
+                    
                 }
             }
-  
+            
         }
     }
     
@@ -267,14 +267,8 @@ private final class BookConverter {
         case imageNames
         case imageURLs
     }
-
-
-//    let imageLoader: ImageLoaderProtocol = ImageLoader()
     
-//    var imagesData: [Data] = []
-
-
-
+    
     func book(from document: DocumentSnapshot) -> Book? {
         
         guard let dict = document.data(),
@@ -291,24 +285,9 @@ private final class BookConverter {
                   return nil
               }
         
-        
-        
-
-//       
-        
-//        for i in 0..<imageURLs.count {
-//            guard let url = URL(string: imageURLs[i]) else { return nil }
-//                if let data = try? Data(contentsOf: url) {
-//                        imagesData += [data]
-//                }
-//        }
-        
-        
-        
-        
         var currentBook = Book(identifier: identifier,ownerId: ownerId, bookImagesNamesDB: imageNames, bookImages: [], bookName: name, bookAuthor: author, bookGenres: Util.shared.genres[0], bookCondition: condition, bookDescription: description, bookLanguage: language)
-
-
+        
+        
         if let index = Util.shared.genres.firstIndex(where: { $0.name == genre} ) {
             currentBook.bookGenres = Util.shared.genres[index]
         }

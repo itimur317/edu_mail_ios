@@ -22,7 +22,7 @@ final class FailAddNewBookViewController : UIViewController {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -43,7 +43,7 @@ final class FailAddNewBookViewController : UIViewController {
         addedNewBookLabel.backgroundColor = .white
         addedNewBookLabel.textAlignment = .center
         view.addSubview(addedNewBookLabel)
-
+        
         daultyImageView.image = daultyImage
         view.addSubview(daultyImageView)
         
@@ -93,15 +93,13 @@ final class FailAddNewBookViewController : UIViewController {
             .left(view.frame.width / 2 - 50)
             .width(100)
             .height(30)
-
+        
     }
     
     
     @objc
     private func didTapTryAgainButton(_ sender: UIButton) {
         presenter.didTapTryAgainButton()
-        // MARK : add load view
-       // dismiss(animated: true, completion: nil)
     }
     
     
@@ -131,5 +129,5 @@ extension FailAddNewBookViewController: FailAddNewBookViewControllerProtocol {
         alert.view.addSubview(loadingIndicator)
         present(alert, animated: true, completion: nil)
     }
-
+    
 }

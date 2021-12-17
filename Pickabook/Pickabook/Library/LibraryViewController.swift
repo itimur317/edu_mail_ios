@@ -26,7 +26,7 @@ final class LibraryViewController : UIViewController {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -39,18 +39,35 @@ final class LibraryViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad")
-
+        
         view.backgroundColor = .white
         
         self.navigationController?.navigationBar.tintColor = .black
         
         self.navigationController?.navigationBar.topItem?.title = "Книги на обмен"
-             
+        
+        let swipeDownGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        let swipeUpGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        
+        swipeDownGestureRecognizer.direction = .down
+        swipeUpGestureRecognizer.direction = .up
+        
+        swipeDownGestureRecognizer.delegate = self
+        swipeUpGestureRecognizer.delegate = self
+        
+        
+        
+        //        swipeDownGestureRecognizer.numberOfTouchesRequired = 1
+        booksTableView.isUserInteractionEnabled = true
+        
+        booksTableView.addGestureRecognizer(swipeDownGestureRecognizer)
+        booksTableView.addGestureRecognizer(swipeUpGestureRecognizer)
+        
         booksTableView.dataSource = self
         booksTableView.delegate = self
         booksTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
         booksTableView.separatorStyle = .none
-//        booksTableView.allowsSelection = false
+        //        booksTableView.allowsSelection = false
         view.addSubview(booksTableView)
         
         addNewBookButton.setTitle("Добавить книгу",
@@ -72,12 +89,30 @@ final class LibraryViewController : UIViewController {
         
     }
     
+    @objc
+    private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        switch sender.state {
+        case .ended:
+            if sender.direction == .up {
+                addNewBookButton.isHidden = true
+                print("up")
+            } else if sender.direction == .down {
+                addNewBookButton.isHidden = false
+                print("down")
+                // возвращаемся назад - вернуть кнопку
+            }
+        default:
+            break
+        }
+    }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("viewWillAppear")
-
+        
         self.presenter.observeBooks()
-
+        
     }
     
     
@@ -131,7 +166,7 @@ extension LibraryViewController: LibraryViewControllerProtocol {
         } else {
             libraryIsEmpty.isHidden = true
         }
-
+        
     }
     
     func didTapOpenAddNewBook() {
@@ -159,12 +194,12 @@ extension LibraryViewController: LibraryViewControllerProtocol {
         alert.addAction(UIAlertAction(title: "Супер!", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
- 
+    
 }
 
 extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return books.count
+        //        return books.count
         return self.presenter.currentBooks.count
     }
     
@@ -178,14 +213,14 @@ extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.selectionStyle = .none
-//        let book = books[indexPath.row]
+        //        let book = books[indexPath.row]
         let book = self.presenter.currentBooks[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let book = books[indexPath.row]
+        //        let book = books[indexPath.row]
         let book = self.presenter.currentBooks[indexPath.row]
         presenter.didTapOpenBook(book: book)
     }
@@ -196,7 +231,7 @@ extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-       
+        
         if editingStyle == .delete {
             let alert = UIAlertController(title: "Удалить?", message: "Удаленную книгу не получится восстановить.", preferredStyle: .alert)
             
@@ -222,3 +257,9 @@ extension LibraryViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+
+extension LibraryViewController : UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}

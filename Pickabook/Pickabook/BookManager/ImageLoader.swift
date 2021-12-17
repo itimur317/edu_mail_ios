@@ -18,7 +18,7 @@ protocol ImageLoaderProtocol: AnyObject {
 
 final class ImageLoader: ImageLoaderProtocol {
     
-//    static let shared: ImageLoaderProtocol = ImageLoader()
+    //    static let shared: ImageLoaderProtocol = ImageLoader()
     
     private let storageReference = Storage.storage().reference()
     
@@ -48,7 +48,7 @@ final class ImageLoader: ImageLoaderProtocol {
                 }
                 else {
                     storageRef.downloadURL { (url, error) in
-                        print("url",i,"     ",  url?.absoluteString)
+//                        print("url",i,"     ",  url?.absoluteString)
                         if url == nil {
                             return
                         }

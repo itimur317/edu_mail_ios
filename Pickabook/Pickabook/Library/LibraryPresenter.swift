@@ -42,8 +42,6 @@ final class LibraryPresenter : LibraryPresenterProtocol {
     func observeBooks() {
         DispatchQueue.global().async {
             BookManager.shared.output = self
-            // сделать обсерв по профилю
-//            BookManager.shared.observeGenreBooks(genreName: "Фэнтези")
             guard let MyId = Auth.auth().currentUser?.uid else {
                 print("didn't registere")
                 return}

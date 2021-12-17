@@ -11,7 +11,7 @@ import UIKit
 final class AddNewBookAddPhotoView: UIViewController {
     
     var currentPhotoImageView = UIImageView()
-   
+    
     init(_ currentImage: UIImage) {
         super.init(nibName: nil, bundle: nil)
         currentPhotoImageView.image = currentImage
@@ -39,7 +39,7 @@ final class AddNewBookAddPhotoView: UIViewController {
         currentPhotoImageView.isUserInteractionEnabled = true
         currentPhotoImageView.addGestureRecognizer(pinchImageViewGestureRecognizer)
         view.addSubview(currentPhotoImageView)
-
+        
     }
     
     @objc

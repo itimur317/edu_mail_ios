@@ -9,7 +9,7 @@ import Foundation
 
 protocol FailAddNewBookPresenterProtocol : AnyObject {
     var book: Book { get set }
-
+    
     func didTapTryAgainButton()
     func didTapQuitButton()
 }
@@ -24,8 +24,6 @@ final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol, BookManag
     }
     
     func didCreate(_ book: Book) {
-        // MARK : проверить, что если получилось восстановить доступ к изображениям, то вьюха будет закрываться
-        
         self.view?.dismissView()
     }
     
@@ -44,11 +42,11 @@ final class FailAddNewBookPresenter : FailAddNewBookPresenterProtocol, BookManag
     
     func didTapTryAgainButton() {
         view?.loadingAlert()
-      
+        
         BookManager.shared.output = self
         BookManager.shared.create(book: self.book)
     }
-
+    
     func didTapQuitButton() {
         view?.dismissView()
     }
