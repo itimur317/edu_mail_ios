@@ -34,6 +34,8 @@ class MyProfileViewController : UIViewController {
     let profileBookListTitle = UILabel()
     let profileBookListTableView = UITableView()
     let profileBookList = books
+    let libraryIsEmpty = UILabel()
+
 
     //let profileTelegramLink = UIButton() // можно сделать отображение только для других пользователей
     //let profileInstagramLink = UIButton() // можно сделать отображение только для других пользователей
@@ -96,6 +98,14 @@ class MyProfileViewController : UIViewController {
         profileBookListTableView.register(BookTableCell.self, forCellReuseIdentifier: "BookTableCell")
         view.addSubview(profileBookListTableView)
         
+        
+        libraryIsEmpty.text = "Пока тут пусто"
+        libraryIsEmpty.font = UIFont.systemFont(ofSize: 18)
+        libraryIsEmpty.sizeToFit()
+        libraryIsEmpty.textColor = UIColor(named: "backgroundColorForEmpty")
+        libraryIsEmpty.textAlignment = .center
+        view.addSubview(libraryIsEmpty)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -145,6 +155,11 @@ class MyProfileViewController : UIViewController {
             .below(of: profileBookListTitle).marginTop(3)
             .horizontally(12)
             .bottom(12)
+        
+        libraryIsEmpty.pin
+            .below(of: profileBookListTitle).marginTop(20)
+            .horizontally(20)
+            .height(40)
         
     }
     
@@ -204,6 +219,11 @@ extension MyProfileViewController: MyProfileViewControllerProtocol {
     
     func reloadTable() {
         self.profileBookListTableView.reloadData()
+        if self.output.currentBooks.count == 0 {
+            libraryIsEmpty.isHidden = false
+        } else {
+            libraryIsEmpty.isHidden = true
+        }
     }
     
    

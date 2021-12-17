@@ -33,6 +33,7 @@ final class LibraryViewController : UIViewController {
     
     let addNewBookButton = UIButton()
     let booksTableView = UITableView()
+    let libraryIsEmpty = UILabel()
     
     
     override func viewDidLoad() {
@@ -62,6 +63,13 @@ final class LibraryViewController : UIViewController {
         addNewBookButton.backgroundColor = UIColor(named: "buttonColor")
         view.addSubview(addNewBookButton)
         
+        libraryIsEmpty.text = "Пока тут пусто"
+        libraryIsEmpty.font = UIFont.systemFont(ofSize: 18)
+        libraryIsEmpty.sizeToFit()
+        libraryIsEmpty.textColor = UIColor(named: "backgroundColorForEmpty")
+        libraryIsEmpty.textAlignment = .center
+        view.addSubview(libraryIsEmpty)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,6 +94,11 @@ final class LibraryViewController : UIViewController {
             .left(view.frame.width / 2 - 100)
             .width(200)
             .height(50)
+        
+        libraryIsEmpty.pin
+            .top(view.pin.safeArea).marginTop(20)
+            .horizontally(20)
+            .height(40)
     }
     
     @objc
@@ -113,6 +126,12 @@ extension LibraryViewController: LibraryViewControllerProtocol {
     
     func reloadTable() {
         self.booksTableView.reloadData()
+        if self.presenter.currentBooks.count == 0 {
+            libraryIsEmpty.isHidden = false
+        } else {
+            libraryIsEmpty.isHidden = true
+        }
+
     }
     
     func didTapOpenAddNewBook() {
